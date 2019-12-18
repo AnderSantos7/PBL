@@ -1,4 +1,5 @@
 #include "SDL.h"
+#include "SDL_image.h"
 #include "funtzioak.h"
 #include "objektuak.h"
 #include <stdio.h>
@@ -27,59 +28,44 @@ int inputHandler(SDL_Event e) {
 	}
 	return zabalik;
 }
-int movingRight = 0;
-int movingLeft = 0;
-int movingUp = 0;
-int movingDown = 0;
 
 void keyHandlerDown(SDL_Event e) {
 	switch (e.key.keysym.scancode) {
-	case SDL_SCANCODE_W:
-		movingRight = 1;
-		break;
 	case SDL_SCANCODE_A:
-		movingLeft = 1;
-		break;
-	case SDL_SCANCODE_S:
-		movingUp = 1;
+		player.facingDirection = DIR_LEFT;
+		player.movingLeft = 1;
 		break;
 	case SDL_SCANCODE_D:
-		movingDown = 1;
+		player.facingDirection = DIR_RIGHT;
+		player.movingRight = 1;
+		break;
+	case SDL_SCANCODE_W:
+		player.facingDirection = DIR_UP;
+		player.movingUp = 1;
+		break;
+	case SDL_SCANCODE_S:
+		player.facingDirection = DIR_DOWN;
+		player.movingDown = 1;
 		break;
 	}
 	return;
 }
 
 void keyHandlerUp(SDL_Event e) {
+	int moving;
 	switch (e.key.keysym.scancode) {
-	case SDL_SCANCODE_W:
-		movingRight = 0;
-		break;
 	case SDL_SCANCODE_A:
-		movingLeft = 0;
-		break;
-	case SDL_SCANCODE_S:
-		movingUp = 0;
+		player.movingLeft = 0;
 		break;
 	case SDL_SCANCODE_D:
-		movingDown = 0;
+		player.movingRight = 0;
+		break;
+	case SDL_SCANCODE_W:
+		player.movingUp = 0;
+		break;
+	case SDL_SCANCODE_S:
+		player.movingDown = 0;
 		break;
 	}
 	return;
-}
-
-int isMovingRight() {
-	return movingRight;
-}
-
-int isMovingLeft() {
-	return movingLeft;
-}
-
-int isMovingUp() {
-	return movingUp;
-}
-
-int isMovingDown() {
-	return movingDown;
 }

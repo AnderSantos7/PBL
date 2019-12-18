@@ -1,4 +1,5 @@
 #include "SDL.h"
+#include "SDL_image.h"
 #include "funtzioak.h"
 #include "objektuak.h"
 #include <stdio.h>
@@ -8,11 +9,9 @@ SDL_Rect createCamera() {
 	return camera;
 }
 
-void centerCameraInPlayer(SDL_Rect camera, struct Player player) {
-	
-	const int LEVEL_SIZE = 1024;
-	camera.x = (player.x + player.w / 2) - 640;
-	camera.y = (player.y + player.h / 2) - 480;
+SDL_Rect centerCameraInPlayer(SDL_Rect camera) {	
+	camera.x = (player.x + player.w / 2) - SCREEN_WIDTH / 2;
+	camera.y = (player.y + player.h / 2) - SCREEN_HEIGHT / 2;
 
 	if (camera.x < 0) {
 		camera.x = 0;
@@ -26,5 +25,5 @@ void centerCameraInPlayer(SDL_Rect camera, struct Player player) {
 	if (camera.y > LEVEL_SIZE - camera.h) {
 		camera.y = LEVEL_SIZE - camera.h;
 	}
-	return;
+	return camera;
 }

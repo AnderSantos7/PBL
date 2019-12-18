@@ -2,20 +2,21 @@
 #define FUNTZIOAK
 //Player
 struct Player createPlayer();
-struct Player movePlayer(struct Player player);
-void drawPlayer(SDL_Renderer* renderer, struct Player player);
+void movePlayer(double deltaTime);
+void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface);
 
 //Camera
 SDL_Rect createCamera();
-void centerCameraInPlayer(SDL_Rect camera, struct Player player);
-
-
-//Movement
-int isMovingRight();
-int isMovingLeft();
-int isMovingUp();
-int isMovingDown();
+SDL_Rect centerCameraInPlayer(SDL_Rect camera);
+void aplikatuSurface(int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip);
 
 //Input
 int inputHandler(SDL_Event e);
+
+//Media
+SDL_Surface* loadMedia(char* src);
+
+//Tiles
+int getTileFromPos(int x, int y);
+struct posCoord getTilePosFromId(int ID);
 #endif
