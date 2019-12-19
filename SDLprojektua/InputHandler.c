@@ -31,6 +31,7 @@ int inputHandler(SDL_Event e) {
 
 void keyHandlerDown(SDL_Event e) {
 	switch (e.key.keysym.scancode) {
+
 	case SDL_SCANCODE_A:
 		player.facingDirection = DIR_LEFT;
 		player.movingLeft = 1;
@@ -52,19 +53,18 @@ void keyHandlerDown(SDL_Event e) {
 }
 
 void keyHandlerUp(SDL_Event e) {
-	int moving;
 	switch (e.key.keysym.scancode) {
-	case SDL_SCANCODE_A:
-		player.movingLeft = 0;
-		break;
-	case SDL_SCANCODE_D:
-		player.movingRight = 0;
-		break;
 	case SDL_SCANCODE_W:
 		player.movingUp = 0;
 		break;
+	case SDL_SCANCODE_A:
+		player.movingLeft = 0;
+		break;
 	case SDL_SCANCODE_S:
 		player.movingDown = 0;
+		break;
+	case SDL_SCANCODE_D:
+		player.movingRight = 0;
 		break;
 	}
 	return;

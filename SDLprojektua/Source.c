@@ -37,9 +37,17 @@ SDL_Surface* playerSurface = NULL;
 SDL_Surface* screenSurface = NULL;
 SDL_Surface* bgSurface = NULL;
 SDL_Surface* tilesS = NULL;
+SDL_Surface* signSurface = NULL;
+SDL_Surface* fenceSurface = NULL;
+SDL_Surface* cowSurface = NULL;
+SDL_Surface* pigSurface = NULL;
+SDL_Surface* sartuSurface = NULL;
 
 int main(int argc, char* argv[]){
+	
+
 	int zabalik = init();
+
 	if (zabalik) {
 		renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
@@ -58,19 +66,20 @@ int main(int argc, char* argv[]){
 	else {
 		printf("Ezin izan da hasieratu.");
 	}
-
-	int mouseX = 0;
-	int mouseY = 0;
 	while (zabalik) {
 		SDL_Event e;
 		while (SDL_PollEvent(&e) > 0) {
 			zabalik = inputHandler(e);
 		}
-		update(deltaTime);
-		marraztu();
-		marraztu2(camera);
-		SDL_UpdateWindowSurface(win);
-		getDeltaTime();
+		if (player.home == 0) {
+			update(deltaTime);
+			marraztu();
+			marraztu2(camera);
+			SDL_UpdateWindowSurface(win);
+			getDeltaTime();
+		}
+		if (player.home == 1) {
+		}
 	}
 	close();
 	return 0;
@@ -157,13 +166,29 @@ void update(double deltaTime) {
 
 void marraztu() {
 	aplikatuSurface(0, 0, bgSurface, screenSurface, &camera);
-	drawPlayer(camera, playerSurface, screenSurface);
+	if (player.y > 64 - 5) {
+		aplikatuSurface(0, 0, signSurface, screenSurface, &camera);
+		drawPlayer(camera, playerSurface, screenSurface);
+	}
+	else {
+		drawPlayer(camera, playerSurface, screenSurface);
+		aplikatuSurface(0, 0, signSurface, screenSurface, &camera);
+	}
+	
+	aplikatuSurface(0, 0, fenceSurface, screenSurface, &camera);
+	aplikatuSurface(TILE_SIZE, 9*TILE_SIZE, cowSurface, bgSurface, NULL);
+	aplikatuSurface(TILE_SIZE*2, 13*TILE_SIZE, pigSurface, bgSurface, NULL);
 	return;
 }
 
 void loadFiles() {
 	bgSurface = loadMedia("assets/images/bg.png");
+	signSurface = loadMedia("assets/images/sign.png");
+	fenceSurface = loadMedia("assets/images/fence.png");
 	playerSurface = loadMedia("assets/images/player.png");
+	cowSurface = loadMedia("assets/images/cow.png");
+	pigSurface = loadMedia("assets/images/pig.png");
+	sartuSurface = loadMedia("assets/images/sartu.png");
 }
 
 void getDeltaTime() {
@@ -179,7 +204,7 @@ void marraztu2(SDL_Rect camera) {
 	tilesS = SDL_CreateRGBSurface(0, LEVEL_SIZE, LEVEL_SIZE, 32, 0, 0, 0, 0);
 
 	Uint32 color = SDL_MapRGB(tilesS->format, 0, 255, 255);
-		//DrawTiles
+	//DrawTiles
 	for (int i = 0; i < 33; i++) {
 		rect.x = tiles[camino_ID[i]].x * TILE_SIZE;
 		rect.y = tiles[camino_ID[i]].y * TILE_SIZE;
@@ -198,3 +223,35 @@ void marraztu2(SDL_Rect camera) {
 	aplikatuSurface(0, 0, tilesS, screenSurface, &camera);
 	SDL_FreeSurface(tilesS);
 }
+
+//void marraztu(SDL_Renderer* renderer) {
+//	SDL_Rect rect;
+//	//DrawTiles
+//	for (int i = 0; i < 256; i++) {
+//		rect.x = tiles[i].x * TILE_SIZE;
+//		rect.y = tiles[i].y * TILE_SIZE;
+//		rect.w = TILE_SIZE;
+//		rect.h = TILE_SIZE;
+//
+//		if (!tiles[i].farmable) {
+//			SDL_SetRenderDrawColor(renderer, i, 255-i, i-255, 255);
+//		}
+//		else {
+//			SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+//		}
+//		SDL_RenderFillRect(renderer, &rect);
+//	}
+//
+//	drawPlayer(renderer, player, camera);
+//
+//	/*SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+//	for (int x = 0; x < GRID_SIZE * TILE_SIZE; x += TILE_SIZE) {
+//		SDL_RenderDrawLine(renderer, x, 0, x, GRID_SIZE * TILE_SIZE);
+//	}
+//	for (int y = 0; y < GRID_SIZE * TILE_SIZE; y += TILE_SIZE) {
+//		SDL_RenderDrawLine(renderer, 0, y, GRID_SIZE * TILE_SIZE, y);
+//	}*/
+//
+//	SDL_RenderPresent(renderer);
+//	return;
+//}

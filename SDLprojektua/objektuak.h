@@ -36,6 +36,7 @@ struct Player {
 	int movingLeft;
 	int movingUp;
 	int movingDown;
+	int home;
 	int facingDirection;
 	int facingTile;
 };
