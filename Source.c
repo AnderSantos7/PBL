@@ -44,6 +44,8 @@ SDL_Surface* fenceSurface = NULL;
 SDL_Surface* cowSurface = NULL;
 SDL_Surface* pigSurface = NULL;
 SDL_Surface* sartuSurface = NULL;
+SDL_Surface* aradoSurface = NULL;
+
 
 int main(int argc, char* argv[]){
 	
@@ -85,38 +87,6 @@ int main(int argc, char* argv[]){
 	}
 	close();
 	return 0;
-}
-
-struct posCoord getTilePosFromId(int ID) {
-	struct posCoord pos;
-	pos.x = ID % GRID_SIZE;
-	pos.y = ID / GRID_SIZE;
-	return pos;
-}
-
-int getTileFromPos(int x, int y) {
-	int ID = 0;
-	ID = (y / 64) * 16 + (x / 64);
-	return ID;
-}
-
-int getFacingTileId() {
-	int ID = player.tile;
-	switch (player.facingDirection) {
-	case DIR_LEFT:
-		ID = player.tile - 1;
-		break;
-	case DIR_RIGHT:
-		ID = player.tile + 1;
-		break;
-	case DIR_UP:
-		ID = player.tile - 16;
-		break;
-	case DIR_DOWN:
-		ID = player.tile + 16;
-		break;
-	}
-	return ID;
 }
 
 int init() {
@@ -191,6 +161,7 @@ void loadFiles() {
 	cowSurface = loadMedia("assets/images/cow.png");
 	pigSurface = loadMedia("assets/images/pig.png");
 	sartuSurface = loadMedia("assets/images/sartu.png");
+	aradoSurface = loadMedia("assets/images/ARADO.png");
 }
 
 void getDeltaTime() {
@@ -210,7 +181,15 @@ void marraztu2(SDL_Rect camera) {
 	for (int i = 0; i < 49; i++) {
 		rect.x = tiles[plantable_ID[i]].x * TILE_SIZE;
 		rect.y = tiles[plantable_ID[i]].y * TILE_SIZE;
-		SDL_FillRect(tilesS, &rect, color);
+		if (tiles[plantable_ID[i]].plant.seed==SEED_ARADO)
+		{
+			aplikatuSurface(rect.x-camera.x, rect.y-camera.y, aradoSurface, screenSurface, NULL);
+		}
+		else
+		{
+			color = SDL_MapRGB(tilesS->format, 0, 255, 255);
+		}
+		//SDL_FillRect(tilesS, &rect, color);
 	}
 
 	rect.x = tiles[player.tile].x * TILE_SIZE;
