@@ -24,30 +24,30 @@ void movePlayer(double deltaTime) {
 	float multiplier = 1;
 	int bidean = 0, i = 0;
 
-	player.tile = getTileFromPos(player.x + player.w/2, player.y + 2*TILE_SIZE);
+	player.tile = getTileFromPos(player.x + player.w / 2, player.y + 2 * TILE_SIZE);
 	int x;
 	int y;
 	while (!bidean && i < 33)
 	{
-		if (tiles[camino_ID[i]].x * TILE_SIZE < player.x + player.w &&
-			tiles[camino_ID[i]].x * TILE_SIZE + TILE_SIZE > player.x &&
-			tiles[camino_ID[i]].y * TILE_SIZE < player.y + 2*TILE_SIZE &&
-			tiles[camino_ID[i]].y * TILE_SIZE + TILE_SIZE > player.y + 2*TILE_SIZE)
+		if (tiles[camino_ID[i]].x * TILE_SIZE < player.x + player.w -20 &&
+			tiles[camino_ID[i]].x * TILE_SIZE + TILE_SIZE > player.x +20 &&
+			tiles[camino_ID[i]].y * TILE_SIZE < player.y + 2 * TILE_SIZE &&
+			tiles[camino_ID[i]].y * TILE_SIZE + TILE_SIZE > player.y + 2 * TILE_SIZE)
 		{
 			bidean = 1;
-			multiplier = 1.3;
+			multiplier = 1.5;
 		}
 		i++;
 	}
 
 	if (player.movingRight) {
-		player.x += player.speed*multiplier*deltaTime;
+		player.x += player.speed * multiplier * deltaTime;
 		if (player.x > LEVEL_SIZE - player.w) {
 			player.x = LEVEL_SIZE - player.w;
 		}
 	}
 	if (player.movingLeft) {
-		player.x -= player.speed*multiplier*deltaTime;
+		player.x -= player.speed * multiplier * deltaTime;
 		if (player.x < 0) {
 			player.x = 0;
 		}
@@ -60,7 +60,7 @@ void movePlayer(double deltaTime) {
 		}
 	}
 	if (player.movingUp) {
-		player.y -= player.speed*multiplier*deltaTime;
+		player.y -= player.speed * multiplier * deltaTime;
 		if (player.y < 0) {
 			player.y = 0;
 		}
@@ -75,7 +75,7 @@ void movePlayer(double deltaTime) {
 		}
 	}
 	if (player.movingDown) {
-		player.y += player.speed*multiplier*deltaTime;
+		player.y += player.speed * multiplier * deltaTime;
 		if (player.y > LEVEL_SIZE - player.h) {
 			player.y = LEVEL_SIZE - player.h;
 		}
@@ -93,4 +93,3 @@ void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurfac
 	aplikatuSurface(player.x - camera.x, player.y - camera.y, surface, screenSurface, NULL);
 	return;
 }
-

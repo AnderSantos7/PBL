@@ -17,7 +17,7 @@ int inputHandler(SDL_Event e) {
 		mouseX = mouseX / 64;
 		mouseX = mouseX % 16;
 		mouseY = mouseY / 64;
-		tiles[mouseX + mouseY * 16].farmable = 1;
+		landatu();
 		break;
 	case SDL_KEYDOWN:
 		keyHandlerDown(e);

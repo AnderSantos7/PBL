@@ -21,7 +21,8 @@ struct Plant {
 	double lastWater;
 	int water;
 };
-enum Seed { SEED_NONE, SEED_TOMATO, SEED_PUMPKIN };
+
+enum Seed { SEED_NONE, SEED_ARADO, SEED_TOMATO, SEED_PUMPKIN };
 
 struct Tile {
 	int ID;
@@ -32,6 +33,7 @@ struct Tile {
 };
 struct Tile tiles[256];
 extern const int camino_ID[];
+extern const int plantable_ID[];
 
 struct Player {
 	int x;
@@ -48,10 +50,7 @@ struct Player {
 	int facingDirection;
 	int facingTile;
 };
-
-
 extern struct Player player;
 extern SDL_Rect camera;
 enum facingDirection { DIR_RIGHT, DIR_LEFT, DIR_UP, DIR_DOWN };
 #endif
-

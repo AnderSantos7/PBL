@@ -19,4 +19,7 @@ SDL_Surface* loadMedia(char* src);
 //Tiles
 int getTileFromPos(int x, int y);
 struct posCoord getTilePosFromId(int ID);
+void landatu();
+void marraztuTiles(SDL_Surface* aradoSurface, SDL_Surface* screenSurface);
+void updateTiles(double deltaTime);
 #endif
