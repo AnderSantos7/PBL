@@ -13,8 +13,7 @@ void update(double deltaTime);
 void getDeltaTime();
 void loadFiles();
 
-//temp
-void marraztu2(SDL_Rect camera);
+
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -78,7 +77,6 @@ int main(int argc, char* argv[]){
 		if (player.home == 0) {
 			update(deltaTime);
 			marraztu();
-			marraztu2(camera);
 			SDL_UpdateWindowSurface(win);
 			getDeltaTime();
 		}
@@ -138,6 +136,7 @@ void update(double deltaTime) {
 
 void marraztu() {
 	aplikatuSurface(0, 0, bgSurface, screenSurface, &camera);
+	marraztuTiles(aradoSurface, screenSurface);
 	if (player.y > 64 - 5) {
 		aplikatuSurface(0, 0, signSurface, screenSurface, &camera);
 		drawPlayer(camera, playerSurface, screenSurface);
@@ -170,40 +169,7 @@ void getDeltaTime() {
 	deltaTime = ((double)(end - start)) / CLOCKS_PER_SEC;
 }
 //Temp
-void marraztu2(SDL_Rect camera) {
-	SDL_Rect rect;
-	rect.w = TILE_SIZE;
-	rect.h = TILE_SIZE;
-	tilesS = SDL_CreateRGBSurface(0, LEVEL_SIZE, LEVEL_SIZE, 32, 0, 0, 0, 0);
 
-	Uint32 color = SDL_MapRGB(tilesS->format, 0, 255, 255);
-	//DrawTiles
-	for (int i = 0; i < 49; i++) {
-		rect.x = tiles[plantable_ID[i]].x * TILE_SIZE;
-		rect.y = tiles[plantable_ID[i]].y * TILE_SIZE;
-		if (tiles[plantable_ID[i]].plant.seed==SEED_ARADO)
-		{
-			aplikatuSurface(rect.x-camera.x, rect.y-camera.y, aradoSurface, screenSurface, NULL);
-		}
-		else
-		{
-			color = SDL_MapRGB(tilesS->format, 0, 255, 255);
-		}
-		//SDL_FillRect(tilesS, &rect, color);
-	}
-
-	rect.x = tiles[player.tile].x * TILE_SIZE;
-	rect.y = tiles[player.tile].y * TILE_SIZE;
-	color = SDL_MapRGB(tilesS->format, 255, 0, 0);
-	SDL_FillRect(tilesS, &rect, color);
-	rect.x = tiles[player.facingTile].x * TILE_SIZE;
-	rect.y = tiles[player.facingTile].y * TILE_SIZE;
-	color = SDL_MapRGB(tilesS->format, 0, 255, 0);
-	SDL_FillRect(tilesS, &rect, color);
-	SDL_SetSurfaceBlendMode(tilesS, SDL_BLENDMODE_ADD);
-	aplikatuSurface(0, 0, tilesS, screenSurface, &camera);
-	SDL_FreeSurface(tilesS);
-}
 //void marraztu(SDL_Renderer* renderer) {
 //	SDL_Rect rect;
 //	//DrawTiles
