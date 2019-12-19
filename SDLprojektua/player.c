@@ -10,7 +10,7 @@ struct Player createPlayer() {
 	player.y = 0;
 	player.w = TILE_SIZE;
 	player.h = 2 * TILE_SIZE;
-	player.speed = 1;
+	player.speed = 200;
 	player.movingRight = 0;
 	player.movingLeft = 0;
 	player.movingUp = 0;
@@ -31,8 +31,8 @@ void movePlayer(double deltaTime) {
 	{
 		if (tiles[camino_ID[i]].x * TILE_SIZE < player.x + player.w &&
 			tiles[camino_ID[i]].x * TILE_SIZE + TILE_SIZE > player.x &&
-			tiles[camino_ID[i]].y * TILE_SIZE < player.y + TILE_SIZE &&
-			tiles[camino_ID[i]].y * TILE_SIZE + TILE_SIZE > player.y + TILE_SIZE)
+			tiles[camino_ID[i]].y * TILE_SIZE < player.y + 2*TILE_SIZE &&
+			tiles[camino_ID[i]].y * TILE_SIZE + TILE_SIZE > player.y + 2*TILE_SIZE)
 		{
 			bidean = 1;
 			multiplier = 1.3;
@@ -41,13 +41,13 @@ void movePlayer(double deltaTime) {
 	}
 
 	if (player.movingRight) {
-		player.x += player.speed;
+		player.x += player.speed*multiplier*deltaTime;
 		if (player.x > LEVEL_SIZE - player.w) {
 			player.x = LEVEL_SIZE - player.w;
 		}
 	}
 	if (player.movingLeft) {
-		player.x -= player.speed;
+		player.x -= player.speed*multiplier*deltaTime;
 		if (player.x < 0) {
 			player.x = 0;
 		}
@@ -60,7 +60,7 @@ void movePlayer(double deltaTime) {
 		}
 	}
 	if (player.movingUp) {
-		player.y -= player.speed;
+		player.y -= player.speed*multiplier*deltaTime;
 		if (player.y < 0) {
 			player.y = 0;
 		}
@@ -75,7 +75,7 @@ void movePlayer(double deltaTime) {
 		}
 	}
 	if (player.movingDown) {
-		player.y += player.speed;
+		player.y += player.speed*multiplier*deltaTime;
 		if (player.y > LEVEL_SIZE - player.h) {
 			player.y = LEVEL_SIZE - player.h;
 		}
