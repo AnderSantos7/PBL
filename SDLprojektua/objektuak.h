@@ -14,13 +14,21 @@ struct posCoord {
 	int y;
 };
 
+struct Plant {
+	int seed;
+	int stage;
+	double time;
+	double lastWater;
+	int water;
+};
+enum Seed { SEED_NONE, SEED_TOMATO, SEED_PUMPKIN };
+
 struct Tile {
 	int ID;
 	int x;
 	int y;
 	int farmable;
-	int atxurra;
-	int landatu;
+	struct Plant plant;
 };
 struct Tile tiles[256];
 extern const int camino_ID[];
@@ -40,6 +48,8 @@ struct Player {
 	int facingDirection;
 	int facingTile;
 };
+
+
 extern struct Player player;
 extern SDL_Rect camera;
 enum facingDirection { DIR_RIGHT, DIR_LEFT, DIR_UP, DIR_DOWN };
