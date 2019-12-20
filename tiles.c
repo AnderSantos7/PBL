@@ -45,11 +45,11 @@ int getTileFromPos(int x, int y) {
 	return ID;
 }
 
-void marraztuTiles(SDL_Surface* aradoSurface , SDL_Surface* screenSurface)
+void marraztuTiles(SDL_Surface* aradoSurface, SDL_Surface* screenSurface)
 {
 	int i = 0;
 	SDL_Rect rect;
-	for (i = 0; i < 49 ; i++)
+	for (i = 0; i < 49; i++)
 	{
 		rect.x = tiles[plantable_ID[i]].x * TILE_SIZE;
 		rect.y = tiles[plantable_ID[i]].y * TILE_SIZE;

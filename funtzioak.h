@@ -5,6 +5,8 @@ struct Player createPlayer();
 void movePlayer(double deltaTime);
 void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface);
 
+void reset();
+
 //Camera
 SDL_Rect createCamera();
 SDL_Rect centerCameraInPlayer(SDL_Rect camera);

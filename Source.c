@@ -22,8 +22,8 @@ const int GRID_SIZE = 16;
 const int LEVEL_SIZE = 1024; //GRID_SIZE * TILE_SIZE
 
 const int camino_ID[33] = { 50,54,55,56,57,58,59,60,61,62,63,66,70,82,83,84,85,86,102,118,134,150,166,182,198,214,215,216,217,218,219,220,221 };
-
 const int plantable_ID[49] = { 88,89,90,91,92,93,94,104,105,106,107,108,109,110,120,121,122,123,124,125,126,136,137,138,139,140,141,142,152,153,154,155,156,157,158,168,169,170,171,172,173,174,184,185,186,187,188,189,190 };
+
 
 clock_t start, end = 0;
 double deltaTime = 0;
@@ -42,9 +42,9 @@ SDL_Surface* signSurface = NULL;
 SDL_Surface* fenceSurface = NULL;
 SDL_Surface* cowSurface = NULL;
 SDL_Surface* pigSurface = NULL;
-SDL_Surface* sartuSurface = NULL;
+SDL_Surface* pauseSurface = NULL;
+SDL_Surface* homeSurface = NULL;
 SDL_Surface* aradoSurface = NULL;
-
 
 int main(int argc, char* argv[]){
 	
@@ -74,13 +74,26 @@ int main(int argc, char* argv[]){
 		while (SDL_PollEvent(&e) > 0) {
 			zabalik = inputHandler(e);
 		}
-		if (player.home == 0) {
+		if (player.status == PLAYING) {
 			update(deltaTime);
 			marraztu();
 			SDL_UpdateWindowSurface(win);
 			getDeltaTime();
 		}
-		if (player.home == 1) {
+		else if (player.status == HOME) {
+			update(deltaTime);
+			aplikatuSurface(0, 0, homeSurface, screenSurface, NULL);
+			drawPlayer(camera, playerSurface, screenSurface);
+			SDL_UpdateWindowSurface(win);
+		}
+		else if (player.status == PAUSE || player.status == PAUSE_HOME) {
+			aplikatuSurface(0, 0, pauseSurface, screenSurface, NULL);
+			SDL_UpdateWindowSurface(win);
+			inputHandler(e);
+		}
+		else if (player.status == COLLOCATING) {
+			player.timer += deltaTime;
+			reset();
 		}
 	}
 	close();
@@ -130,13 +143,13 @@ void close() {
 
 void update(double deltaTime) {
 	movePlayer(deltaTime);
-	camera = centerCameraInPlayer(camera);
+	if(player.status == PLAYING)camera = centerCameraInPlayer(camera);
 	player.facingTile = getFacingTileId();
 }
 
 void marraztu() {
+
 	aplikatuSurface(0, 0, bgSurface, screenSurface, &camera);
-	marraztuTiles(aradoSurface, screenSurface);
 	if (player.y > 64 - 5) {
 		aplikatuSurface(0, 0, signSurface, screenSurface, &camera);
 		drawPlayer(camera, playerSurface, screenSurface);
@@ -145,10 +158,11 @@ void marraztu() {
 		drawPlayer(camera, playerSurface, screenSurface);
 		aplikatuSurface(0, 0, signSurface, screenSurface, &camera);
 	}
-	
+
 	aplikatuSurface(0, 0, fenceSurface, screenSurface, &camera);
-	aplikatuSurface(TILE_SIZE, 9*TILE_SIZE, cowSurface, bgSurface, NULL);
-	aplikatuSurface(TILE_SIZE*2, 13*TILE_SIZE, pigSurface, bgSurface, NULL);
+	aplikatuSurface(TILE_SIZE, 9 * TILE_SIZE, cowSurface, bgSurface, NULL);
+	aplikatuSurface(TILE_SIZE * 2, 13 * TILE_SIZE, pigSurface, bgSurface, NULL);
+	
 	return;
 }
 
@@ -159,7 +173,8 @@ void loadFiles() {
 	playerSurface = loadMedia("assets/images/player.png");
 	cowSurface = loadMedia("assets/images/cow.png");
 	pigSurface = loadMedia("assets/images/pig.png");
-	sartuSurface = loadMedia("assets/images/sartu.png");
+	pauseSurface = loadMedia("assets/images/pause.png");
+	homeSurface = loadMedia("assets/images/home.png");
 	aradoSurface = loadMedia("assets/images/ARADO.png");
 }
 
@@ -168,36 +183,16 @@ void getDeltaTime() {
 	end = clock();
 	deltaTime = ((double)(end - start)) / CLOCKS_PER_SEC;
 }
-//Temp
 
-//void marraztu(SDL_Renderer* renderer) {
-//	SDL_Rect rect;
-//	//DrawTiles
-//	for (int i = 0; i < 256; i++) {
-//		rect.x = tiles[i].x * TILE_SIZE;
-//		rect.y = tiles[i].y * TILE_SIZE;
-//		rect.w = TILE_SIZE;
-//		rect.h = TILE_SIZE;
-//
-//		if (!tiles[i].farmable) {
-//			SDL_SetRenderDrawColor(renderer, i, 255-i, i-255, 255);
-//		}
-//		else {
-//			SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-//		}
-//		SDL_RenderFillRect(renderer, &rect);
-//	}
-//
-//	drawPlayer(renderer, player, camera);
-//
-//	/*SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-//	for (int x = 0; x < GRID_SIZE * TILE_SIZE; x += TILE_SIZE) {
-//		SDL_RenderDrawLine(renderer, x, 0, x, GRID_SIZE * TILE_SIZE);
-//	}
-//	for (int y = 0; y < GRID_SIZE * TILE_SIZE; y += TILE_SIZE) {
-//		SDL_RenderDrawLine(renderer, 0, y, GRID_SIZE * TILE_SIZE, y);
-//	}*/
-//
-//	SDL_RenderPresent(renderer);
-//	return;
-//}
+void reset() {
+	player.x = 2 * TILE_SIZE;
+	player.y = TILE_SIZE;
+	player.movingDown = 0;
+	player.movingRight = 0;
+	player.movingLeft = 0;
+	if (player.timer > 1000) {
+		marraztu();
+		player.timer = 0;
+		player.status = PLAYING;
+	}
+}
