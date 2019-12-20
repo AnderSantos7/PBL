@@ -46,11 +46,15 @@ struct Player {
 	int movingLeft;
 	int movingUp;
 	int movingDown;
-	int home;
 	int facingDirection;
 	int facingTile;
+	int status;
+	double timer;
 };
 extern struct Player player;
 extern SDL_Rect camera;
 enum facingDirection { DIR_RIGHT, DIR_LEFT, DIR_UP, DIR_DOWN };
+enum status { PLAYING, HOME, PAUSE, PAUSE_HOME, SLEEPING, COLLOCATING};
+extern SDL_Surface* homeSurface;
+extern SDL_Surface* playerSurface;
 #endif
