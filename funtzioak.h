@@ -24,4 +24,8 @@ struct posCoord getTilePosFromId(int ID);
 void landatu();
 void marraztuTiles(SDL_Surface* aradoSurface, SDL_Surface* screenSurface);
 void updateTiles(double deltaTime);
+
+//Inventory
+void marraztuInv(struct Inventory inventory, SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface);
+struct Inventory updateInv(struct Inventory inventory);
 #endif

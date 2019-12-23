@@ -30,6 +30,9 @@ double deltaTime = 0;
 
 struct Player player;
 SDL_Rect camera;
+struct Inventory inventory = {
+	0, 100, 100, 3, 9, 64
+};
 
 SDL_Window* win = NULL;
 SDL_Renderer* renderer = NULL;
@@ -44,7 +47,7 @@ SDL_Surface* cowSurface = NULL;
 SDL_Surface* pigSurface = NULL;
 SDL_Surface* pauseSurface = NULL;
 SDL_Surface* homeSurface = NULL;
-SDL_Surface* aradoSurface = NULL;
+SDL_Surface* itemsSurface = NULL;
 SDL_Surface* spriteSheetTest = NULL;
 
 int main(int argc, char* argv[]){
@@ -55,6 +58,7 @@ int main(int argc, char* argv[]){
 
 		player = createPlayer();
 		camera = createCamera();
+		inventory = updateInv(inventory);
 
 		for (int i = 0; i < 256; i++) {
 			tiles[i].ID = i;
@@ -141,6 +145,7 @@ void close() {
 } 
 
 void update(double deltaTime) {
+	updateTiles(deltaTime);
 	movePlayer(deltaTime);
 	if(player.status == PLAYING)camera = centerCameraInPlayer(camera);
 	player.facingTile = getFacingTileId();
@@ -161,6 +166,7 @@ void marraztu() {
 	aplikatuSurface(0, 0, fenceSurface, screenSurface, &camera);
 	aplikatuSurface(TILE_SIZE, 9 * TILE_SIZE, cowSurface, bgSurface, NULL);
 	aplikatuSurface(TILE_SIZE * 2, 13 * TILE_SIZE, pigSurface, bgSurface, NULL);
+	marraztuInv(inventory, itemsSurface, screenSurface);
 	
 	return;
 }
@@ -174,8 +180,8 @@ void loadFiles() {
 	pigSurface = loadMedia("assets/images/pig.png");
 	pauseSurface = loadMedia("assets/images/pause.png");
 	homeSurface = loadMedia("assets/images/home.png");
-	aradoSurface = loadMedia("assets/images/ARADO.png");
-	spriteSheetTest = loadMedia("assets/images/sprite.png"); 
+	itemsSurface = loadMedia("assets/images/items.png");
+	spriteSheetTest = loadMedia("assets/images/sprite.png");
 }
 
 void getDeltaTime() {

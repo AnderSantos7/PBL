@@ -9,10 +9,29 @@ extern const int LEVEL_SIZE;
 
 extern SDL_Window* win;
 
+struct Item {
+	int ID;
+	char* name;
+	int sheetPosX;
+	int sheetPosY;
+};
+
+struct Inventory {
+	int open;
+	int xPos;
+	int yPos;
+	int rows;
+	int cols;
+	int slotSize;
+	struct Item items[27];
+};
+
 struct posCoord {
 	int x;
 	int y;
 };
+
+enum Seed {NONE, CALABAZA, TOMATE};
 
 struct Plant {
 	int seed;
@@ -20,9 +39,8 @@ struct Plant {
 	double time;
 	double lastWater;
 	int water;
+	int arado;
 };
-
-enum Seed { SEED_NONE, SEED_ARADO, SEED_TOMATO, SEED_PUMPKIN };
 
 struct Tile {
 	int ID;
