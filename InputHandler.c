@@ -14,10 +14,6 @@ int inputHandler(SDL_Event e) {
 		zabalik = 0;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		SDL_GetMouseState(&mouseX, &mouseY);
-		mouseX = mouseX / 64;
-		mouseX = mouseX % 16;
-		mouseY = mouseY / 64;
 		landatu();
 		break;
 	case SDL_KEYDOWN:

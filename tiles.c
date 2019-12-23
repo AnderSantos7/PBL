@@ -10,9 +10,8 @@ void landatu()
 	{
 		tiles[player.facingTile].plant.seed = SEED_ARADO;
 	}
-	else if (tiles[player.facingTile].plant.seed == SEED_ARADO)
-	{
-		tiles[player.facingTile].plant.seed = SEED_TOMATO;
+	else if(tiles[player.facingTile].plant.seed == SEED_ARADO && !tiles[player.facingTile].plant.water){
+		tiles[player.facingTile].plant.water = 1;
 	}
 }
 
@@ -49,21 +48,31 @@ int getTileFromPos(int x, int y) {
 	return ID;
 }
 
-void marraztuTiles(SDL_Surface* aradoSurface, SDL_Surface* screenSurface, SDL_Surface* tomatoSurface)
+void marraztuTiles(SDL_Surface* aradoSurface, SDL_Surface* screenSurface)
 {
 	int i = 0;
-	SDL_Rect rect;
-	for (i = 0; i < 49; i++)
-	{
-		rect.x = tiles[plantable_ID[i]].x * TILE_SIZE;
-		rect.y = tiles[plantable_ID[i]].y * TILE_SIZE;
-		if (tiles[plantable_ID[i]].plant.seed == SEED_ARADO)
-		{
-			aplikatuSurface(rect.x - camera.x, rect.y - camera.y, aradoSurface, screenSurface, NULL);
+	SDL_Rect pos;
+	SDL_Rect clip;
+	clip.w = TILE_SIZE;
+	clip.h = TILE_SIZE;
+	for (i = 0; i < 49; i++){
+		pos.x = tiles[plantable_ID[i]].x * TILE_SIZE;
+		pos.y = tiles[plantable_ID[i]].y * TILE_SIZE;
+		switch (tiles[plantable_ID[i]].plant.seed) {
+		case SEED_ARADO:
+			clip.y = 0;
+			if (tiles[plantable_ID[i]].plant.water) {
+				clip.x = TILE_SIZE;
+			}else {
+				clip.x = 0;
+			}
+			aplikatuSurface(pos.x - camera.x, pos.y - camera.y, aradoSurface, screenSurface, &clip);
+			break;
 		}
-		if (tiles[plantable_ID[i]].plant.seed == SEED_TOMATO)
-		{
-			aplikatuSurface(rect.x - camera.x, rect.y - camera.y, tomatoSurface, screenSurface, NULL);
+		if (plantable_ID[i] == player.facingTile) {
+			clip.x = 2 * TILE_SIZE;
+			clip.y = 0;
+			aplikatuSurface(pos.x - camera.x, pos.y - camera.y, aradoSurface, screenSurface, &clip);
 		}
 	}
 }

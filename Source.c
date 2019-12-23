@@ -45,11 +45,9 @@ SDL_Surface* pigSurface = NULL;
 SDL_Surface* pauseSurface = NULL;
 SDL_Surface* homeSurface = NULL;
 SDL_Surface* aradoSurface = NULL;
-SDL_Surface* tomatoSurface = NULL;
+SDL_Surface* spriteSheetTest = NULL;
 
 int main(int argc, char* argv[]){
-	
-
 	int zabalik = init();
 
 	if (zabalik) {
@@ -149,9 +147,8 @@ void update(double deltaTime) {
 }
 
 void marraztu() {
-
 	aplikatuSurface(0, 0, bgSurface, screenSurface, &camera);
-	marraztuTiles(aradoSurface, screenSurface, tomatoSurface);
+	marraztuTiles(spriteSheetTest, screenSurface);
 	if (player.y > 64 - 5) {
 		aplikatuSurface(0, 0, signSurface, screenSurface, &camera);
 		drawPlayer(camera, playerSurface, screenSurface);
@@ -178,8 +175,7 @@ void loadFiles() {
 	pauseSurface = loadMedia("assets/images/pause.png");
 	homeSurface = loadMedia("assets/images/home.png");
 	aradoSurface = loadMedia("assets/images/ARADO.png");
-	tomatoSurface = loadMedia("assets/images/TOMATE1.png");
-
+	spriteSheetTest = loadMedia("assets/images/sprite.png"); 
 }
 
 void getDeltaTime() {
