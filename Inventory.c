@@ -4,17 +4,19 @@
 #include "objektuak.h"
 #include <stdio.h>
 
-struct Item seedCalabaza = {
-	0, "Seed Calabaza", 0, 0
+struct Item empty = {
+	0, "Empty", 128, 0
 };
 
-struct Item seedTomate = {
-	1, "Seed Tomate", 0, 64
+struct Item calabaza = {
+	1, "Calabaza", 128, 64
 };
 
 struct Item tomate = {
-	2, "Tomate", 64, 128
+	2, "Tomate", 128, 128
 };
+
+
 
 void marraztuInv(struct Inventory inventory, SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface){
 	SDL_Rect clip;
@@ -31,9 +33,19 @@ void marraztuInv(struct Inventory inventory, SDL_Surface* spriteSheetSurface, SD
 struct Inventory updateInv(struct Inventory inventory) {
 	int slots = inventory.cols * inventory.rows;
 	for (int i = 0; i < slots; i++) {
-		if (i % 5 == 0) { inventory.items[i] = tomate; }
-		else if (i % 7 == 0) { inventory.items[i] = seedTomate; }
-		else{ inventory.items[i] = seedCalabaza; }
+		inventory.items[i] = empty;
 	}
+	return inventory;
+}
+
+void changeInv(struct Inventory inventory, int InvPos) {
+
+	if (tiles[player.facingTile].plant.seed == CALABAZA) {
+		inventory.items[InvPos] = calabaza;
+	}
+	else if (tiles[player.facingTile].plant.seed == TOMATE) {
+		inventory.items[InvPos] = tomate;
+	}
+
 	return inventory;
 }

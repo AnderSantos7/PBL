@@ -4,16 +4,24 @@
 #include "objektuak.h"
 #include <stdio.h>
 
+int i = 0;
+
 void landatu(){
 	if (!tiles[player.facingTile].plant.arado){
 		tiles[player.facingTile].plant.arado = 1;
-	}else if(tiles[player.facingTile].plant.arado && !tiles[player.facingTile].plant.water){
-		tiles[player.facingTile].plant.water = 1;
-	}else if (tiles[player.facingTile].plant.water) {
-		tiles[player.facingTile].plant.seed = CALABAZA;
-		tiles[player.facingTile].plant.stage = 0;
 	}
-}
+	else if (tiles[player.facingTile].plant.stage == 2) {
+		changeInv(inventory, i);
+		i++;
+		tiles[player.facingTile].plant.time = 0;
+		tiles[player.facingTile].plant.stage = NONE;
+		tiles[player.facingTile].plant.seed = NONE;
+	}
+	else if (tiles[player.facingTile].plant.arado && !tiles[player.facingTile].plant.water) {
+		tiles[player.facingTile].plant.lastWater = NONE;
+		tiles[player.facingTile].plant.water = 1;
+	}
+}	
 
 int getFacingTileId() {
 	int ID = player.tile;
@@ -81,18 +89,29 @@ void updateTiles(double deltaTime) {
 	for (int i = 0; i < 49; i++) {
 		if (tiles[plantable_ID[i]].plant.seed != NONE) {
 			tiles[plantable_ID[i]].plant.time += deltaTime;
-			if (tiles[plantable_ID[i]].plant.time > 500) {
-				if (tiles[plantable_ID[i]].plant.time > 1500) { 
+			if (tiles[plantable_ID[i]].plant.time > 5) {
+				if (tiles[plantable_ID[i]].plant.time > 10) {
 					tiles[plantable_ID[i]].plant.stage = 2;
-				}else {
+				}
+				else {
 					tiles[plantable_ID[i]].plant.stage = 1;
 				}
 			}
-			if (tiles[plantable_ID[i]].plant.water) {
-				tiles[plantable_ID[i]].plant.lastWater += deltaTime;
-				if (tiles[plantable_ID[i]].plant.lastWater > 500) {
-					//Secar
-				}
+		}
+		if (tiles[plantable_ID[i]].plant.water) {
+			tiles[plantable_ID[i]].plant.lastWater += deltaTime;
+			if (tiles[plantable_ID[i]].plant.lastWater > 5) {
+				tiles[plantable_ID[i]].plant.water = NONE;
+			}
+		}
+		else if (!tiles[plantable_ID[i]].plant.water) {
+			tiles[plantable_ID[i]].plant.lastWater += deltaTime;
+			if (tiles[plantable_ID[i]].plant.lastWater > 10) {
+				tiles[plantable_ID[i]].plant.time = NONE;
+				tiles[plantable_ID[i]].plant.seed = NONE;
+				tiles[plantable_ID[i]].plant.arado = NONE;
+				tiles[plantable_ID[i]].plant.lastWater = NONE;
+				tiles[plantable_ID[i]].plant.stage = NONE;
 			}
 		}
 	}

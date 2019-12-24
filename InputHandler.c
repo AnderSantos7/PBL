@@ -48,7 +48,17 @@ void keyHandlerDown(SDL_Event e) {
 				player.facingDirection = DIR_DOWN;
 				player.movingDown = 1;
 				break;
-
+			case SDL_SCANCODE_C:
+				if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
+					tiles[player.facingTile].plant.seed = CALABAZA;
+				}
+				break;
+			case SDL_SCANCODE_T:
+				if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
+					tiles[player.facingTile].plant.seed = TOMATE;
+				}
+				
+				break;
 			case SDL_SCANCODE_ESCAPE:
 			case SDL_SCANCODE_P:
 				pause();
