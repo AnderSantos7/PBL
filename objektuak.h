@@ -23,7 +23,7 @@ struct Inventory {
 	int rows;
 	int cols;
 	int slotSize;
-	struct Item items[27];
+	struct Item items[128];
 };
 
 struct posCoord {

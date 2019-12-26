@@ -26,8 +26,6 @@ void movePlayer(double deltaTime) {
 	int bidean = 0, i = 0;
 
 	player.tile = getTileFromPos(player.x + player.w / 2, player.y + 2 * TILE_SIZE);
-	int x;
-	int y;
 	if (player.status == PLAYING) {
 		while (!bidean && i < 33){
 			if (tiles[camino_ID[i]].x * TILE_SIZE < player.x + player.w - 20 &&
@@ -42,13 +40,13 @@ void movePlayer(double deltaTime) {
 		}
 
 		if (player.movingRight) {
-			player.x += player.speed * multiplier * deltaTime + 0.9;
+			player.x += (float)player.speed * multiplier * deltaTime + 0.9;
 			if (player.x > LEVEL_SIZE - player.w) {
 				player.x = LEVEL_SIZE - player.w;
 			}
 		}
 		if (player.movingLeft) {
-			player.x -= player.speed * multiplier * deltaTime;
+			player.x -= (float)player.speed * multiplier * deltaTime;
 			if (player.x < 0) {
 				player.x = 0;
 			}
@@ -61,7 +59,7 @@ void movePlayer(double deltaTime) {
 			}
 		}
 		if (player.movingUp) {
-			player.y -= player.speed * multiplier * deltaTime;
+			player.y -= (float)player.speed * multiplier * deltaTime;
 			if (player.y < 0) {
 				player.y = 0;
 			}
@@ -78,7 +76,7 @@ void movePlayer(double deltaTime) {
 			}
 		}
 		if (player.movingDown) {
-			player.y += player.speed * multiplier * deltaTime + 0.9;
+			player.y += (float)player.speed * multiplier * deltaTime + 0.9;
 			if (player.y > LEVEL_SIZE - player.h) {
 				player.y = LEVEL_SIZE - player.h;
 			}

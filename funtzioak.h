@@ -26,6 +26,7 @@ void marraztuTiles(SDL_Surface* aradoSurface, SDL_Surface* screenSurface);
 void updateTiles(double deltaTime);
 
 //Inventory
-void marraztuInv(struct Inventory inventory, SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface);
-struct Inventory updateInv(struct Inventory inventory);
+void marraztuInv(SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface);
+struct Inventory updateInv();
+void checkHover(struct posCoord mousePos);
 #endif

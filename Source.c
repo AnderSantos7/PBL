@@ -28,10 +28,12 @@ const int plantable_ID[49] = { 88,89,90,91,92,93,94,104,105,106,107,108,109,110,
 clock_t start, end = 0;
 double deltaTime = 0;
 
+struct posCoord mousePos = { 0, 0 };
+
 struct Player player;
 SDL_Rect camera;
 struct Inventory inventory = {
-	0, 100, 100, 3, 9, 64
+	1, 100, 200, 5, 9, 64
 };
 
 SDL_Window* win = NULL;
@@ -56,9 +58,9 @@ int main(int argc, char* argv[]){
 	if (zabalik) {
 		renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
-		player = createPlayer();
+		player = createPlayer(); 
 		camera = createCamera();
-		inventory = updateInv(inventory);
+		updateInv();
 
 		for (int i = 0; i < 256; i++) {
 			tiles[i].ID = i;
@@ -74,7 +76,8 @@ int main(int argc, char* argv[]){
 	}
 	while (zabalik) {
 		SDL_Event e;
-		while (SDL_PollEvent(&e) > 0) {
+		SDL_GetMouseState(&mousePos.x, &mousePos.y);
+		while (SDL_PollEvent(&e) > 0 && e.type) {
 			zabalik = inputHandler(e);
 		}
 		if (player.status == PLAYING) {
@@ -147,8 +150,9 @@ void close() {
 void update(double deltaTime) {
 	updateTiles(deltaTime);
 	movePlayer(deltaTime);
-	if(player.status == PLAYING)camera = centerCameraInPlayer(camera);
+	if(player.status == PLAYING) camera = centerCameraInPlayer(camera);
 	player.facingTile = getFacingTileId();
+	checkHover(mousePos);
 }
 
 void marraztu() {
@@ -166,7 +170,7 @@ void marraztu() {
 	aplikatuSurface(0, 0, fenceSurface, screenSurface, &camera);
 	aplikatuSurface(TILE_SIZE, 9 * TILE_SIZE, cowSurface, bgSurface, NULL);
 	aplikatuSurface(TILE_SIZE * 2, 13 * TILE_SIZE, pigSurface, bgSurface, NULL);
-	marraztuInv(inventory, itemsSurface, screenSurface);
+	if(inventory.open) marraztuInv(itemsSurface, screenSurface);
 	
 	return;
 }

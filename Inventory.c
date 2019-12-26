@@ -16,9 +16,7 @@ struct Item tomate = {
 	2, "Tomate", 128, 128
 };
 
-
-
-void marraztuInv(struct Inventory inventory, SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface){
+void marraztuInv(SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface){
 	SDL_Rect clip;
 	clip.w = inventory.slotSize;
 	clip.h = inventory.slotSize;
@@ -26,11 +24,11 @@ void marraztuInv(struct Inventory inventory, SDL_Surface* spriteSheetSurface, SD
 	for (int i = 0; i < slots; i++) {
 		clip.x = inventory.items[i].sheetPosX;
 		clip.y = inventory.items[i].sheetPosY;
-		aplikatuSurface(i % inventory.cols * inventory.slotSize, i / inventory.cols * inventory.slotSize, spriteSheetSurface, screenSurface, &clip);
+		aplikatuSurface(i % inventory.cols * inventory.slotSize + inventory.xPos, i / inventory.cols * inventory.slotSize + inventory.yPos, spriteSheetSurface, screenSurface, &clip);
 	}
 }
 
-struct Inventory updateInv(struct Inventory inventory) {
+struct Inventory updateInv() {
 	int slots = inventory.cols * inventory.rows;
 	for (int i = 0; i < slots; i++) {
 		inventory.items[i] = empty;
@@ -38,14 +36,25 @@ struct Inventory updateInv(struct Inventory inventory) {
 	return inventory;
 }
 
-void changeInv(struct Inventory inventory, int InvPos) {
-
+void changeInv(int InvPos) {
 	if (tiles[player.facingTile].plant.seed == CALABAZA) {
 		inventory.items[InvPos] = calabaza;
 	}
 	else if (tiles[player.facingTile].plant.seed == TOMATE) {
 		inventory.items[InvPos] = tomate;
 	}
+}
 
-	return inventory;
+void checkHover(struct posCoord mousePos){
+	int found = 0, slots = inventory.cols * inventory.rows, i = 0;
+	while (!found && i < slots) {
+		if (mousePos.x > i % inventory.cols * inventory.slotSize
+			&& mousePos.x < (i % inventory.cols + 1) * inventory.slotSize
+			&& mousePos.y > i / inventory.cols * inventory.slotSize
+			&& mousePos.y < (i / inventory.cols + 1) * inventory.slotSize) {
+			//showTag
+
+		}
+		i++;
+	}
 }

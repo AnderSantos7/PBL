@@ -8,7 +8,7 @@ void keyHandlerUp(SDL_Event e);
 void pause();
 
 int inputHandler(SDL_Event e) {
-	int mouseX = 0, mouseY = 0, zabalik = 1;
+	int zabalik = 1;
 	switch (e.type) {
 	case SDL_QUIT:
 		zabalik = 0;
@@ -21,6 +21,8 @@ int inputHandler(SDL_Event e) {
 		break;
 	case SDL_KEYUP:
 		keyHandlerUp(e);
+		break;
+	default:
 		break;
 	}
 	return zabalik;
