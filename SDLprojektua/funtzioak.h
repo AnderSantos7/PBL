@@ -5,6 +5,8 @@ struct Player createPlayer();
 void movePlayer(double deltaTime);
 void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface);
 
+void reset();
+
 //Camera
 SDL_Rect createCamera();
 SDL_Rect centerCameraInPlayer(SDL_Rect camera);
@@ -19,7 +21,19 @@ SDL_Surface* loadMedia(char* src);
 //Tiles
 int getTileFromPos(int x, int y);
 struct posCoord getTilePosFromId(int ID);
+int getFacingTileId();
 void landatu();
 void marraztuTiles(SDL_Surface* aradoSurface, SDL_Surface* screenSurface);
 void updateTiles(double deltaTime);
+
+//Inventory
+void marraztuInv(SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface);
+struct Inventory updateInv();
+void checkHover(struct posCoord mousePos);
+void marraztuInvTag(SDL_Surface* textua, SDL_Surface* screenSurface);
+void insertItem(struct Item item, int quantity, int pos);
+struct Item removeItemFromInv(int pos);
+struct Item pickHovering();
+void changeInv(int InvPos);
+void showStackSize(SDL_Surface* textua, SDL_Surface* screenSurface);
 #endif

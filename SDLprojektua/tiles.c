@@ -4,13 +4,24 @@
 #include "objektuak.h"
 #include <stdio.h>
 
-void landatu()
-{
-	if (tiles[player.facingTile].plant.seed == SEED_NONE)
-	{
-		tiles[player.facingTile].plant.seed = SEED_ARADO;
+int i = 0;
+
+void landatu(){
+	if (!tiles[player.facingTile].plant.arado){
+		tiles[player.facingTile].plant.arado = 1;
 	}
-}
+	else if (tiles[player.facingTile].plant.stage == 2) {
+		//changeInv(i);
+		i++;
+		tiles[player.facingTile].plant.time = 0;
+		tiles[player.facingTile].plant.stage = NONE;
+		tiles[player.facingTile].plant.seed = NONE;
+	}
+	else if (tiles[player.facingTile].plant.arado && !tiles[player.facingTile].plant.water) {
+		tiles[player.facingTile].plant.lastWater = NONE;
+		tiles[player.facingTile].plant.water = 1;
+	}
+}	
 
 int getFacingTileId() {
 	int ID = player.tile;
@@ -45,38 +56,62 @@ int getTileFromPos(int x, int y) {
 	return ID;
 }
 
-void marraztuTiles(SDL_Surface* aradoSurface , SDL_Surface* screenSurface)
-{
+void marraztuTiles(SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface){
 	int i = 0;
-	SDL_Rect rect;
-	for (i = 0; i < 49 ; i++)
-	{
-		rect.x = tiles[plantable_ID[i]].x * TILE_SIZE;
-		rect.y = tiles[plantable_ID[i]].y * TILE_SIZE;
-		if (tiles[plantable_ID[i]].plant.seed == SEED_ARADO)
-		{
-			aplikatuSurface(rect.x - camera.x, rect.y - camera.y, aradoSurface, screenSurface, NULL);
+	SDL_Rect pos;
+	SDL_Rect clip;
+	clip.w = TILE_SIZE;
+	clip.h = TILE_SIZE;
+	for (i = 0; i < 49; i++){
+		pos.x = tiles[plantable_ID[i]].x * TILE_SIZE;
+		pos.y = tiles[plantable_ID[i]].y * TILE_SIZE;
+		if (tiles[plantable_ID[i]].plant.arado) {
+			switch (tiles[plantable_ID[i]].plant.seed) {
+			case NONE:
+				clip.x = tiles[plantable_ID[i]].plant.water * TILE_SIZE;
+				clip.y = 0;
+				break;
+			default:
+				clip.x = (tiles[plantable_ID[i]].plant.stage + 3 * tiles[plantable_ID[i]].plant.water) * TILE_SIZE;
+				clip.y = tiles[plantable_ID[i]].plant.seed * TILE_SIZE;
+			}
+			aplikatuSurface(pos.x - camera.x, pos.y - camera.y, spriteSheetSurface, screenSurface, &clip);
+		}
+		if (plantable_ID[i] == player.facingTile) {
+			clip.x = 2 * TILE_SIZE;
+			clip.y = 0;
+			aplikatuSurface(pos.x - camera.x, pos.y - camera.y, spriteSheetSurface, screenSurface, &clip);
 		}
 	}
 }
 
 void updateTiles(double deltaTime) {
-	for (int i = 0; i < 256; i++) {
-		if (tiles[i].plant.seed != (SEED_ARADO && SEED_NONE)) {
-			tiles[i].plant.time += deltaTime;
-			if (tiles[i].plant.time > 1000) {
-				if (tiles[i].plant.time > 3000) {
-					tiles[i].plant.stage = 2;
+	for (int i = 0; i < 49; i++) {
+		if (tiles[plantable_ID[i]].plant.seed != NONE) {
+			tiles[plantable_ID[i]].plant.time += deltaTime;
+			if (tiles[plantable_ID[i]].plant.time > 5) {
+				if (tiles[plantable_ID[i]].plant.time > 10) {
+					tiles[plantable_ID[i]].plant.stage = 2;
 				}
 				else {
-					tiles[i].plant.stage = 1;
+					tiles[plantable_ID[i]].plant.stage = 1;
 				}
 			}
-			if (tiles[i].plant.water) {
-				tiles[i].plant.lastWater += deltaTime;
-				if (tiles[i].plant.lastWater > 500) {
-					//Secar
-				}
+		}
+		if (tiles[plantable_ID[i]].plant.water) {
+			tiles[plantable_ID[i]].plant.lastWater += deltaTime;
+			if (tiles[plantable_ID[i]].plant.lastWater > 5) {
+				tiles[plantable_ID[i]].plant.water = NONE;
+			}
+		}
+		else if (!tiles[plantable_ID[i]].plant.water) {
+			tiles[plantable_ID[i]].plant.lastWater += deltaTime;
+			if (tiles[plantable_ID[i]].plant.lastWater > 10) {
+				tiles[plantable_ID[i]].plant.time = NONE;
+				tiles[plantable_ID[i]].plant.seed = NONE;
+				tiles[plantable_ID[i]].plant.arado = NONE;
+				tiles[plantable_ID[i]].plant.lastWater = NONE;
+				tiles[plantable_ID[i]].plant.stage = NONE;
 			}
 		}
 	}

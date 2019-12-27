@@ -40,13 +40,13 @@ void movePlayer(double deltaTime) {
 		}
 
 		if (player.movingRight) {
-			player.x += (float)player.speed * multiplier * deltaTime + 0.9;
+			player.x += (int)(player.speed * multiplier * deltaTime + 0.9);
 			if (player.x > LEVEL_SIZE - player.w) {
 				player.x = LEVEL_SIZE - player.w;
 			}
 		}
 		if (player.movingLeft) {
-			player.x -= (float)player.speed * multiplier * deltaTime;
+			player.x -= (int)(player.speed * multiplier * deltaTime);
 			if (player.x < 0) {
 				player.x = 0;
 			}
@@ -59,7 +59,7 @@ void movePlayer(double deltaTime) {
 			}
 		}
 		if (player.movingUp) {
-			player.y -= (float)player.speed * multiplier * deltaTime;
+			player.y -= (int)(player.speed * multiplier * deltaTime);
 			if (player.y < 0) {
 				player.y = 0;
 			}
@@ -76,7 +76,7 @@ void movePlayer(double deltaTime) {
 			}
 		}
 		if (player.movingDown) {
-			player.y += (float)player.speed * multiplier * deltaTime + 0.9;
+			player.y += (int)(player.speed * multiplier * deltaTime + 0.9);
 			if (player.y > LEVEL_SIZE - player.h) {
 				player.y = LEVEL_SIZE - player.h;
 			}

@@ -5,18 +5,15 @@
 #include <stdio.h>
 void keyHandlerDown(SDL_Event e);
 void keyHandlerUp(SDL_Event e);
+void pause();
 
 int inputHandler(SDL_Event e) {
-	int mouseX = 0, mouseY = 0, zabalik = 1;
+	int zabalik = 1;
 	switch (e.type) {
 	case SDL_QUIT:
 		zabalik = 0;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		SDL_GetMouseState(&mouseX, &mouseY);
-		mouseX = mouseX / 64;
-		mouseX = mouseX % 16;
-		mouseY = mouseY / 64;
 		landatu();
 		break;
 	case SDL_KEYDOWN:
@@ -25,29 +22,51 @@ int inputHandler(SDL_Event e) {
 	case SDL_KEYUP:
 		keyHandlerUp(e);
 		break;
+	default:
+		break;
 	}
 	return zabalik;
 }
 
 void keyHandlerDown(SDL_Event e) {
+	
 	switch (e.key.keysym.scancode) {
-
-	case SDL_SCANCODE_A:
-		player.facingDirection = DIR_LEFT;
-		player.movingLeft = 1;
-		break;
-	case SDL_SCANCODE_D:
-		player.facingDirection = DIR_RIGHT;
-		player.movingRight = 1;
-		break;
-	case SDL_SCANCODE_W:
-		player.facingDirection = DIR_UP;
-		player.movingUp = 1;
-		break;
-	case SDL_SCANCODE_S:
-		player.facingDirection = DIR_DOWN;
-		player.movingDown = 1;
-		break;
+		if (player.status == PLAYING || player.status == HOME) {
+			case SDL_SCANCODE_A:
+				player.facingDirection = DIR_LEFT;
+				player.movingLeft = 1;
+				playerSurface = loadMedia("assets/images/Player2.png");
+				break;
+			case SDL_SCANCODE_D:
+				player.facingDirection = DIR_RIGHT;
+				player.movingRight = 1;
+				playerSurface = loadMedia("assets/images/Player.png");
+				break;
+			case SDL_SCANCODE_W:
+				player.facingDirection = DIR_UP;
+				player.movingUp = 1;
+				break;
+			case SDL_SCANCODE_S:
+				player.facingDirection = DIR_DOWN;
+				player.movingDown = 1;
+				break;
+			case SDL_SCANCODE_C:
+				if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
+					tiles[player.facingTile].plant.seed = CALABAZA;
+				}
+				struct Item test = { 3, "Test", 3*64, 128, 1 };
+				insertItem(test, 1, -1);
+				break;
+			case SDL_SCANCODE_T:
+				if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
+					tiles[player.facingTile].plant.seed = TOMATE;
+				}
+				pickHovering();
+				break;
+			case SDL_SCANCODE_ESCAPE:
+			case SDL_SCANCODE_P:
+				pause();
+		}
 	}
 	return;
 }
@@ -68,4 +87,15 @@ void keyHandlerUp(SDL_Event e) {
 		break;
 	}
 	return;
+}
+
+void pause() {
+	if (player.status == PLAYING) {
+		player.status = PAUSE;
+	}
+	else if (player.status == HOME) {
+		player.status = PAUSE_HOME;
+	}
+	else if (player.status == PAUSE) player.status = PLAYING;
+	else if (player.status == PAUSE_HOME) player.status = HOME;
 }

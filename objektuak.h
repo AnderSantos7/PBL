@@ -14,6 +14,7 @@ struct Item {
 	char* name;
 	int sheetPosX;
 	int sheetPosY;
+	int quantity;
 };
 
 struct Inventory {

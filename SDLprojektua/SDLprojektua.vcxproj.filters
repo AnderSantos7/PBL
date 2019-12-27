@@ -27,6 +27,15 @@
     <ClCompile Include="InputHandler.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="MediaHandler.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="tiles.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="funtzioak.h">

@@ -54,12 +54,14 @@ void keyHandlerDown(SDL_Event e) {
 				if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
 					tiles[player.facingTile].plant.seed = CALABAZA;
 				}
+				struct Item test = { 3, "Test", 3*64, 128, 1 };
+				insertItem(test, 1, -1);
 				break;
 			case SDL_SCANCODE_T:
 				if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
 					tiles[player.facingTile].plant.seed = TOMATE;
 				}
-				
+				pickHovering();
 				break;
 			case SDL_SCANCODE_ESCAPE:
 			case SDL_SCANCODE_P:

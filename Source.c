@@ -1,5 +1,6 @@
 #include "SDL.h"
 #include "SDL_image.h"
+#include "SDL_ttf.h"
 #include "funtzioak.h"
 #include "objektuak.h"
 #include <stdio.h>
@@ -33,7 +34,7 @@ struct posCoord mousePos = { 0, 0 };
 struct Player player;
 SDL_Rect camera;
 struct Inventory inventory = {
-	1, 100, 200, 5, 9, 64
+	1, 100, 200, 3, 9, 64
 };
 
 SDL_Window* win = NULL;
@@ -51,6 +52,7 @@ SDL_Surface* pauseSurface = NULL;
 SDL_Surface* homeSurface = NULL;
 SDL_Surface* itemsSurface = NULL;
 SDL_Surface* spriteSheetTest = NULL;
+SDL_Surface* textua = NULL;
 
 int main(int argc, char* argv[]){
 	int zabalik = init();
@@ -132,6 +134,11 @@ int init() {
 		printf("SDL_image ez da hasieratu. SDL_image Error: %s\n", IMG_GetError());
 		success = 0;
 	}
+
+	if (TTF_Init() < 0) {
+		printf("SDL_ttf ez da hasieratu. SDL_ttf Error: %s\n", TTF_GetError());
+		success = 0;
+	}
 	return success;
 }
 
@@ -143,7 +150,8 @@ void close() {
 
 	SDL_DestroyWindow(win);
 	win = NULL;
-
+	IMG_Quit();
+	TTF_Quit();
 	SDL_Quit();
 } 
 
@@ -171,6 +179,8 @@ void marraztu() {
 	aplikatuSurface(TILE_SIZE, 9 * TILE_SIZE, cowSurface, bgSurface, NULL);
 	aplikatuSurface(TILE_SIZE * 2, 13 * TILE_SIZE, pigSurface, bgSurface, NULL);
 	if(inventory.open) marraztuInv(itemsSurface, screenSurface);
+	marraztuInvTag(textua, screenSurface);
+	showStackSize(textua, screenSurface);
 	
 	return;
 }
@@ -191,7 +201,7 @@ void loadFiles() {
 void getDeltaTime() {
 	start = end;
 	end = clock();
-	deltaTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+	deltaTime = (double)(end - start) / CLOCKS_PER_SEC;
 }
 
 void reset() {

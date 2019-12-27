@@ -11,7 +11,7 @@ void landatu(){
 		tiles[player.facingTile].plant.arado = 1;
 	}
 	else if (tiles[player.facingTile].plant.stage == 2) {
-		changeInv(inventory, i);
+		//changeInv(i);
 		i++;
 		tiles[player.facingTile].plant.time = 0;
 		tiles[player.facingTile].plant.stage = NONE;

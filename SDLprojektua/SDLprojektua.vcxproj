@@ -76,12 +76,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\mikel\Documents\Uni\2019-2020\Program\POPBL\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\mikel\Documents\Uni\2019-2020\Program\POPBL\SDL2\include;C:\Users\mikel\Documents\Uni\2019-2020\Program\POPBL\SDL2_image\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>C:\Users\mikel\Documents\Uni\2019-2020\Program\POPBL\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\mikel\Documents\Uni\2019-2020\Program\POPBL\SDL2\lib\x86;C:\Users\mikel\Documents\Uni\2019-2020\Program\POPBL\SDL2_image\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,8 +128,11 @@
   <ItemGroup>
     <ClCompile Include="camera.c" />
     <ClCompile Include="InputHandler.c" />
+    <ClCompile Include="Inventory.c" />
+    <ClCompile Include="MediaHandler.c" />
     <ClCompile Include="player.c" />
     <ClCompile Include="Source.c" />
+    <ClCompile Include="tiles.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="funtzioak.h" />
