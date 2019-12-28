@@ -14,8 +14,6 @@ void update(double deltaTime);
 void getDeltaTime();
 void loadFiles();
 
-
-
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 const int TILE_SIZE = 64;
@@ -33,8 +31,15 @@ struct posCoord mousePos = { 0, 0 };
 
 struct Player player;
 SDL_Rect camera;
-struct Inventory inventory = {
-	1, 0, 0, 3, 9, 64
+struct Inventory inventories[3] = { {
+	1, 32, 0, 1, 9, 64
+	},
+	{
+	0, 32, 64, 2, 9, 64 
+	},
+	{
+	0, 32, 0, 3, 9, 64
+	}
 };
 
 SDL_Window* win = NULL;
@@ -62,7 +67,8 @@ int main(int argc, char* argv[]){
 
 		player = createPlayer(); 
 		camera = createCamera();
-		updateInv();
+		updateInv(INV_PLAYER);
+		updateInv(INV_CHEST);
 
 		for (int i = 0; i < 256; i++) {
 			tiles[i].ID = i;
@@ -82,9 +88,11 @@ int main(int argc, char* argv[]){
 		while (SDL_PollEvent(&e) > 0 && e.type) {
 			zabalik = inputHandler(e);
 		}
+
 		if (player.status == PLAYING) {
 			update(deltaTime);
 			marraztu();
+
 			SDL_UpdateWindowSurface(win);
 			getDeltaTime();
 		}
@@ -92,12 +100,12 @@ int main(int argc, char* argv[]){
 			update(deltaTime);
 			aplikatuSurface(0, 0, homeSurface, screenSurface, NULL);
 			drawPlayer(camera, playerSurface, screenSurface);
+			for (int i = 0; i < 3; i++) showInv(i, itemsSurface, screenSurface, textua);
 			SDL_UpdateWindowSurface(win);
 		}
 		else if (player.status == PAUSE || player.status == PAUSE_HOME) {
 			aplikatuSurface(0, 0, pauseSurface, screenSurface, NULL);
 			SDL_UpdateWindowSurface(win);
-			inputHandler(e);
 		}
 		else if (player.status == COLLOCATING) {
 			player.timer += deltaTime;
@@ -160,7 +168,7 @@ void update(double deltaTime) {
 	movePlayer(deltaTime);
 	if(player.status == PLAYING) camera = centerCameraInPlayer(camera);
 	player.facingTile = getFacingTileId();
-	checkHover(mousePos);
+	checkHover(INV_PLAYER);
 }
 
 void marraztu() {
@@ -178,11 +186,7 @@ void marraztu() {
 	aplikatuSurface(0, 0, fenceSurface, screenSurface, &camera);
 	aplikatuSurface(TILE_SIZE, 9 * TILE_SIZE, cowSurface, bgSurface, NULL);
 	aplikatuSurface(TILE_SIZE * 2, 13 * TILE_SIZE, pigSurface, bgSurface, NULL);
-	if(inventory.open) marraztuInv(itemsSurface, screenSurface);
-	marraztuInvTag(textua, screenSurface);
-	showStackSize(textua, screenSurface);
-	if(hoveringItem.ID != 0)marraztuHoveringItem(itemsSurface, textua, screenSurface);
-	
+	for (int i = 0; i < 2; i++) showInv(i, itemsSurface, screenSurface, textua);
 	return;
 }
 
@@ -215,5 +219,7 @@ void reset() {
 		marraztu();
 		player.timer = 0;
 		player.status = PLAYING;
+		inventories[INV_HOTBAR].yPos = 0;
+		inventories[INV_PLAYER].yPos = inventories[INV_PLAYER].slotSize;
 	}
 }

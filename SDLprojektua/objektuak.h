@@ -30,6 +30,8 @@ struct Inventory {
 	struct Item items[128];
 };
 
+extern struct Inventory inventories[];
+enum INVENTORIES {INV_HOTBAR, INV_PLAYER, INV_CHEST};
 struct posCoord {
 	int x;
 	int y;
@@ -76,7 +78,7 @@ struct Player {
 	double timer;
 };
 extern struct Player player;
-extern struct Inventory inventory;
+
 extern SDL_Rect camera;
 enum facingDirection { DIR_RIGHT, DIR_LEFT, DIR_UP, DIR_DOWN };
 enum status { PLAYING, HOME, PAUSE, PAUSE_HOME, SLEEPING, COLLOCATING};

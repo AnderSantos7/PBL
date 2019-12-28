@@ -70,6 +70,9 @@ void movePlayer(double deltaTime) {
 				player.y = 64;
 				if (player.x + 32 > 64 * 2 && player.x + 32 < 64 * 3) {
 					player.status = HOME;
+					closeInvs();
+					inventories[INV_PLAYER].yPos = SCREEN_HEIGHT - inventories[INV_PLAYER].slotSize * 3;
+					inventories[INV_HOTBAR].yPos = SCREEN_HEIGHT - inventories[INV_HOTBAR].slotSize;
 					player.y = 480 - 64 * 2;
 					player.x = 375;
 				}
@@ -134,6 +137,7 @@ void movePlayer(double deltaTime) {
 			if (player.y > 445 - 64 * 2 && player.x > 352 - 20 && player.x < 449 - 44) {
 				if (player.y > 480 - 64 * 2) {
 					player.status = COLLOCATING;
+					closeInvs();
 				}
 			}
 			else if (player.y > 445 - 64*2) {

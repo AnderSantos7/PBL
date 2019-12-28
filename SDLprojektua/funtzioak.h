@@ -27,16 +27,19 @@ void marraztuTiles(SDL_Surface* aradoSurface, SDL_Surface* screenSurface);
 void updateTiles(double deltaTime);
 
 //Inventory
-void marraztuInv(SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface);
-struct Inventory updateInv();
-int checkHover();
-void marraztuInvTag(SDL_Surface* textua, SDL_Surface* screenSurface);
-void insertItem(struct Item item, int quantity, int pos);
-struct Item removeItemFromInv(int pos);
+void marraztuInv(int inv, SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface);
+void updateInv(int inv);
+int checkHover(int inv);
+void marraztuInvTag(int inv, SDL_Surface* textua, SDL_Surface* screenSurface);
+void insertItem(int inv, struct Item item, int quantity, int pos);
+struct Item removeItemFromInv(int inv, int pos);
 struct Item pickHovering();
-void changeInv(int InvPos);
-void showStackSize(SDL_Surface* textua, SDL_Surface* screenSurface);
+void changeInv(int inv, int InvPos);
+void showStackSize(int inv, SDL_Surface* textua, SDL_Surface* screenSurface);
+void showInv(int inv, SDL_Surface* itemsSurface, SDL_Surface* screenSurface, SDL_Surface* textua);
+int getHoveringInv();
+void closeInvs();
 
 //Items
-void marraztuHoveringItem(SDL_Surface* spriteSheetSurface, SDL_Surface* textua, SDL_Surface* screenSurface);
+void marraztuHoveringItem(int inv, SDL_Surface* spriteSheetSurface, SDL_Surface* textua, SDL_Surface* screenSurface);
 #endif

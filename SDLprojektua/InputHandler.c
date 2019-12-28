@@ -32,6 +32,7 @@ int inputHandler(SDL_Event e) {
 struct Item hoveringItem = { 0 };
 
 void keyHandlerDown(SDL_Event e) {
+	int open = 0, i;
 	
 	switch (e.key.keysym.scancode) {
 		if (player.status == PLAYING || player.status == HOME) {
@@ -64,8 +65,38 @@ void keyHandlerDown(SDL_Event e) {
 				}
 				break;
 			case SDL_SCANCODE_ESCAPE:
+				for (i = 1; i < 3; i++) open += inventories[i].open;
+				if (open > 0) {
+					closeInvs();
+				}
+				else {
+					pause();
+				}
+				break;
 			case SDL_SCANCODE_P:
 				pause();
+			case SDL_SCANCODE_E:
+				if (player.status == HOME) {
+					switch (inventories[INV_CHEST].open) {
+					case 0:
+						inventories[INV_CHEST].open = 1;
+						break;
+					case 1:
+						inventories[INV_CHEST].open = 0;
+						break;
+					}
+				}
+				break;
+			case SDL_SCANCODE_I:
+				switch (inventories[INV_PLAYER].open) {
+				case 0:
+					inventories[INV_PLAYER].open = 1;
+					break;
+				case 1:
+					inventories[INV_PLAYER].open = 0;
+					break;
+				}
+				break;
 		}
 	}
 	return;
@@ -91,17 +122,19 @@ void keyHandlerUp(SDL_Event e) {
 
 void mouseHandlerDown(SDL_Event e) {
 	int mouseSlot = 0;
+	int hoveringInv;
 	switch (e.button.button) {
 	case SDL_BUTTON_LEFT:
-		if (checkHover(mousePos)) {
+		hoveringInv = getHoveringInv();
+		if (checkHover(hoveringInv)) {
 			if (hoveringItem.ID != 0) {
-				if (inventory.items[showingItem].ID != hoveringItem.ID) {
+				if (inventories[hoveringInv].items[showingItem].ID != hoveringItem.ID) {
 					struct Item tmpItem = hoveringItem;
-					hoveringItem = inventory.items[showingItem];
-					inventory.items[showingItem] = tmpItem;
+					hoveringItem = inventories[hoveringInv].items[showingItem];
+					inventories[hoveringInv].items[showingItem] = tmpItem;
 				}
 				else {
-					inventory.items[showingItem].quantity += hoveringItem.quantity;
+					inventories[hoveringInv].items[showingItem].quantity += hoveringItem.quantity;
 					hoveringItem.ID = 0;
 				}
 			}else {
