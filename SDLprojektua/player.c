@@ -10,7 +10,7 @@ struct Player createPlayer() {
 	player.y = 64;
 	player.w = TILE_SIZE;
 	player.h = 2 * TILE_SIZE;
-	player.speed = 200;
+	player.speed = 300;
 	player.movingRight = 0;
 	player.movingLeft = 0;
 	player.movingUp = 0;
@@ -34,13 +34,13 @@ void movePlayer(double deltaTime) {
 				tiles[camino_ID[i]].y * TILE_SIZE + TILE_SIZE > player.y + 2 * TILE_SIZE)
 			{
 				bidean = 1;
-				multiplier = 1.5;
+				multiplier = 1.2;
 			}
 			i++;
 		}
 
 		if (player.movingRight) {
-			player.x += (int)(player.speed * multiplier * deltaTime + 0.9);
+			player.x += (int)(player.speed * multiplier * deltaTime);
 			if (player.x > LEVEL_SIZE - player.w) {
 				player.x = LEVEL_SIZE - player.w;
 			}
@@ -76,7 +76,7 @@ void movePlayer(double deltaTime) {
 			}
 		}
 		if (player.movingDown) {
-			player.y += (int)(player.speed * multiplier * deltaTime + 0.9);
+			player.y += (int)(player.speed * multiplier * deltaTime);
 			if (player.y > LEVEL_SIZE - player.h) {
 				player.y = LEVEL_SIZE - player.h;
 			}

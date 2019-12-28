@@ -1,2 +1,14 @@
-﻿  Inventory.c
-  SDLprojektua.vcxproj -> C:\Users\mikel\Documents\Uni\2019-2020\Program\POPBL\SDLprojektua\Debug\SDLprojektua.exe
+﻿  InputHandler.c
+  Inventory.c
+  MediaHandler.c
+  Source.c
+  camera.c
+  player.c
+E:\Docs\Uni\PBL\PBL\SDLprojektua\player.c(37,21): warning C4305: '=': truncamiento de 'double' a 'float'
+E:\Docs\Uni\PBL\PBL\SDLprojektua\player.c(95,46): warning C4244: '+=': conversión de 'double' a 'int'; posible pérdida de datos
+E:\Docs\Uni\PBL\PBL\SDLprojektua\player.c(107,46): warning C4244: '-=': conversión de 'double' a 'int'; posible pérdida de datos
+E:\Docs\Uni\PBL\PBL\SDLprojektua\player.c(121,46): warning C4244: '-=': conversión de 'double' a 'int'; posible pérdida de datos
+E:\Docs\Uni\PBL\PBL\SDLprojektua\player.c(132,46): warning C4244: '+=': conversión de 'double' a 'int'; posible pérdida de datos
+  tiles.c
+  Generando código...
+  SDLprojektua.vcxproj -> E:\Docs\Uni\PBL\PBL\SDLprojektua\Debug\SDLprojektua.exe

@@ -34,8 +34,12 @@ struct Inventory updateInv() {
 	int slots = inventory.cols * inventory.rows;
 	for (int i = 0; i < slots; i++) {
 		inventory.items[i] = empty;
-		if (i % 5 == 0) inventory.items[i] = calabaza;
 	}
+	inventory.items[4] = tomate;
+	inventory.items[7] = tomate;
+	inventory.items[16] = tomate;
+	inventory.items[1] = tomate;
+	inventory.items[13] = calabaza;
 	return inventory;
 }
 
@@ -49,7 +53,7 @@ void changeInv(int InvPos) {
 }
 
 int showingItem;
-void checkHover(struct posCoord mousePos){
+int checkHover(){
 	int found = 0, slots = inventory.cols * inventory.rows, i = 0;
 	while (!found && i < slots) {
 		if (mousePos.x > i % inventory.cols * inventory.slotSize + inventory.xPos
@@ -62,6 +66,7 @@ void checkHover(struct posCoord mousePos){
 		i++;
 		if (!found) showingItem = -1;
 	}
+	return found;
 }
 
 void marraztuInvTag(SDL_Surface* textua, SDL_Surface* screenSurface) {
@@ -113,11 +118,30 @@ struct Item pickHovering() {
 	return item;
 }
 
+void marraztuHoveringItem(SDL_Surface* spriteSheetSurface, SDL_Surface* textua, SDL_Surface* screenSurface) {
+	SDL_Rect clip = {0, 0, inventory.slotSize, inventory.slotSize};
+	clip.x = hoveringItem.sheetPosX;
+	clip.y = hoveringItem.sheetPosY;
+	aplikatuSurface(mousePos.x, mousePos.y, spriteSheetSurface, screenSurface, &clip);
+
+	char str[128];
+	TTF_Font* font;
+	font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 25);
+	SDL_Color color = { 255, 255, 255 };
+	SDL_itoa(hoveringItem.quantity, str, 10);
+	textua = TTF_RenderText_Solid(font, str, color);
+	aplikatuSurface(mousePos.x, mousePos.y, textua, screenSurface, NULL);
+	SDL_FreeSurface(textua);
+
+	TTF_CloseFont(font);
+	return;
+}
+
 void showStackSize(SDL_Surface* textua, SDL_Surface* screenSurface) {
 	char str[128];
 	TTF_Font* font;
 	font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 25);
-	SDL_Color color = { 100, 255, 0 };
+	SDL_Color color = { 255, 255, 255 };
 
 	for (int i = 0; i < inventory.rows * inventory.cols; i++) {
 		if(inventory.items[i].ID != 0){

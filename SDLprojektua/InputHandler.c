@@ -3,6 +3,7 @@
 #include "funtzioak.h"
 #include "objektuak.h"
 #include <stdio.h>
+void mouseHandlerDown(SDL_Event e);
 void keyHandlerDown(SDL_Event e);
 void keyHandlerUp(SDL_Event e);
 void pause();
@@ -14,7 +15,7 @@ int inputHandler(SDL_Event e) {
 		zabalik = 0;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		landatu();
+		mouseHandlerDown(e);
 		break;
 	case SDL_KEYDOWN:
 		keyHandlerDown(e);
@@ -27,6 +28,8 @@ int inputHandler(SDL_Event e) {
 	}
 	return zabalik;
 }
+
+struct Item hoveringItem = { 0 };
 
 void keyHandlerDown(SDL_Event e) {
 	
@@ -54,14 +57,11 @@ void keyHandlerDown(SDL_Event e) {
 				if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
 					tiles[player.facingTile].plant.seed = CALABAZA;
 				}
-				struct Item test = { 3, "Test", 3*64, 128, 1 };
-				insertItem(test, 1, -1);
 				break;
 			case SDL_SCANCODE_T:
 				if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
 					tiles[player.facingTile].plant.seed = TOMATE;
 				}
-				pickHovering();
 				break;
 			case SDL_SCANCODE_ESCAPE:
 			case SDL_SCANCODE_P:
@@ -84,6 +84,32 @@ void keyHandlerUp(SDL_Event e) {
 		break;
 	case SDL_SCANCODE_D:
 		player.movingRight = 0;
+		break;
+	}
+	return;
+}
+
+void mouseHandlerDown(SDL_Event e) {
+	int mouseSlot = 0;
+	switch (e.button.button) {
+	case SDL_BUTTON_LEFT:
+		if (checkHover(mousePos)) {
+			if (hoveringItem.ID != 0) {
+				if (inventory.items[showingItem].ID != hoveringItem.ID) {
+					struct Item tmpItem = hoveringItem;
+					hoveringItem = inventory.items[showingItem];
+					inventory.items[showingItem] = tmpItem;
+				}
+				else {
+					inventory.items[showingItem].quantity += hoveringItem.quantity;
+					hoveringItem.ID = 0;
+				}
+			}else {
+				hoveringItem = pickHovering();
+			}
+		}
+		break;
+	case SDL_BUTTON_RIGHT:
 		break;
 	}
 	return;

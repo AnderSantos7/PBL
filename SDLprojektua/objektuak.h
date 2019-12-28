@@ -17,6 +17,9 @@ struct Item {
 	int quantity;
 };
 
+extern struct Item hoveringItem;
+extern int showingItem;
+
 struct Inventory {
 	int open;
 	int xPos;
@@ -31,6 +34,8 @@ struct posCoord {
 	int x;
 	int y;
 };
+
+extern struct posCoord mousePos;
 
 enum Seed {NONE, CALABAZA, TOMATE};
 

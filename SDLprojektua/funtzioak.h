@@ -29,11 +29,14 @@ void updateTiles(double deltaTime);
 //Inventory
 void marraztuInv(SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface);
 struct Inventory updateInv();
-void checkHover(struct posCoord mousePos);
+int checkHover();
 void marraztuInvTag(SDL_Surface* textua, SDL_Surface* screenSurface);
 void insertItem(struct Item item, int quantity, int pos);
 struct Item removeItemFromInv(int pos);
 struct Item pickHovering();
 void changeInv(int InvPos);
 void showStackSize(SDL_Surface* textua, SDL_Surface* screenSurface);
+
+//Items
+void marraztuHoveringItem(SDL_Surface* spriteSheetSurface, SDL_Surface* textua, SDL_Surface* screenSurface);
 #endif

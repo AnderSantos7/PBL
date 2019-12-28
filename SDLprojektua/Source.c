@@ -34,7 +34,7 @@ struct posCoord mousePos = { 0, 0 };
 struct Player player;
 SDL_Rect camera;
 struct Inventory inventory = {
-	1, 100, 200, 3, 9, 64
+	1, 0, 0, 3, 9, 64
 };
 
 SDL_Window* win = NULL;
@@ -181,6 +181,7 @@ void marraztu() {
 	if(inventory.open) marraztuInv(itemsSurface, screenSurface);
 	marraztuInvTag(textua, screenSurface);
 	showStackSize(textua, screenSurface);
+	if(hoveringItem.ID != 0)marraztuHoveringItem(itemsSurface, textua, screenSurface);
 	
 	return;
 }
