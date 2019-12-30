@@ -126,7 +126,7 @@ void mouseHandlerDown(SDL_Event e) {
 	switch (e.button.button) {
 	case SDL_BUTTON_LEFT:
 		hoveringInv = getHoveringInv();
-		if (checkHover(hoveringInv)) {
+		if (hoveringInv != -1 && checkHover(hoveringInv)) {
 			if (hoveringItem.ID != 0) {
 				if (inventories[hoveringInv].items[showingItem].ID != hoveringItem.ID) {
 					struct Item tmpItem = hoveringItem;
@@ -139,6 +139,10 @@ void mouseHandlerDown(SDL_Event e) {
 				}
 			}else {
 				hoveringItem = pickHovering();
+			}
+		}else {
+			if (hoveringItem.ID != 0) {
+				dropItem();
 			}
 		}
 		break;

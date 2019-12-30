@@ -70,6 +70,7 @@ int main(int argc, char* argv[]){
 		updateInv(INV_PLAYER);
 		updateInv(INV_CHEST);
 
+
 		for (int i = 0; i < 256; i++) {
 			tiles[i].ID = i;
 			struct posCoord tilePos = getTilePosFromId(i);
@@ -166,6 +167,9 @@ void close() {
 void update(double deltaTime) {
 	updateTiles(deltaTime);
 	movePlayer(deltaTime);
+	
+	ordenatuDroppedItems();
+	pickUpItems();
 	if(player.status == PLAYING) camera = centerCameraInPlayer(camera);
 	player.facingTile = getFacingTileId();
 	checkHover(INV_PLAYER);
@@ -174,6 +178,7 @@ void update(double deltaTime) {
 void marraztu() {
 	aplikatuSurface(0, 0, bgSurface, screenSurface, &camera);
 	marraztuTiles(spriteSheetTest, screenSurface);
+	marraztuDroppedItems(0);
 	if (player.y > 64 - 5) {
 		aplikatuSurface(0, 0, signSurface, screenSurface, &camera);
 		drawPlayer(camera, playerSurface, screenSurface);
@@ -182,7 +187,7 @@ void marraztu() {
 		drawPlayer(camera, playerSurface, screenSurface);
 		aplikatuSurface(0, 0, signSurface, screenSurface, &camera);
 	}
-
+	marraztuDroppedItems(1);
 	aplikatuSurface(0, 0, fenceSurface, screenSurface, &camera);
 	aplikatuSurface(TILE_SIZE, 9 * TILE_SIZE, cowSurface, bgSurface, NULL);
 	aplikatuSurface(TILE_SIZE * 2, 13 * TILE_SIZE, pigSurface, bgSurface, NULL);

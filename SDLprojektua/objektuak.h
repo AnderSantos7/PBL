@@ -8,6 +8,8 @@ extern const int GRID_SIZE;
 extern const int LEVEL_SIZE;
 
 extern SDL_Window* win;
+extern SDL_Surface* itemsSurface;
+extern SDL_Surface* screenSurface;
 
 struct Item {
 	int ID;
@@ -15,8 +17,11 @@ struct Item {
 	int sheetPosX;
 	int sheetPosY;
 	int quantity;
+	int xPos;
+	int yPos;
 };
 
+struct Item droppedItems[128];
 extern struct Item hoveringItem;
 extern int showingItem;
 

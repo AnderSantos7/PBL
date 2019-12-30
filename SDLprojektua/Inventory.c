@@ -41,6 +41,12 @@ void updateInv(int inv) {
 	inventories[inv].items[16] = tomate;
 	inventories[inv].items[1] = tomate;
 	inventories[inv].items[13] = calabaza;
+	droppedItems[0] = calabaza;
+	droppedItems[0].xPos = 300;
+	droppedItems[0].yPos = 100;
+	droppedItems[1] = tomate;
+	droppedItems[1].xPos = 200;
+	droppedItems[1].yPos = 300;
 }
 
 void changeInv(int inv, int InvPos) {

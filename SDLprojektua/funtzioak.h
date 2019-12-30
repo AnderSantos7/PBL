@@ -38,8 +38,15 @@ void changeInv(int inv, int InvPos);
 void showStackSize(int inv, SDL_Surface* textua, SDL_Surface* screenSurface);
 void showInv(int inv, SDL_Surface* itemsSurface, SDL_Surface* screenSurface, SDL_Surface* textua);
 int getHoveringInv();
+void marraztuHoveringItem(int inv, SDL_Surface* spriteSheetSurface, SDL_Surface* textua, SDL_Surface* screenSurface);
 void closeInvs();
 
 //Items
-void marraztuHoveringItem(int inv, SDL_Surface* spriteSheetSurface, SDL_Surface* textua, SDL_Surface* screenSurface);
+void ordenatuDroppedItems();
+void marraztuDroppedItems(int ordena);
+void showDroppedItem(int index);
+void dropItem();
+void pickUpItems();
+int checkInRange(int i);
+void sweepFloor(int i);
 #endif
