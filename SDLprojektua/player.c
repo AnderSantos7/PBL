@@ -18,6 +18,7 @@ struct Player createPlayer() {
 	player.facingDirection = DIR_DOWN;
 	player.status = PLAYING;
 	player.timer = 0;
+	player.hotbarSlot = 0;
 	return player;
 }
 
@@ -71,8 +72,9 @@ void movePlayer(double deltaTime) {
 				if (player.x + 32 > 64 * 2 && player.x + 32 < 64 * 3) {
 					player.status = HOME;
 					closeInvs();
-					inventories[INV_PLAYER].yPos = SCREEN_HEIGHT - inventories[INV_PLAYER].slotSize * 3;
-					inventories[INV_HOTBAR].yPos = SCREEN_HEIGHT - inventories[INV_HOTBAR].slotSize;
+					inventories[INV_PLAYER].yPos = SCREEN_HEIGHT - inventories[INV_PLAYER].slotSize * 3 - 9;
+					inventories[INV_HOTBAR].yPos = SCREEN_HEIGHT - inventories[INV_HOTBAR].slotSize - 3;
+					closeInvs();
 					player.y = 480 - 64 * 2;
 					player.x = 375;
 				}
@@ -149,6 +151,9 @@ void movePlayer(double deltaTime) {
 }
 
 void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface) {
+	//check dirección (switch/if)
+	//check animación (deltaTime)
+	//cambio de sprite accordingly
 	aplikatuSurface(player.x - camera.x, player.y - camera.y, surface, screenSurface, NULL);
 	return;
 }

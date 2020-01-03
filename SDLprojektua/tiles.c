@@ -6,21 +6,26 @@
 
 int i = 0;
 
-void landatu(){
-	if (!tiles[player.facingTile].plant.arado){
+void landatu(int seed){
+	if (tiles[player.facingTile].plant.arado && tiles[player.facingDirection].plant.seed == NONE) {
+		tiles[player.facingTile].plant.seed = seed;
+	}
+	return;
+	/*if (!tiles[player.facingTile].plant.arado){
 		tiles[player.facingTile].plant.arado = 1;
-	}
-	else if (tiles[player.facingTile].plant.stage == 2) {
-		//changeInv(i);
-		i++;
-		tiles[player.facingTile].plant.time = 0;
-		tiles[player.facingTile].plant.stage = NONE;
-		tiles[player.facingTile].plant.seed = NONE;
-	}
-	else if (tiles[player.facingTile].plant.arado && !tiles[player.facingTile].plant.water) {
-		tiles[player.facingTile].plant.lastWater = NONE;
-		tiles[player.facingTile].plant.water = 1;
-	}
+	}*/
+
+	//else if (tiles[player.facingTile].plant.stage == 2) {
+	//	//changeInv(i);
+	//	i++;
+	//	tiles[player.facingTile].plant.time = 0;
+	//	tiles[player.facingTile].plant.stage = NONE;
+	//	tiles[player.facingTile].plant.seed = NONE;
+	//}
+	//else if (tiles[player.facingTile].plant.arado && !tiles[player.facingTile].plant.water) {
+	//	tiles[player.facingTile].plant.lastWater = NONE;
+	//	tiles[player.facingTile].plant.water = 1;
+	//}
 }	
 
 int getFacingTileId() {
@@ -89,8 +94,8 @@ void updateTiles(double deltaTime) {
 	for (int i = 0; i < 49; i++) {
 		if (tiles[plantable_ID[i]].plant.seed != NONE) {
 			tiles[plantable_ID[i]].plant.time += deltaTime;
-			if (tiles[plantable_ID[i]].plant.time > 5) {
-				if (tiles[plantable_ID[i]].plant.time > 10) {
+			if (tiles[plantable_ID[i]].plant.time > 50) {
+				if (tiles[plantable_ID[i]].plant.time > 100) {
 					tiles[plantable_ID[i]].plant.stage = 2;
 				}
 				else {
@@ -100,13 +105,13 @@ void updateTiles(double deltaTime) {
 		}
 		if (tiles[plantable_ID[i]].plant.water) {
 			tiles[plantable_ID[i]].plant.lastWater += deltaTime;
-			if (tiles[plantable_ID[i]].plant.lastWater > 5) {
+			if (tiles[plantable_ID[i]].plant.lastWater > 50) {
 				tiles[plantable_ID[i]].plant.water = NONE;
 			}
 		}
 		else if (!tiles[plantable_ID[i]].plant.water) {
 			tiles[plantable_ID[i]].plant.lastWater += deltaTime;
-			if (tiles[plantable_ID[i]].plant.lastWater > 10) {
+			if (tiles[plantable_ID[i]].plant.lastWater > 100) {
 				tiles[plantable_ID[i]].plant.time = NONE;
 				tiles[plantable_ID[i]].plant.seed = NONE;
 				tiles[plantable_ID[i]].plant.arado = NONE;

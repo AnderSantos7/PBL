@@ -6,6 +6,7 @@
 void mouseHandlerDown(SDL_Event e);
 void keyHandlerDown(SDL_Event e);
 void keyHandlerUp(SDL_Event e);
+void hotbarScroll(SDL_Event e);
 void pause();
 
 int inputHandler(SDL_Event e) {
@@ -16,6 +17,9 @@ int inputHandler(SDL_Event e) {
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		mouseHandlerDown(e);
+		break;
+	case SDL_MOUSEWHEEL:
+		hotbarScroll(e);
 		break;
 	case SDL_KEYDOWN:
 		keyHandlerDown(e);
@@ -31,28 +35,40 @@ int inputHandler(SDL_Event e) {
 
 struct Item hoveringItem = { 0 };
 
+int keyDownW = 0;
+int keyDownA = 0;
+int keyDownS = 0;
+int keyDownD = 0;
+
+
 void keyHandlerDown(SDL_Event e) {
 	int open = 0, i;
 	
 	switch (e.key.keysym.scancode) {
 		if (player.status == PLAYING || player.status == HOME) {
 			case SDL_SCANCODE_A:
+				keyDownA = 1;
 				player.facingDirection = DIR_LEFT;
 				player.movingLeft = 1;
-				playerSurface = loadMedia("assets/images/Player2.png");
+				player.movingRight = 0;
 				break;
 			case SDL_SCANCODE_D:
+				keyDownD = 1;
 				player.facingDirection = DIR_RIGHT;
 				player.movingRight = 1;
-				playerSurface = loadMedia("assets/images/Player.png");
+				player.movingLeft = 0;
 				break;
 			case SDL_SCANCODE_W:
+				keyDownW = 1;
 				player.facingDirection = DIR_UP;
 				player.movingUp = 1;
+				player.movingDown = 0;
 				break;
 			case SDL_SCANCODE_S:
+				keyDownS = 1;
 				player.facingDirection = DIR_DOWN;
 				player.movingDown = 1;
+				player.movingUp = 0;
 				break;
 			case SDL_SCANCODE_C:
 				if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
@@ -105,16 +121,36 @@ void keyHandlerDown(SDL_Event e) {
 void keyHandlerUp(SDL_Event e) {
 	switch (e.key.keysym.scancode) {
 	case SDL_SCANCODE_W:
+		keyDownW = 0;
 		player.movingUp = 0;
+		if (keyDownS) {
+			player.movingDown = 1;
+			player.facingDirection = DIR_DOWN;
+		}
 		break;
 	case SDL_SCANCODE_A:
+		keyDownA = 0;
 		player.movingLeft = 0;
+		if (keyDownD) {
+			player.movingRight = 1;
+			player.facingDirection = DIR_RIGHT;
+		}
 		break;
 	case SDL_SCANCODE_S:
+		keyDownS = 0;
 		player.movingDown = 0;
+		if (keyDownW) {
+			player.movingUp = 1;
+			player.facingDirection = DIR_UP;
+		}
 		break;
 	case SDL_SCANCODE_D:
+		keyDownD = 0;
 		player.movingRight = 0;
+		if (keyDownA) {
+			player.movingLeft = 1;
+			player.facingDirection = DIR_LEFT;
+		}
 		break;
 	}
 	return;
@@ -140,14 +176,37 @@ void mouseHandlerDown(SDL_Event e) {
 			}else {
 				hoveringItem = pickHovering();
 			}
-		}else {
-			if (hoveringItem.ID != 0) {
+		}else if (hoveringItem.ID != 0) {
+			int i = 0, planting = 0;
+			while (i < 49 && !planting) {
+				if (player.facingTile == plantable_ID[i]) planting = 1;
+				i++;
+			}
+			if (planting) {
+				if (tiles[player.facingTile].plant.arado && hoveringItem.seed != 0) {
+					landatu(hoveringItem.seed);
+					hoveringItem.quantity--;
+				}
+				if (hoveringItem.quantity < 1) hoveringItem.ID = 0;
+			}else {
 				dropItem();
 			}
 		}
 		break;
 	case SDL_BUTTON_RIGHT:
 		break;
+	}
+	return;
+}
+
+void hotbarScroll(SDL_Event e) {
+	if (e.wheel.y > 0) {
+		player.hotbarSlot++;
+		if (player.hotbarSlot > 8) player.hotbarSlot = 0;
+	}
+	else if (e.wheel.y < 0) {
+		player.hotbarSlot--;
+		if (player.hotbarSlot < 0) player.hotbarSlot = 8;
 	}
 	return;
 }

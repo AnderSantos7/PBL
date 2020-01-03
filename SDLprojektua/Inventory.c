@@ -8,26 +8,37 @@
 #include <string.h>
 
 struct Item empty = {
-	0, "Empty", 128, 0, 1
+	0, "Empty", 0, 0, 1, 0
 };
 
 struct Item calabaza = {
-	1, "Calabaza", 128, 64, 1
+	1, "Calabaza", 0, 0, 1, 0
+};
+
+struct Item calabaza_seed = {
+	2, "Semilla de calabaza", 64, 0, 1, CALABAZA
 };
 
 struct Item tomate = {
-	2, "Tomate", 128, 128, 1
+	3, "Tomate", 128, 0, 1, 0
+};
+
+struct Item tomate_seed = {
+	4, "Semilla de tomate", 192, 0, 1, TOMATE
 };
 
 void marraztuInv(int inv, SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface){
+
 	SDL_Rect clip;
 	clip.w = inventories[inv].slotSize;
 	clip.h = inventories[inv].slotSize;
 	int slots = inventories[inv].cols * inventories[inv].rows;
 	for (int i = 0; i < slots; i++) {
-		clip.x = inventories[inv].items[i].sheetPosX;
-		clip.y = inventories[inv].items[i].sheetPosY;
-		aplikatuSurface(i % inventories[inv].cols * inventories[inv].slotSize + inventories[inv].xPos, i / inventories[inv].cols * inventories[inv].slotSize + inventories[inv].yPos, spriteSheetSurface, screenSurface, &clip);
+		if (inventories[inv].items[i].ID != 0) {
+			clip.x = inventories[inv].items[i].sheetPosX;
+			clip.y = inventories[inv].items[i].sheetPosY;
+			aplikatuSurface(i % inventories[inv].cols * inventories[inv].slotSize + inventories[inv].xPos, i / inventories[inv].cols * inventories[inv].slotSize + inventories[inv].yPos, spriteSheetSurface, screenSurface, &clip);
+		}
 	}
 }
 
@@ -36,15 +47,20 @@ void updateInv(int inv) {
 	for (int i = 0; i < slots; i++) {
 		inventories[inv].items[i] = empty;
 	}
-	inventories[inv].items[4] = tomate;
-	inventories[inv].items[7] = tomate;
-	inventories[inv].items[16] = tomate;
+	inventories[inv].items[4] = calabaza_seed;
+	inventories[inv].items[7] = tomate_seed;
+	inventories[inv].items[16] = calabaza_seed;
 	inventories[inv].items[1] = tomate;
 	inventories[inv].items[13] = calabaza;
+	inventories[inv].items[5] = calabaza_seed;
+	inventories[inv].items[0] = tomate_seed;
+	inventories[inv].items[2] = calabaza_seed;
+	inventories[inv].items[13] = tomate_seed;
+	inventories[inv].items[17] = tomate;
 	droppedItems[0] = calabaza;
 	droppedItems[0].xPos = 300;
 	droppedItems[0].yPos = 100;
-	droppedItems[1] = tomate;
+	droppedItems[1] = calabaza_seed;
 	droppedItems[1].xPos = 200;
 	droppedItems[1].yPos = 300;
 }
@@ -54,7 +70,7 @@ void changeInv(int inv, int InvPos) {
 		inventories[inv].items[InvPos] = calabaza;
 	}
 	else if (tiles[player.facingTile].plant.seed == TOMATE) {
-		inventories[inv].items[InvPos] = tomate;
+		inventories[inv].items[InvPos] = calabaza_seed;
 	}
 }
 
@@ -76,27 +92,33 @@ int getHoveringInv() {
 	return hovering;
 }
 
-int checkHover(int inv){
-	int found = 0, slots = inventories[inv].cols * inventories[inv].rows, i = 0;
-	while (!found && i < slots) {
-		if (mousePos.x > i % inventories[inv].cols * inventories[inv].slotSize + inventories[inv].xPos
-			&& mousePos.x < (i % inventories[inv].cols + 1) * inventories[inv].slotSize + inventories[inv].xPos
-			&& mousePos.y > i / inventories[inv].cols * inventories[inv].slotSize + inventories[inv].yPos
-			&& mousePos.y < (i / inventories[inv].cols + 1) * inventories[inv].slotSize + inventories[inv].yPos) {
-			found = 1;
-			showingItem = i;
+int checkHover(){
+	int inv = getHoveringInv(), found = 0;
+	if (inv > -1) {
+		int slots = inventories[inv].cols * inventories[inv].rows, i = 0;
+		while (!found && i < slots) {
+			if (mousePos.x > i% inventories[inv].cols* inventories[inv].slotSize + inventories[inv].xPos
+				&& mousePos.x < (i % inventories[inv].cols + 1) * inventories[inv].slotSize + inventories[inv].xPos
+				&& mousePos.y > i / inventories[inv].cols * inventories[inv].slotSize + inventories[inv].yPos
+				&& mousePos.y < (i / inventories[inv].cols + 1) * inventories[inv].slotSize + inventories[inv].yPos) {
+				found = 1;
+				showingItem = i;
+			}
+			i++;
+			if (!found) showingItem = -1;
 		}
-		i++;
-		if (!found) showingItem = -1;
+	}
+	else {
+		showingItem = -1;
 	}
 	return found;
 }
 
 void marraztuInvTag(int inv, SDL_Surface* textua, SDL_Surface* screenSurface) {
 	char* str[128], qty[128];
-	if (showingItem > -1 && inventories[inv].items[showingItem].ID != 0) {
+	if (inventories[inv].open && showingItem > -1 && inventories[inv].items[showingItem].ID != 0) {
 		TTF_Font* font;
-		font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 25);
+		font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 16);
 		SDL_Color color = { 255, 255, 255 };
 
 		strcpy(str, inventories[inv].items[showingItem].name);
@@ -112,9 +134,9 @@ void marraztuInvTag(int inv, SDL_Surface* textua, SDL_Surface* screenSurface) {
 	}
 }
 
-void insertItem(int inv, struct Item item, int quantity, int pos) {
-	int i = 0, found = 0;
-	while (i < inventories[inv].cols * inventories[inv].rows && !found) {
+int insertItem(int inv, struct Item item, int quantity, int pos) {
+	int i = 0, found = 0, success = 0, slots = inventories[inv].cols * inventories[inv].rows;
+	while (i < slots && !found) {
 		if (inventories[inv].items[i].ID == item.ID) {
 			found = 1;
 			pos = i;
@@ -123,15 +145,19 @@ void insertItem(int inv, struct Item item, int quantity, int pos) {
 	}
 	if (found) {
 		inventories[inv].items[pos].quantity += quantity;
+		success = 1;
 	}else{
 		i = 0;
-		while (i < inventories[inv].cols * inventories[inv].rows && pos < 0) {
+		while (i < slots && pos < 0) {
 			if (inventories[inv].items[i].ID == empty.ID) pos = i;
 			i++;
 		}
-
-		inventories[inv].items[pos] = item;
+		if (i != slots) {
+			inventories[inv].items[pos] = item;
+			success = 1;
+		}
 	}
+	return success;
 }
 
 struct Item removeItemFromInv(int inv, int pos) {
@@ -150,19 +176,20 @@ struct Item pickHovering() {
 	return item;
 }
 
-void marraztuHoveringItem(int inv, SDL_Surface* spriteSheetSurface, SDL_Surface* textua, SDL_Surface* screenSurface) {
-	SDL_Rect clip = {0, 0, inventories[inv].slotSize, inventories[inv].slotSize};
+void marraztuHoveringItem(SDL_Surface* spriteSheetSurface, SDL_Surface* textua, SDL_Surface* screenSurface) {
+	SDL_Rect clip = {0, 0, 64, 64};
 	clip.x = hoveringItem.sheetPosX;
 	clip.y = hoveringItem.sheetPosY;
 	aplikatuSurface(mousePos.x, mousePos.y, spriteSheetSurface, screenSurface, &clip);
 	if (hoveringItem.quantity > 1) {
+		int offset = 42;
 		char str[128];
 		TTF_Font* font;
-		font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 25);
+		font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 16);
 		SDL_Color color = { 255, 255, 255 };
 		SDL_itoa(hoveringItem.quantity, str, 10);
 		textua = TTF_RenderText_Solid(font, str, color);
-		aplikatuSurface(mousePos.x, mousePos.y, textua, screenSurface, NULL);
+		aplikatuSurface(mousePos.x + offset, mousePos.y + offset, textua, screenSurface, NULL);
 		SDL_FreeSurface(textua);
 
 		TTF_CloseFont(font);
@@ -171,31 +198,41 @@ void marraztuHoveringItem(int inv, SDL_Surface* spriteSheetSurface, SDL_Surface*
 }
 
 void showStackSize(int inv, SDL_Surface* textua, SDL_Surface* screenSurface) {
+	int offset = 42;
 	char str[128];
 	TTF_Font* font;
-	font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 25);
+	font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 16);
 	SDL_Color color = { 255, 255, 255 };
 
 	for (int i = 0; i < inventories[inv].rows * inventories[inv].cols; i++) {
 		if(inventories[inv].items[i].ID != 0 && inventories[inv].items[i].quantity > 1){
 			SDL_itoa(inventories[inv].items[i].quantity, str, 10);
 			textua = TTF_RenderText_Solid(font, str, color);
-			aplikatuSurface(i % inventories[inv].cols * inventories[inv].slotSize + inventories[inv].xPos, i / inventories[inv].cols * inventories[inv].slotSize + inventories[inv].yPos, textua, screenSurface, NULL);
+			aplikatuSurface(i % inventories[inv].cols * inventories[inv].slotSize + inventories[inv].xPos + offset, i / inventories[inv].cols * inventories[inv].slotSize + inventories[inv].yPos + offset, textua, screenSurface, NULL);
 			SDL_FreeSurface(textua);
 		}
 	}
 	TTF_CloseFont(font);
 }
 
-void showInv(int inv, SDL_Surface* itemsSurface, SDL_Surface* screenSurface, SDL_Surface* textua) {
+void showInv(int inv, SDL_Surface* itemsSurface, SDL_Surface* screenSurface, SDL_Surface* textua, SDL_Surface* HUDSurface) {
 	if (inventories[inv].open) {
+		SDL_Rect clip;
+		clip.x = inventories[inv].sheetPosX;
+		clip.y = inventories[inv].sheetPosY;
+		clip.w = inventories[inv].cols * inventories[inv].slotSize + 6;
+		clip.h = inventories[inv].rows * inventories[inv].slotSize + inventories[inv].headerSize + 3;
+		aplikatuSurface(inventories[inv].xPos - 3, inventories[inv].yPos - inventories[inv].headerSize, HUDSurface, screenSurface, &clip);
 		marraztuInv(inv, itemsSurface, screenSurface);
-		marraztuInvTag(inv, textua, screenSurface);
+		if (inv == INV_HOTBAR) {
+			clip.x = 582;
+			clip.y = 0;
+			clip.w = 64;
+			clip.h = 64;
+			aplikatuSurface(inventories[inv].xPos + inventories[inv].slotSize * player.hotbarSlot, inventories[inv].yPos, HUDSurface, screenSurface, &clip);
+		}
 		showStackSize(inv, textua, screenSurface);
 	}
-	if (hoveringItem.ID != 0)marraztuHoveringItem(inv, itemsSurface, textua, screenSurface);
-
-	
 	return;
 }
 

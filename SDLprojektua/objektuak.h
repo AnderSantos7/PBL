@@ -17,6 +17,7 @@ struct Item {
 	int sheetPosX;
 	int sheetPosY;
 	int quantity;
+	int seed;
 	int xPos;
 	int yPos;
 };
@@ -32,6 +33,9 @@ struct Inventory {
 	int rows;
 	int cols;
 	int slotSize;
+	int sheetPosX;
+	int sheetPosY;
+	int headerSize;
 	struct Item items[128];
 };
 
@@ -59,7 +63,6 @@ struct Tile {
 	int ID;
 	int x;
 	int y;
-	int farmable;
 	struct Plant plant;
 };
 struct Tile tiles[256];
@@ -81,6 +84,7 @@ struct Player {
 	int facingTile;
 	int status;
 	double timer;
+	int hotbarSlot;
 };
 extern struct Player player;
 

@@ -32,13 +32,13 @@ struct posCoord mousePos = { 0, 0 };
 struct Player player;
 SDL_Rect camera;
 struct Inventory inventories[3] = { {
-	1, 32, 0, 1, 9, 64
+	1, 35, 3, 1, 9, 64, 0, 0, 3
 	},
 	{
-	0, 32, 64, 2, 9, 64 
+	0, 35, 90, 2, 9, 64, 0, 70, 20
 	},
 	{
-	0, 32, 0, 3, 9, 64
+	0, 35, 20, 3, 9, 64, 0, 221, 20
 	}
 };
 
@@ -58,6 +58,7 @@ SDL_Surface* homeSurface = NULL;
 SDL_Surface* itemsSurface = NULL;
 SDL_Surface* spriteSheetTest = NULL;
 SDL_Surface* textua = NULL;
+SDL_Surface* HUDSurface = NULL;
 
 int main(int argc, char* argv[]){
 	int zabalik = init();
@@ -76,7 +77,11 @@ int main(int argc, char* argv[]){
 			struct posCoord tilePos = getTilePosFromId(i);
 			tiles[i].x = tilePos.x;
 			tiles[i].y = tilePos.y;
-			tiles[i].farmable = 0;
+			tiles[i].plant.arado = 0;
+		}
+
+		for (int i = 0; i < 49; i++) {
+			tiles[plantable_ID[i]].plant.arado = 1;
 		}
 		loadFiles();
 	}
@@ -101,7 +106,9 @@ int main(int argc, char* argv[]){
 			update(deltaTime);
 			aplikatuSurface(0, 0, homeSurface, screenSurface, NULL);
 			drawPlayer(camera, playerSurface, screenSurface);
-			for (int i = 0; i < 3; i++) showInv(i, itemsSurface, screenSurface, textua);
+			for (int i = 0; i < 3; i++) showInv(i, itemsSurface, screenSurface, textua, HUDSurface);
+			marraztuInvTag(getHoveringInv(), textua, screenSurface);
+			if (hoveringItem.ID != 0)marraztuHoveringItem(itemsSurface, textua, screenSurface);
 			SDL_UpdateWindowSurface(win);
 		}
 		else if (player.status == PAUSE || player.status == PAUSE_HOME) {
@@ -172,7 +179,7 @@ void update(double deltaTime) {
 	pickUpItems();
 	if(player.status == PLAYING) camera = centerCameraInPlayer(camera);
 	player.facingTile = getFacingTileId();
-	checkHover(INV_PLAYER);
+	checkHover();
 }
 
 void marraztu() {
@@ -191,7 +198,9 @@ void marraztu() {
 	aplikatuSurface(0, 0, fenceSurface, screenSurface, &camera);
 	aplikatuSurface(TILE_SIZE, 9 * TILE_SIZE, cowSurface, bgSurface, NULL);
 	aplikatuSurface(TILE_SIZE * 2, 13 * TILE_SIZE, pigSurface, bgSurface, NULL);
-	for (int i = 0; i < 2; i++) showInv(i, itemsSurface, screenSurface, textua);
+	for (int i = 0; i < 2; i++) showInv(i, itemsSurface, screenSurface, textua, HUDSurface);
+	marraztuInvTag(getHoveringInv(), textua, screenSurface);
+	if(hoveringItem.ID != 0)marraztuHoveringItem(itemsSurface, textua, screenSurface);
 	return;
 }
 
@@ -206,6 +215,7 @@ void loadFiles() {
 	homeSurface = loadMedia("assets/images/home.png");
 	itemsSurface = loadMedia("assets/images/items.png");
 	spriteSheetTest = loadMedia("assets/images/sprite.png");
+	HUDSurface = loadMedia("assets/images/HUD.png");
 }
 
 void getDeltaTime() {
@@ -225,6 +235,6 @@ void reset() {
 		player.timer = 0;
 		player.status = PLAYING;
 		inventories[INV_HOTBAR].yPos = 0;
-		inventories[INV_PLAYER].yPos = inventories[INV_PLAYER].slotSize;
+		inventories[INV_PLAYER].yPos = inventories[INV_PLAYER].slotSize + inventories[INV_PLAYER].headerSize + 3;
 	}
 }

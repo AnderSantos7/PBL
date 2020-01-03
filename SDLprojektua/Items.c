@@ -72,8 +72,14 @@ void dropItem() {
 void pickUpItems() {
 	for (int i = 0; i < droppedLength; i++) {
 		if (checkInRange(i)) {
-			insertItem(INV_PLAYER, droppedItems[i], droppedItems[i].quantity, -1);
-			sweepFloor(i);
+			if (!insertItem(INV_HOTBAR, droppedItems[i], droppedItems[i].quantity, -1)) {
+				if (insertItem(INV_PLAYER, droppedItems[i], droppedItems[i].quantity, -1)) {
+					sweepFloor(i);
+				}
+			}
+			else {
+				sweepFloor(i);
+			}
 			i--;
 		}
 	}
