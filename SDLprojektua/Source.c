@@ -68,8 +68,12 @@ int main(int argc, char* argv[]){
 
 		player = createPlayer(); 
 		camera = createCamera();
+		startDic(0);
+		startPresests();
 		updateInv(INV_PLAYER);
 		updateInv(INV_CHEST);
+
+
 
 
 		for (int i = 0; i < 256; i++) {

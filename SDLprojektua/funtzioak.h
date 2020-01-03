@@ -18,6 +18,10 @@ int inputHandler(SDL_Event e);
 //Media
 SDL_Surface* loadMedia(char* src);
 
+//Data
+void startDic(int language);
+void startPresests();
+
 //Tiles
 int getTileFromPos(int x, int y);
 struct posCoord getTilePosFromId(int ID);

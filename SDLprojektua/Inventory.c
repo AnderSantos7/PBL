@@ -47,13 +47,13 @@ void updateInv(int inv) {
 	for (int i = 0; i < slots; i++) {
 		inventories[inv].items[i] = empty;
 	}
-	inventories[inv].items[4] = calabaza_seed;
-	inventories[inv].items[7] = tomate_seed;
-	inventories[inv].items[16] = calabaza_seed;
-	inventories[inv].items[1] = tomate;
-	inventories[inv].items[13] = calabaza;
-	inventories[inv].items[5] = calabaza_seed;
-	inventories[inv].items[0] = tomate_seed;
+	inventories[inv].items[4] = itemPresets[1];
+	inventories[inv].items[7] = itemPresets[2];
+	inventories[inv].items[16] = itemPresets[3];
+	inventories[inv].items[1] = itemPresets[4];
+	inventories[inv].items[13] = itemPresets[5];
+	inventories[inv].items[5] = itemPresets[6];
+	inventories[inv].items[0] = itemPresets[7];
 	inventories[inv].items[2] = calabaza_seed;
 	inventories[inv].items[13] = tomate_seed;
 	inventories[inv].items[17] = tomate;

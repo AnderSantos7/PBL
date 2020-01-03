@@ -22,6 +22,7 @@ struct Item {
 	int yPos;
 };
 
+extern struct Item itemPresets[];
 struct Item droppedItems[128];
 extern struct Item hoveringItem;
 extern int showingItem;
