@@ -4,6 +4,7 @@
 struct Player createPlayer();
 void movePlayer(double deltaTime);
 void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface);
+void animatePlayer(double deltaTime);
 
 void reset();
 

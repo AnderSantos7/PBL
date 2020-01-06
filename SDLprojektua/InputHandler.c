@@ -5,6 +5,7 @@
 #include <stdio.h>
 void mouseHandlerDown(SDL_Event e);
 void keyHandlerDown(SDL_Event e);
+void updateFacingDir();
 void keyHandlerUp(SDL_Event e);
 void hotbarScroll(SDL_Event e);
 void pause();
@@ -155,35 +156,43 @@ void keyHandlerUp(SDL_Event e) {
 	case SDL_SCANCODE_W:
 		keyDownW = 0;
 		player.movingUp = 0;
-		if (keyDownS) {
-			player.movingDown = 1;
-			player.facingDirection = DIR_DOWN;
-		}
+		updateFacingDir();
 		break;
 	case SDL_SCANCODE_A:
 		keyDownA = 0;
 		player.movingLeft = 0;
-		if (keyDownD) {
-			player.movingRight = 1;
-			player.facingDirection = DIR_RIGHT;
-		}
+		updateFacingDir();
 		break;
 	case SDL_SCANCODE_S:
 		keyDownS = 0;
 		player.movingDown = 0;
-		if (keyDownW) {
-			player.movingUp = 1;
-			player.facingDirection = DIR_UP;
-		}
+		updateFacingDir();
 		break;
 	case SDL_SCANCODE_D:
 		keyDownD = 0;
 		player.movingRight = 0;
-		if (keyDownA) {
-			player.movingLeft = 1;
-			player.facingDirection = DIR_LEFT;
-		}
+		updateFacingDir();
 		break;
+	}
+	return;
+}
+
+void updateFacingDir() {
+	if (keyDownA) {
+		player.movingLeft = 1;
+		player.facingDirection = DIR_LEFT;
+	}
+	else if (keyDownD) {
+		player.movingRight = 1;
+		player.facingDirection = DIR_RIGHT;
+	}
+	else if (keyDownS) {
+		player.movingDown = 1;
+		player.facingDirection = DIR_DOWN;
+	}
+	else if (keyDownW) {
+		player.movingUp = 1;
+		player.facingDirection = DIR_UP;
 	}
 	return;
 }

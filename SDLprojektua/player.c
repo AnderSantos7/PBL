@@ -19,6 +19,9 @@ struct Player createPlayer() {
 	player.status = PLAYING;
 	player.timer = 0;
 	player.hotbarSlot = 0;
+	player.frame = 0;
+	player.clip.w = 64;
+	player.clip.h = 128;
 	return player;
 }
 
@@ -150,12 +153,33 @@ void movePlayer(double deltaTime) {
 	return;
 }
 
-void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface) {
-	//check dirección (switch/if)
-	//check animación (deltaTime)
-	//cambio de sprite accordingly
-	aplikatuSurface(player.x - camera.x, player.y - camera.y, surface, screenSurface, NULL);
+double animationTime = 0;
+void animatePlayer(double deltaTime) {
+	if (player.movingUp || player.movingDown || player.movingRight || player.movingLeft) {
+		animationTime += deltaTime;
+		if (animationTime >= 0.5)
+		{
+			player.frame++;
+			if (player.frame > 3)
+				player.frame = 0;
+			animationTime = 0;
+		}
+		if (player.frame == 3)
+			player.clip.x = 64;
+		else
+		{
+			player.clip.x = 64 * player.frame;
+		}
+		player.clip.y = player.facingDirection * 128;
+	}
+	else if(player.clip.x != 64){
+		player.clip.x = 64;
+		animationTime = 0;
+	}
 	return;
 }
 
-
+void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface) {
+	aplikatuSurface(player.x - camera.x, player.y - camera.y, surface, screenSurface, &player.clip);
+	return;
+}

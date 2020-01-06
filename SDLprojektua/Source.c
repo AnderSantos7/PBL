@@ -199,6 +199,7 @@ void update(double deltaTime) {
 	if(player.status == PLAYING) camera = centerCameraInPlayer(camera);
 	player.facingTile = getFacingTileId();
 	checkHover();
+	animatePlayer(deltaTime);
 }
 
 void marraztu() {
