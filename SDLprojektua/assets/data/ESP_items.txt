@@ -1,8 +1,8 @@
-VACÍO
-AZADA
-CUBO
-AGUA
-CALABAZA
-SEMILLAS DE CALABAZA
-TOMATE
-SEMILLAS DE TOMATE
+Vacío
+Azada
+Cubo
+Agua
+Calabaza
+Semillas de calabaza
+Tomate
+Semillas de tomate

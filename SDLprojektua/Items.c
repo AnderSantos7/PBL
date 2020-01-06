@@ -7,7 +7,7 @@
 #include <math.h>
 
 int playerPickRange = 50;
-int droppedLength = 2;
+int droppedLength = 0;
 
 void ordenatuDroppedItems() {
 	for (int i = 0; i < droppedLength; i++) {
@@ -61,11 +61,13 @@ void showDroppedItem(int index) {
 }
 
 void dropItem() {
-	droppedItems[droppedLength] = hoveringItem;
-	droppedItems[droppedLength].xPos = player.x;
-	droppedItems[droppedLength].yPos = player.y;
-	droppedLength++;
-	hoveringItem.ID = 0;
+	if (hoveringItem.ID != 0 && hoveringItem.quantity > 0) {
+		droppedItems[droppedLength] = hoveringItem;
+		droppedItems[droppedLength].xPos = player.x;
+		droppedItems[droppedLength].yPos = player.y;
+		droppedLength++;
+		hoveringItem.ID = 0;
+	}
 	return;
 }
 

@@ -13,6 +13,7 @@ void close();
 void update(double deltaTime);
 void getDeltaTime();
 void loadFiles();
+void initGame();
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -28,6 +29,7 @@ clock_t start, end = 0;
 double deltaTime = 0;
 
 struct posCoord mousePos = { 0, 0 };
+int main_menu = 1, language = EUS;
 
 struct Player player;
 SDL_Rect camera;
@@ -63,31 +65,13 @@ SDL_Surface* HUDSurface = NULL;
 int main(int argc, char* argv[]){
 	int zabalik = init();
 
-	if (zabalik) {
+	if (zabalik) {	
+		loadFiles();
 		renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
-		player = createPlayer(); 
-		camera = createCamera();
-		startDic(0);
-		startPresests();
-		updateInv(INV_PLAYER);
-		updateInv(INV_CHEST);
-
-
-
-
-		for (int i = 0; i < 256; i++) {
-			tiles[i].ID = i;
-			struct posCoord tilePos = getTilePosFromId(i);
-			tiles[i].x = tilePos.x;
-			tiles[i].y = tilePos.y;
-			tiles[i].plant.arado = 0;
-		}
-
-		for (int i = 0; i < 49; i++) {
+		/*for (int i = 0; i < 49; i++) {
 			tiles[plantable_ID[i]].plant.arado = 1;
-		}
-		loadFiles();
+		}*/
 	}
 	else {
 		printf("Ezin izan da hasieratu.");
@@ -95,33 +79,46 @@ int main(int argc, char* argv[]){
 	while (zabalik) {
 		SDL_Event e;
 		SDL_GetMouseState(&mousePos.x, &mousePos.y);
-		while (SDL_PollEvent(&e) > 0 && e.type) {
-			zabalik = inputHandler(e);
-		}
+		if (main_menu) {
+			while (SDL_PollEvent(&e) > 0 && e.type) {
+				zabalik = inputMainMenu(e);
+			}
+			SDL_Rect clip = { 582, 64, 64, 48 };
+			for (int i = 0; i < 3; i++) {
+				clip.y = 64 + 48 * i;
+				aplikatuSurface(64 + 128 * i, 120, HUDSurface, screenSurface, &clip);
+				SDL_UpdateWindowSurface(win);
+			}
+		}else {
+			while (SDL_PollEvent(&e) > 0 && e.type) {
+				zabalik = inputHandler(e);
+			}
+			switch (player.status) {
+			case PLAYING:
+				update(deltaTime);
+				marraztu();
 
-		if (player.status == PLAYING) {
-			update(deltaTime);
-			marraztu();
-
-			SDL_UpdateWindowSurface(win);
-			getDeltaTime();
-		}
-		else if (player.status == HOME) {
-			update(deltaTime);
-			aplikatuSurface(0, 0, homeSurface, screenSurface, NULL);
-			drawPlayer(camera, playerSurface, screenSurface);
-			for (int i = 0; i < 3; i++) showInv(i, itemsSurface, screenSurface, textua, HUDSurface);
-			marraztuInvTag(getHoveringInv(), textua, screenSurface);
-			if (hoveringItem.ID != 0)marraztuHoveringItem(itemsSurface, textua, screenSurface);
-			SDL_UpdateWindowSurface(win);
-		}
-		else if (player.status == PAUSE || player.status == PAUSE_HOME) {
-			aplikatuSurface(0, 0, pauseSurface, screenSurface, NULL);
-			SDL_UpdateWindowSurface(win);
-		}
-		else if (player.status == COLLOCATING) {
-			player.timer += deltaTime;
-			reset();
+				SDL_UpdateWindowSurface(win);
+				getDeltaTime();
+				break;
+			case HOME:
+				update(deltaTime);
+				aplikatuSurface(0, 0, homeSurface, screenSurface, NULL);
+				drawPlayer(camera, playerSurface, screenSurface);
+				for (int i = 0; i < 3; i++) showInv(i, itemsSurface, screenSurface, textua, HUDSurface);
+				marraztuInvTag(getHoveringInv(), textua, screenSurface);
+				if (hoveringItem.ID != 0)marraztuHoveringItem(itemsSurface, textua, screenSurface);
+				SDL_UpdateWindowSurface(win);
+				break;
+			case PAUSE:
+			case PAUSE_HOME:
+				aplikatuSurface(0, 0, pauseSurface, screenSurface, NULL);
+				SDL_UpdateWindowSurface(win);
+			case COLLOCATING:
+				player.timer += deltaTime;
+				reset();
+				break;
+			}
 		}
 	}
 	close();
@@ -174,6 +171,24 @@ void close() {
 	TTF_Quit();
 	SDL_Quit();
 } 
+
+void initGame() {
+	for (int i = 0; i < 256; i++) {
+		tiles[i].ID = i;
+		struct posCoord tilePos = getTilePosFromId(i);
+		tiles[i].x = tilePos.x;
+		tiles[i].y = tilePos.y;
+		tiles[i].plant.arado = 0;
+	}
+
+	player = createPlayer();
+	camera = createCamera();
+	startDic(language);
+	startPresests();
+	updateInv(INV_PLAYER);
+	updateInv(INV_CHEST);
+	return;
+}
 
 void update(double deltaTime) {
 	updateTiles(deltaTime);

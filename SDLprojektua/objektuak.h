@@ -1,15 +1,13 @@
 #ifndef OBJEKTUAK
 #define OBJEKTUAK
 
-extern const int SCREEN_WIDTH;
-extern const int SCREEN_HEIGHT;
-extern const int TILE_SIZE;
-extern const int GRID_SIZE;
-extern const int LEVEL_SIZE;
+extern const int SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE, GRID_SIZE, LEVEL_SIZE;
 
 extern SDL_Window* win;
 extern SDL_Surface* itemsSurface;
 extern SDL_Surface* screenSurface;
+
+extern int main_menu, language;
 
 struct Item {
 	int ID;
@@ -42,6 +40,7 @@ struct Inventory {
 
 extern struct Inventory inventories[];
 enum INVENTORIES {INV_HOTBAR, INV_PLAYER, INV_CHEST};
+enum LANGUAGES {EUS, ESP, ENG};
 struct posCoord {
 	int x;
 	int y;

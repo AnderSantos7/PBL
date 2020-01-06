@@ -27,7 +27,30 @@ int inputHandler(SDL_Event e) {
 	case SDL_KEYUP:
 		keyHandlerUp(e);
 		break;
-	default:
+	}
+	return zabalik;
+}
+
+int inputMainMenu(SDL_Event e) {
+	int zabalik = 1;
+	switch (e.type) {
+	case SDL_QUIT:
+		zabalik = 0;
+		break;
+	case SDL_MOUSEBUTTONDOWN:
+		if (e.button.button == SDL_BUTTON_LEFT) {
+			int hovering = 0, i = 0;
+
+			while (!hovering && i < 3) {
+				if (mousePos.x > 64 + 128 * i && mousePos.x < 128 + 128 * i && mousePos.y > 120 && mousePos.y < 168) {
+					language = i;
+					hovering = 1;
+					main_menu = 0;
+				}
+				i++;
+			}
+			if (hovering) initGame();
+		}
 		break;
 	}
 	return zabalik;
@@ -91,7 +114,7 @@ void keyHandlerDown(SDL_Event e) {
 				break;
 			case SDL_SCANCODE_P:
 				pause();
-			case SDL_SCANCODE_E:
+			case SDL_SCANCODE_Q:
 				if (player.status == HOME) {
 					switch (inventories[INV_CHEST].open) {
 					case 0:
@@ -103,7 +126,7 @@ void keyHandlerDown(SDL_Event e) {
 					}
 				}
 				break;
-			case SDL_SCANCODE_I:
+			case SDL_SCANCODE_E:
 				switch (inventories[INV_PLAYER].open) {
 				case 0:
 					inventories[INV_PLAYER].open = 1;
@@ -113,6 +136,15 @@ void keyHandlerDown(SDL_Event e) {
 					break;
 				}
 				break;
+			case SDL_SCANCODE_1: player.hotbarSlot = 0; break;
+			case SDL_SCANCODE_2: player.hotbarSlot = 1; break;
+			case SDL_SCANCODE_3: player.hotbarSlot = 2; break;
+			case SDL_SCANCODE_4: player.hotbarSlot = 3; break;
+			case SDL_SCANCODE_5: player.hotbarSlot = 4; break;
+			case SDL_SCANCODE_6: player.hotbarSlot = 5; break;
+			case SDL_SCANCODE_7: player.hotbarSlot = 6; break;
+			case SDL_SCANCODE_8: player.hotbarSlot = 7; break;
+			case SDL_SCANCODE_9: player.hotbarSlot = 8; break;
 		}
 	}
 	return;
@@ -176,18 +208,38 @@ void mouseHandlerDown(SDL_Event e) {
 			}else {
 				hoveringItem = pickHovering();
 			}
-		}else if (hoveringItem.ID != 0) {
-			int i = 0, planting = 0;
-			while (i < 49 && !planting) {
-				if (player.facingTile == plantable_ID[i]) planting = 1;
+		}else {
+			int i = 0, soil = 0;
+			while (i < 49 && !soil) {
+				if (player.facingTile == plantable_ID[i]) soil = 1;
 				i++;
 			}
-			if (planting) {
-				if (tiles[player.facingTile].plant.arado && hoveringItem.seed != 0) {
-					landatu(hoveringItem.seed);
-					hoveringItem.quantity--;
+			if (soil) {
+				if (tiles[player.facingTile].plant.arado) {
+					if (tiles[player.facingTile].plant.seed == NONE) {
+						if (hoveringItem.ID != 0 && hoveringItem.seed != 0) {
+							landatu(hoveringItem.seed);
+							hoveringItem.quantity--;
+							if (hoveringItem.quantity < 1) hoveringItem.ID = 0;
+						}
+						else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID != 0 && inventories[INV_HOTBAR].items[player.hotbarSlot].seed != 0) {
+							landatu(inventories[INV_HOTBAR].items[player.hotbarSlot].seed);
+							inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
+							if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot].ID = 0;
+						}
+					}
+					if (hoveringItem.ID == 3) {
+						water(player.facingTile);
+						hoveringItem.quantity--;
+						if (hoveringItem.quantity < 1) hoveringItem = itemPresets[2];
+					}else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 3) {
+						water(player.facingTile);
+						inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
+						if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[2];
+					}
+				}else if(inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 1){
+					tiles[player.facingTile].plant.arado = 1;
 				}
-				if (hoveringItem.quantity < 1) hoveringItem.ID = 0;
 			}else {
 				dropItem();
 			}
@@ -200,11 +252,11 @@ void mouseHandlerDown(SDL_Event e) {
 }
 
 void hotbarScroll(SDL_Event e) {
-	if (e.wheel.y > 0) {
+	if (e.wheel.y < 0) {
 		player.hotbarSlot++;
 		if (player.hotbarSlot > 8) player.hotbarSlot = 0;
 	}
-	else if (e.wheel.y < 0) {
+	else if (e.wheel.y > 0) {
 		player.hotbarSlot--;
 		if (player.hotbarSlot < 0) player.hotbarSlot = 8;
 	}

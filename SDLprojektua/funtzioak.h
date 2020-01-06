@@ -14,6 +14,7 @@ void aplikatuSurface(int x, int y, SDL_Surface* source, SDL_Surface* destination
 
 //Input
 int inputHandler(SDL_Event e);
+int inputMainMenu(SDL_Event e);
 
 //Media
 SDL_Surface* loadMedia(char* src);
@@ -27,6 +28,7 @@ int getTileFromPos(int x, int y);
 struct posCoord getTilePosFromId(int ID);
 int getFacingTileId();
 void landatu(int seed);
+void water(int tile);
 void marraztuTiles(SDL_Surface* aradoSurface, SDL_Surface* screenSurface);
 void updateTiles(double deltaTime);
 

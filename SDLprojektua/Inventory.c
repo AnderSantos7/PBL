@@ -7,26 +7,6 @@
 #include <stdio.h>
 #include <string.h>
 
-struct Item empty = {
-	0, "Empty", 0, 0, 1, 0
-};
-
-struct Item calabaza = {
-	1, "Calabaza", 0, 0, 1, 0
-};
-
-struct Item calabaza_seed = {
-	2, "Semilla de calabaza", 64, 0, 1, CALABAZA
-};
-
-struct Item tomate = {
-	3, "Tomate", 128, 0, 1, 0
-};
-
-struct Item tomate_seed = {
-	4, "Semilla de tomate", 192, 0, 1, TOMATE
-};
-
 void marraztuInv(int inv, SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface){
 
 	SDL_Rect clip;
@@ -45,32 +25,23 @@ void marraztuInv(int inv, SDL_Surface* spriteSheetSurface, SDL_Surface* screenSu
 void updateInv(int inv) {
 	int slots = inventories[inv].cols * inventories[inv].rows;
 	for (int i = 0; i < slots; i++) {
-		inventories[inv].items[i] = empty;
+		inventories[inv].items[i] = itemPresets[0];
 	}
-	inventories[inv].items[4] = itemPresets[1];
-	inventories[inv].items[7] = itemPresets[2];
-	inventories[inv].items[16] = itemPresets[3];
+	inventories[inv].items[4] = itemPresets[3];
+	inventories[inv].items[4].quantity = 7;
+	inventories[inv].items[7] = itemPresets[5];
+	inventories[inv].items[16] = itemPresets[1];
 	inventories[inv].items[1] = itemPresets[4];
-	inventories[inv].items[13] = itemPresets[5];
-	inventories[inv].items[5] = itemPresets[6];
-	inventories[inv].items[0] = itemPresets[7];
-	inventories[inv].items[2] = calabaza_seed;
-	inventories[inv].items[13] = tomate_seed;
-	inventories[inv].items[17] = tomate;
-	droppedItems[0] = calabaza;
-	droppedItems[0].xPos = 300;
-	droppedItems[0].yPos = 100;
-	droppedItems[1] = calabaza_seed;
-	droppedItems[1].xPos = 200;
-	droppedItems[1].yPos = 300;
+	inventories[inv].items[13] = itemPresets[6];
+	inventories[inv].items[5] = itemPresets[5];
 }
 
 void changeInv(int inv, int InvPos) {
 	if (tiles[player.facingTile].plant.seed == CALABAZA) {
-		inventories[inv].items[InvPos] = calabaza;
+		inventories[inv].items[InvPos] = itemPresets[4];
 	}
 	else if (tiles[player.facingTile].plant.seed == TOMATE) {
-		inventories[inv].items[InvPos] = calabaza_seed;
+		inventories[inv].items[InvPos] = itemPresets[6];
 	}
 }
 
@@ -149,7 +120,7 @@ int insertItem(int inv, struct Item item, int quantity, int pos) {
 	}else{
 		i = 0;
 		while (i < slots && pos < 0) {
-			if (inventories[inv].items[i].ID == empty.ID) pos = i;
+			if (inventories[inv].items[i].ID == 0) pos = i;
 			i++;
 		}
 		if (i != slots) {
@@ -163,12 +134,12 @@ int insertItem(int inv, struct Item item, int quantity, int pos) {
 struct Item removeItemFromInv(int inv, int pos) {
 	struct Item item;
 	item = inventories[inv].items[pos];
-	inventories[inv].items[pos] = empty;
+	inventories[inv].items[pos] = itemPresets[0];
 	return item;
 }
 
 struct Item pickHovering() {
-	struct Item item = empty;
+	struct Item item = itemPresets[0];
 	int inv = getHoveringInv();
 	if (showingItem >= 0 && inv != -1) {
 		item = removeItemFromInv(inv, showingItem);

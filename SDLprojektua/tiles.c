@@ -26,7 +26,13 @@ void landatu(int seed){
 	//	tiles[player.facingTile].plant.lastWater = NONE;
 	//	tiles[player.facingTile].plant.water = 1;
 	//}
-}	
+}
+
+void water(int tile) {
+	tiles[tile].plant.water = 1;
+	tiles[tile].plant.lastWater = 0;
+	return;
+}
 
 int getFacingTileId() {
 	int ID = player.tile;
