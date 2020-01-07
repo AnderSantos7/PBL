@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void marraztuInv(int inv, SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface){
+void marraztuInv(int inv) {
 
 	SDL_Rect clip;
 	clip.w = inventories[inv].slotSize;
@@ -17,7 +17,7 @@ void marraztuInv(int inv, SDL_Surface* spriteSheetSurface, SDL_Surface* screenSu
 		if (inventories[inv].items[i].ID != 0) {
 			clip.x = inventories[inv].items[i].sheetPosX;
 			clip.y = inventories[inv].items[i].sheetPosY;
-			aplikatuSurface(i % inventories[inv].cols * inventories[inv].slotSize + inventories[inv].xPos, i / inventories[inv].cols * inventories[inv].slotSize + inventories[inv].yPos, spriteSheetSurface, screenSurface, &clip);
+			aplikatuSurface(i % inventories[inv].cols * inventories[inv].slotSize + inventories[inv].xPos, i / inventories[inv].cols * inventories[inv].slotSize + inventories[inv].yPos, surface[itemsSurface], surface[screenSurface], &clip);
 		}
 	}
 }
@@ -63,7 +63,7 @@ int getHoveringInv() {
 	return hovering;
 }
 
-int checkHover(){
+int checkHover() {
 	int inv = getHoveringInv(), found = 0;
 	if (inv > -1) {
 		int slots = inventories[inv].cols * inventories[inv].rows, i = 0;
@@ -85,7 +85,7 @@ int checkHover(){
 	return found;
 }
 
-void marraztuInvTag(int inv, SDL_Surface* textua, SDL_Surface* screenSurface) {
+void marraztuInvTag(int inv) {
 	char* str[128], qty[128];
 	if (inventories[inv].open && showingItem > -1 && inventories[inv].items[showingItem].ID != 0) {
 		TTF_Font* font;
@@ -98,9 +98,9 @@ void marraztuInvTag(int inv, SDL_Surface* textua, SDL_Surface* screenSurface) {
 			strcat(str, " x");
 			strcat(str, qty);
 		}
-		textua = TTF_RenderText_Solid(font, str, color);
-		aplikatuSurface(mousePos.x, mousePos.y, textua, screenSurface, NULL);
-		SDL_FreeSurface(textua);
+		surface[textua] = TTF_RenderText_Solid(font, str, color);
+		aplikatuSurface(mousePos.x, mousePos.y, surface[textua], surface[screenSurface], NULL);
+		SDL_FreeSurface(surface[textua]);
 		TTF_CloseFont(font);
 	}
 }
@@ -112,12 +112,13 @@ int insertItem(int inv, struct Item item, int quantity, int pos) {
 			found = 1;
 			pos = i;
 		}
-		i++; 
+		i++;
 	}
 	if (found) {
 		inventories[inv].items[pos].quantity += quantity;
 		success = 1;
-	}else{
+	}
+	else {
 		i = 0;
 		while (i < slots && pos < 0) {
 			if (inventories[inv].items[i].ID == 0) pos = i;
@@ -147,11 +148,11 @@ struct Item pickHovering() {
 	return item;
 }
 
-void marraztuHoveringItem(SDL_Surface* spriteSheetSurface, SDL_Surface* textua, SDL_Surface* screenSurface) {
-	SDL_Rect clip = {0, 0, 64, 64};
+void marraztuHoveringItem() {
+	SDL_Rect clip = { 0, 0, 64, 64 };
 	clip.x = hoveringItem.sheetPosX;
 	clip.y = hoveringItem.sheetPosY;
-	aplikatuSurface(mousePos.x, mousePos.y, spriteSheetSurface, screenSurface, &clip);
+	aplikatuSurface(mousePos.x, mousePos.y, surface[itemsSurface], surface[screenSurface], &clip);
 	if (hoveringItem.quantity > 1) {
 		int offset = 42;
 		char str[128];
@@ -159,16 +160,16 @@ void marraztuHoveringItem(SDL_Surface* spriteSheetSurface, SDL_Surface* textua, 
 		font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 16);
 		SDL_Color color = { 255, 255, 255 };
 		SDL_itoa(hoveringItem.quantity, str, 10);
-		textua = TTF_RenderText_Solid(font, str, color);
-		aplikatuSurface(mousePos.x + offset, mousePos.y + offset, textua, screenSurface, NULL);
-		SDL_FreeSurface(textua);
+		surface[textua] = TTF_RenderText_Solid(font, str, color);
+		aplikatuSurface(mousePos.x + offset, mousePos.y + offset, surface[textua], surface[screenSurface], NULL);
+		SDL_FreeSurface(surface[textua]);
 
 		TTF_CloseFont(font);
 	}
 	return;
 }
 
-void showStackSize(int inv, SDL_Surface* textua, SDL_Surface* screenSurface) {
+void showStackSize(int inv) {
 	int offset = 42;
 	char str[128];
 	TTF_Font* font;
@@ -176,33 +177,33 @@ void showStackSize(int inv, SDL_Surface* textua, SDL_Surface* screenSurface) {
 	SDL_Color color = { 255, 255, 255 };
 
 	for (int i = 0; i < inventories[inv].rows * inventories[inv].cols; i++) {
-		if(inventories[inv].items[i].ID != 0 && inventories[inv].items[i].quantity > 1){
+		if (inventories[inv].items[i].ID != 0 && inventories[inv].items[i].quantity > 1) {
 			SDL_itoa(inventories[inv].items[i].quantity, str, 10);
-			textua = TTF_RenderText_Solid(font, str, color);
-			aplikatuSurface(i % inventories[inv].cols * inventories[inv].slotSize + inventories[inv].xPos + offset, i / inventories[inv].cols * inventories[inv].slotSize + inventories[inv].yPos + offset, textua, screenSurface, NULL);
-			SDL_FreeSurface(textua);
+			surface[textua] = TTF_RenderText_Solid(font, str, color);
+			aplikatuSurface(i % inventories[inv].cols * inventories[inv].slotSize + inventories[inv].xPos + offset, i / inventories[inv].cols * inventories[inv].slotSize + inventories[inv].yPos + offset, surface[textua], surface[screenSurface], NULL);
+			SDL_FreeSurface(surface[textua]);
 		}
 	}
 	TTF_CloseFont(font);
 }
 
-void showInv(int inv, SDL_Surface* itemsSurface, SDL_Surface* screenSurface, SDL_Surface* textua, SDL_Surface* HUDSurface) {
+void showInv(int inv) {
 	if (inventories[inv].open) {
 		SDL_Rect clip;
 		clip.x = inventories[inv].sheetPosX;
 		clip.y = inventories[inv].sheetPosY;
 		clip.w = inventories[inv].cols * inventories[inv].slotSize + 6;
 		clip.h = inventories[inv].rows * inventories[inv].slotSize + inventories[inv].headerSize + 3;
-		aplikatuSurface(inventories[inv].xPos - 3, inventories[inv].yPos - inventories[inv].headerSize, HUDSurface, screenSurface, &clip);
-		marraztuInv(inv, itemsSurface, screenSurface);
+		aplikatuSurface(inventories[inv].xPos - 3, inventories[inv].yPos - inventories[inv].headerSize, surface[HUDSurface], surface[screenSurface], &clip);
+		marraztuInv(inv);
 		if (inv == INV_HOTBAR) {
 			clip.x = 582;
 			clip.y = 0;
 			clip.w = 64;
 			clip.h = 64;
-			aplikatuSurface(inventories[inv].xPos + inventories[inv].slotSize * player.hotbarSlot, inventories[inv].yPos, HUDSurface, screenSurface, &clip);
+			aplikatuSurface(inventories[inv].xPos + inventories[inv].slotSize * player.hotbarSlot, inventories[inv].yPos, surface[HUDSurface], surface[screenSurface], &clip);
 		}
-		showStackSize(inv, textua, screenSurface);
+		showStackSize(inv);
 	}
 	return;
 }

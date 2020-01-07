@@ -5,8 +5,8 @@
 #include <stdio.h>
 
 //enum SURFACE { SURFACE_SCREEN, SURFACE_BACKGROUND, SURFACE_PLAYER, SURFACE_EXTRA, SURFACE_ITEMS, SURFACE_LAND};
-
-SDL_Surface* loadMedia(char* src) {	
+void loadFiles();
+SDL_Surface* loadMedia(char* src) {
 	SDL_Surface* surface = NULL;
 	SDL_RWops* rwop;
 	rwop = SDL_RWFromFile(src, "rb");
@@ -25,14 +25,16 @@ void aplikatuSurface(int x, int y, SDL_Surface* source, SDL_Surface* destination
 	SDL_BlitSurface(source, clip, destination, &offset);
 }
 
-//void loadFiles() {
-//	surfaces[SURFACE_BACKGROUND] = loadMedia("assests/images/bg.png");
-//	//bgSurface = loadMedia("assets/images/bg.png");
-//	//signSurface = loadMedia("assets/images/sign.png");
-//	//fenceSurface = loadMedia("assets/images/fence.png");
-//	//playerSurface = loadMedia("assets/images/player.png");
-//	//cowSurface = loadMedia("assets/images/cow.png");
-//	//pigSurface = loadMedia("assets/images/pig.png");
-//	//sartuSurface = loadMedia("assets/images/sartu.png");
-//	//aradoSurface = loadMedia("assets/images/ARADO.png");
-//}
+void loadFiles() {
+	surface[bgSurface] = loadMedia("assets/images/bg.png");
+	surface[playerSurface] = loadMedia("assets/images/player.png");
+	surface[itemsSurface] = loadMedia("assets/images/items.png");
+	surface[plantsSurface] = loadMedia("assets/images/sprite.png");
+	surface[pauseSurface] = loadMedia("assets/images/pause.png");
+	surface[homeSurface] = loadMedia("assets/images/home.png");
+	surface[fenceSurface] = loadMedia("assets/images/fence.png");
+	surface[cowSurface] = loadMedia("assets/images/cow.png");
+	surface[pigSurface] = loadMedia("assets/images/pig.png");
+	surface[signSurface] = loadMedia("assets/images/sign.png");
+	surface[HUDSurface] = loadMedia("assets/images/HUD.png");
+}

@@ -9,7 +9,7 @@ SDL_Rect createCamera() {
 	return camera;
 }
 
-SDL_Rect centerCameraInPlayer(SDL_Rect camera) {	
+SDL_Rect centerCameraInPlayer(SDL_Rect camera) {
 	camera.x = (player.x + player.w / 2) - SCREEN_WIDTH / 2;
 	camera.y = (player.y + player.h / 2) - SCREEN_HEIGHT / 2;
 

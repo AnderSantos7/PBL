@@ -3,9 +3,10 @@
 //Player
 struct Player createPlayer();
 void movePlayer(double deltaTime);
-void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface, SDL_Surface* HUDSurface);
+void drawPlayer();
 void animatePlayer(double deltaTime);
 void checkPosibleInteraction();
+
 void reset();
 
 //Camera
@@ -30,22 +31,22 @@ struct posCoord getTilePosFromId(int ID);
 int getFacingTileId();
 void landatu(int seed);
 void water(int tile);
-void marraztuTiles(SDL_Surface* aradoSurface, SDL_Surface* screenSurface);
+void marraztuTiles();
 void updateTiles(double deltaTime);
 
 //Inventory
-void marraztuInv(int inv, SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface);
+void marraztuInv(int inv);
 void updateInv(int inv);
 int checkHover();
-void marraztuInvTag(int inv, SDL_Surface* textua, SDL_Surface* screenSurface);
+void marraztuInvTag(int inv);
 int insertItem(int inv, struct Item item, int quantity, int pos);
 struct Item removeItemFromInv(int inv, int pos);
 struct Item pickHovering();
 void changeInv(int inv, int InvPos);
-void showStackSize(int inv, SDL_Surface* textua, SDL_Surface* screenSurface);
-void showInv(int inv, SDL_Surface* itemsSurface, SDL_Surface* screenSurface, SDL_Surface* textua, SDL_Surface* HUDSurface);
+void showStackSize(int inv);
+void showInv(int inv);
 int getHoveringInv();
-void marraztuHoveringItem(SDL_Surface* spriteSheetSurface, SDL_Surface* textua, SDL_Surface* screenSurface);
+void marraztuHoveringItem();
 void closeInvs();
 
 //Items

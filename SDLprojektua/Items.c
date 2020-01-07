@@ -56,7 +56,7 @@ void showDroppedItem(int index) {
 	clip.w = 64;
 	clip.h = 64;
 
-	aplikatuSurface(droppedItems[index].xPos - camera.x, droppedItems[index].yPos - camera.y, itemsSurface, screenSurface, &clip);
+	aplikatuSurface(droppedItems[index].xPos - camera.x, droppedItems[index].yPos - camera.y, surface[itemsSurface], surface[screenSurface], &clip);
 	return;
 }
 

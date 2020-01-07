@@ -1,4 +1,6 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(438,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  InputHandler.c
-D:\Docs\Uni\PBL\PBL\SDLprojektua\InputHandler.c(53,26): warning C4013:  'initGame' sin definir; se supone que extern devuelve como resultado int
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(445,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  Source.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(54,12): warning C4013: 'loadFiles' sin definir; se supone que extern devuelve como resultado int
+  tiles.c
+  Generando código...
   SDLprojektua.vcxproj -> D:\Docs\Uni\PBL\PBL\SDLprojektua\-\SDLprojektua.exe
