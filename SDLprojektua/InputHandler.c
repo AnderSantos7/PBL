@@ -126,6 +126,12 @@ void keyHandlerDown(SDL_Event e) {
 						break;
 					}
 				}
+				else if (player.canInteract) {
+					if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 2) {
+						inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[3];
+						inventories[INV_HOTBAR].items[player.hotbarSlot].quantity = 10;
+					}
+				}
 				break;
 			case SDL_SCANCODE_E:
 				switch (inventories[INV_PLAYER].open) {

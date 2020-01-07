@@ -86,6 +86,7 @@ struct Player {
 	double timer;
 	int hotbarSlot;
 	int frame;
+	int canInteract;
 	SDL_Rect clip;
 };
 extern struct Player player;

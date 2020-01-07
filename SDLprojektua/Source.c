@@ -68,7 +68,6 @@ int main(int argc, char* argv[]){
 	if (zabalik) {	
 		loadFiles();
 		renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
-
 		/*for (int i = 0; i < 49; i++) {
 			tiles[plantable_ID[i]].plant.arado = 1;
 		}*/
@@ -77,6 +76,7 @@ int main(int argc, char* argv[]){
 		printf("Ezin izan da hasieratu.");
 	}
 	while (zabalik) {
+		getDeltaTime();
 		SDL_Event e;
 		SDL_GetMouseState(&mousePos.x, &mousePos.y);
 		if (main_menu) {
@@ -97,14 +97,12 @@ int main(int argc, char* argv[]){
 			case PLAYING:
 				update(deltaTime);
 				marraztu();
-
 				SDL_UpdateWindowSurface(win);
-				getDeltaTime();
 				break;
 			case HOME:
 				update(deltaTime);
 				aplikatuSurface(0, 0, homeSurface, screenSurface, NULL);
-				drawPlayer(camera, playerSurface, screenSurface);
+				drawPlayer(camera, playerSurface, screenSurface, HUDSurface);
 				for (int i = 0; i < 3; i++) showInv(i, itemsSurface, screenSurface, textua, HUDSurface);
 				marraztuInvTag(getHoveringInv(), textua, screenSurface);
 				if (hoveringItem.ID != 0)marraztuHoveringItem(itemsSurface, textua, screenSurface);
@@ -114,6 +112,7 @@ int main(int argc, char* argv[]){
 			case PAUSE_HOME:
 				aplikatuSurface(0, 0, pauseSurface, screenSurface, NULL);
 				SDL_UpdateWindowSurface(win);
+				break;
 			case COLLOCATING:
 				player.timer += deltaTime;
 				reset();
@@ -193,6 +192,7 @@ void initGame() {
 void update(double deltaTime) {
 	updateTiles(deltaTime);
 	movePlayer(deltaTime);
+	checkPosibleInteraction();
 	
 	ordenatuDroppedItems();
 	pickUpItems();
@@ -208,10 +208,10 @@ void marraztu() {
 	marraztuDroppedItems(0);
 	if (player.y > 64 - 5) {
 		aplikatuSurface(0, 0, signSurface, screenSurface, &camera);
-		drawPlayer(camera, playerSurface, screenSurface);
+		drawPlayer(camera, playerSurface, screenSurface, HUDSurface);
 	}
 	else {
-		drawPlayer(camera, playerSurface, screenSurface);
+		drawPlayer(camera, playerSurface, screenSurface, HUDSurface);
 		aplikatuSurface(0, 0, signSurface, screenSurface, &camera);
 	}
 	marraztuDroppedItems(1);
@@ -245,12 +245,12 @@ void getDeltaTime() {
 }
 
 void reset() {
-	player.x = 2 * TILE_SIZE;
-	player.y = TILE_SIZE;
-	player.movingDown = 0;
-	player.movingRight = 0;
-	player.movingLeft = 0;
-	if (player.timer > 1000) {
+	if (player.timer > 0.5) {
+		player.x = 2 * TILE_SIZE;
+		player.y = TILE_SIZE;
+		player.movingDown = 0;
+		player.movingRight = 0;
+		player.movingLeft = 0;
 		marraztu();
 		player.timer = 0;
 		player.status = PLAYING;

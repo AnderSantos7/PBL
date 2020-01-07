@@ -3,6 +3,7 @@
 #include "funtzioak.h"
 #include "objektuak.h"
 #include <stdio.h>
+int checkInRange(int x, int y, int range);
 
 struct Player createPlayer() {
 	struct Player player;
@@ -22,6 +23,7 @@ struct Player createPlayer() {
 	player.frame = 0;
 	player.clip.w = 64;
 	player.clip.h = 128;
+	player.canInteract = 0;
 	return player;
 }
 
@@ -157,7 +159,7 @@ double animationTime = 0;
 void animatePlayer(double deltaTime) {
 	if (player.movingUp || player.movingDown || player.movingRight || player.movingLeft) {
 		animationTime += deltaTime;
-		if (animationTime >= 0.5)
+		if (animationTime >= 0.1)
 		{
 			player.frame++;
 			if (player.frame > 3)
@@ -179,7 +181,31 @@ void animatePlayer(double deltaTime) {
 	return;
 }
 
-void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface) {
+void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface, SDL_Surface* HUDSurface) {
 	aplikatuSurface(player.x - camera.x, player.y - camera.y, surface, screenSurface, &player.clip);
+	if (player.canInteract) {
+		SDL_Rect clip;
+		clip.x = 582;
+		clip.y = 210;
+		clip.w = 20;
+		clip.h = 20;
+		aplikatuSurface(player.x - camera.x + player.w, player.y - camera.y, HUDSurface, screenSurface, &clip);
+	}
+	return;
+}
+
+int checkInRange(int x, int y, int range) {
+	double p = (pow(((double)x), 2) / pow(range, 2)) + (pow((double)y, 2) / pow(range, 2));
+	return (p <= 1);
+}
+
+void checkPosibleInteraction() {
+	int x = 896, y = 768;
+	if (checkInRange(x - player.x, y - player.y, 100)) {
+		player.canInteract = 1;
+	}
+	else {
+		player.canInteract = 0;
+	}
 	return;
 }
