@@ -73,7 +73,7 @@ void dropItem() {
 
 void pickUpItems() {
 	for (int i = 0; i < droppedLength; i++) {
-		if (checkInRange(i)) {
+		if (checkInRange(droppedItems[i].xPos - player.x, droppedItems[i].yPos - player.y - 64, playerPickRange)) {
 			if (!insertItem(INV_HOTBAR, droppedItems[i], droppedItems[i].quantity, -1)) {
 				if (insertItem(INV_PLAYER, droppedItems[i], droppedItems[i].quantity, -1)) {
 					sweepFloor(i);
@@ -86,11 +86,6 @@ void pickUpItems() {
 		}
 	}
 	return;
-}
-
-int checkInRange(int i) {
-	double p = (pow(((double)droppedItems[i].xPos - player.x), 2) / pow(playerPickRange, 2)) + (pow((double)droppedItems[i].yPos - player.y - 64, 2) / pow(playerPickRange, 2));
-	return (p <= 1);
 }
 
 void sweepFloor(int i) {

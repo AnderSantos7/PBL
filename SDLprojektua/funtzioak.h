@@ -3,9 +3,9 @@
 //Player
 struct Player createPlayer();
 void movePlayer(double deltaTime);
-void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface);
+void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface, SDL_Surface* HUDSurface);
 void animatePlayer(double deltaTime);
-
+void checkPosibleInteraction();
 void reset();
 
 //Camera
@@ -54,6 +54,5 @@ void marraztuDroppedItems(int ordena);
 void showDroppedItem(int index);
 void dropItem();
 void pickUpItems();
-int checkInRange(int i);
 void sweepFloor(int i);
 #endif
