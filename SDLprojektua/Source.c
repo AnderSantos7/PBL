@@ -90,6 +90,7 @@ int main(int argc, char* argv[]) {
 			case HOME:
 				update(deltaTime);
 				aplikatuSurface(0, 0, surface[homeSurface], surface[screenSurface], NULL);
+				checkPosibleInteraction();
 				drawPlayer();
 				for (int i = 0; i < 3; i++) showInv(i);
 				marraztuInvTag(getHoveringInv());

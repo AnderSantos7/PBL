@@ -98,32 +98,35 @@ void marraztuTiles() {
 
 void updateTiles(double deltaTime) {
 	for (int i = 0; i < 49; i++) {
-		if (tiles[plantable_ID[i]].plant.seed != NONE) {
-			tiles[plantable_ID[i]].plant.time += deltaTime;
-			if (tiles[plantable_ID[i]].plant.time > 50) {
-				if (tiles[plantable_ID[i]].plant.time > 100) {
-					tiles[plantable_ID[i]].plant.stage = 2;
+		if (tiles[plantable_ID[i]].plant.arado) {
+			if (tiles[plantable_ID[i]].plant.seed != NONE) {
+				tiles[plantable_ID[i]].plant.time += deltaTime;
+				if (tiles[plantable_ID[i]].plant.time > 50) {
+					if (tiles[plantable_ID[i]].plant.time > 100) {
+						tiles[plantable_ID[i]].plant.stage = 2;
+					}
+					else {
+						tiles[plantable_ID[i]].plant.stage = 1;
+					}
 				}
-				else {
-					tiles[plantable_ID[i]].plant.stage = 1;
+			}
+			if (tiles[plantable_ID[i]].plant.water) {
+				tiles[plantable_ID[i]].plant.lastWater += deltaTime;
+				if (tiles[plantable_ID[i]].plant.lastWater > 50) {
+					tiles[plantable_ID[i]].plant.water = 0;
+					tiles[plantable_ID[i]].plant.lastWater = 0;
+				}
+			}
+			else if (!tiles[plantable_ID[i]].plant.water) {
+				tiles[plantable_ID[i]].plant.lastWater += deltaTime;
+				if (tiles[plantable_ID[i]].plant.lastWater >= 100) {
+					tiles[plantable_ID[i]].plant.time = 0;
+					tiles[plantable_ID[i]].plant.seed = NONE;
+					tiles[plantable_ID[i]].plant.arado = 0;
+					tiles[plantable_ID[i]].plant.lastWater = 0;
+					tiles[plantable_ID[i]].plant.stage = 0;
 				}
 			}
 		}
-		if (tiles[plantable_ID[i]].plant.water) {
-			tiles[plantable_ID[i]].plant.lastWater += deltaTime;
-			if (tiles[plantable_ID[i]].plant.lastWater > 50) {
-				tiles[plantable_ID[i]].plant.water = NONE;
-			}
-		}
-		else if (!tiles[plantable_ID[i]].plant.water) {
-			tiles[plantable_ID[i]].plant.lastWater += deltaTime;
-			if (tiles[plantable_ID[i]].plant.lastWater > 100) {
-				tiles[plantable_ID[i]].plant.time = NONE;
-				tiles[plantable_ID[i]].plant.seed = NONE;
-				tiles[plantable_ID[i]].plant.arado = NONE;
-				tiles[plantable_ID[i]].plant.lastWater = NONE;
-				tiles[plantable_ID[i]].plant.stage = NONE;
-			}
-		}
-	}
+		}	
 }

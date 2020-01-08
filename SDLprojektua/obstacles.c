@@ -1,0 +1,16 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include "SDL.h"
+#include "SDL_image.h"
+#include "funtzioak.h"
+#include "objektuak.h"
+
+struct Obstacle obstaclesOutside[] = {
+	{832, 800, 100, 40}, //Pozo
+	{0, 0, 256, 192}, //Casa
+	{836, 132, 60, 62} //Cartel
+};
+
+struct Obstacle obstaclesInside[] = {
+	{0, 0, 100, 160}, //Cama
+	{300, 0, 64, 64}, //Cofre tmp
+};

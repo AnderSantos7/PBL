@@ -98,7 +98,6 @@ void movePlayer(double deltaTime) {
 	}
 	//DENTRO DE CASA
 	else if (player.status == HOME) {
-
 		if (player.movingRight) {
 			player.x += (int)(player.speed * deltaTime * multiplier);
 
@@ -181,10 +180,10 @@ void animatePlayer(double deltaTime) {
 
 void drawPlayer() {
 	aplikatuSurface(player.x - camera.x, player.y - camera.y, surface[playerSurface], surface[screenSurface], &player.clip);
-	if (player.canInteract) {
+	if (player.canInteract != -1) {
 		SDL_Rect clip;
 		clip.x = 582;
-		clip.y = 210;
+		clip.y = 208;
 		clip.w = 20;
 		clip.h = 20;
 		aplikatuSurface(player.x - camera.x + player.w, player.y - camera.y, surface[HUDSurface], surface[screenSurface], &clip);
@@ -198,12 +197,27 @@ int checkInRange(int x, int y, int range) {
 }
 
 void checkPosibleInteraction() {
-	int x = 896, y = 768;
-	if (checkInRange(x - player.x, y - player.y, 100)) {
-		player.canInteract = 1;
+	int i = 0, finished = 0, range = 100;
+	player.canInteract = -1;
+	switch(player.status) {
+	case PLAYING:
+		while (player.canInteract == -1 && i < 3) {
+			if (checkInRange(obstaclesOutside[i].x + obstaclesOutside[i].w / 2 - player.x, obstaclesOutside[i].y + obstaclesOutside[i].h / 2 - player.y, range)) {
+				player.canInteract = i;
+				finished = 1;
+			}
+			i++;
+		}
+	case HOME:
+		while (player.canInteract  == -1 && i < 2) {
+			if (checkInRange(obstaclesInside[i].x + obstaclesInside[i].w / 2 - player.x, obstaclesInside[i].y + obstaclesInside[i].h / 2 - player.y, range)) {
+				player.canInteract = i;
+				finished = 1;
+			}
+			i++;
+		}
+		if (player.canInteract == -1 && inventories[INV_CHEST].open) inventories[INV_CHEST].open = 0;
 	}
-	else {
-		player.canInteract = 0;
-	}
+
 	return;
 }

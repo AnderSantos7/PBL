@@ -140,6 +140,7 @@
     <ClCompile Include="Inventory.c" />
     <ClCompile Include="Items.c" />
     <ClCompile Include="MediaHandler.c" />
+    <ClCompile Include="obstacles.c" />
     <ClCompile Include="player.c" />
     <ClCompile Include="Source.c" />
     <ClCompile Include="tiles.c" />

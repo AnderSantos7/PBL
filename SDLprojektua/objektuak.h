@@ -91,6 +91,18 @@ struct Player {
 };
 extern struct Player player;
 
+struct Obstacle {
+	int x;
+	int y;
+	int w;
+	int h;
+	int sheetPosX;
+	int sheetPosY;
+};
+
+extern struct Obstacle obstaclesOutside[];
+extern struct Obstacle obstaclesInside[];
+
 extern SDL_Rect camera;
 enum facingDirection { DIR_DOWN, DIR_UP, DIR_LEFT, DIR_RIGHT };
 enum status { PLAYING, HOME, PAUSE, PAUSE_HOME, SLEEPING, COLLOCATING };
