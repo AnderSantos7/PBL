@@ -1,6 +1,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"
+#include "SDL_mixer.h"
 #include "funtzioak.h"
 #include "objektuak.h"
 #include <stdio.h>
@@ -12,7 +13,6 @@ int init();
 void close();
 void update(double deltaTime);
 void getDeltaTime();
-void loadFiles();
 void initGame();
 
 const int SCREEN_WIDTH = 640;
@@ -40,35 +40,21 @@ struct Inventory inventories[3] = { {
 	0, 35, 90, 2, 9, 64, 0, 70, 20
 	},
 	{
-	0, 35, 20, 3, 9, 64, 0, 221, 20
+	0, 35, 240, 3, 9, 64, 0, 221, 20
 	}
 };
 
 SDL_Window* win = NULL;
 SDL_Renderer* renderer = NULL;
-//player + GUI surface
-SDL_Surface* playerSurface = NULL;
-SDL_Surface* screenSurface = NULL;
-SDL_Surface* bgSurface = NULL;
-SDL_Surface* tilesS = NULL;
-SDL_Surface* signSurface = NULL;
-SDL_Surface* fenceSurface = NULL;
-SDL_Surface* cowSurface = NULL;
-SDL_Surface* pigSurface = NULL;
-SDL_Surface* pauseSurface = NULL;
-SDL_Surface* homeSurface = NULL;
-SDL_Surface* itemsSurface = NULL;
-SDL_Surface* spriteSheetTest = NULL;
-SDL_Surface* textua = NULL;
-SDL_Surface* HUDSurface = NULL;
 
-int main(int argc, char* argv[]){
+int main(int argc, char* argv[]) {
 	int zabalik = init();
 
-	if (zabalik) {	
+	if (zabalik) {
 		loadFiles();
 		renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
-
+		Mix_Music* music = Mix_LoadMUS("assets/sounds/test.wav");
+		Mix_PlayMusic(music, 1);
 		/*for (int i = 0; i < 49; i++) {
 			tiles[plantable_ID[i]].plant.arado = 1;
 		}*/
@@ -77,6 +63,7 @@ int main(int argc, char* argv[]){
 		printf("Ezin izan da hasieratu.");
 	}
 	while (zabalik) {
+		getDeltaTime();
 		SDL_Event e;
 		SDL_GetMouseState(&mousePos.x, &mousePos.y);
 		if (main_menu) {
@@ -86,10 +73,11 @@ int main(int argc, char* argv[]){
 			SDL_Rect clip = { 582, 64, 64, 48 };
 			for (int i = 0; i < 3; i++) {
 				clip.y = 64 + 48 * i;
-				aplikatuSurface(64 + 128 * i, 120, HUDSurface, screenSurface, &clip);
+				aplikatuSurface(64 + 128 * i, 120, surface[HUDSurface], surface[screenSurface], &clip);
 				SDL_UpdateWindowSurface(win);
 			}
-		}else {
+		}
+		else {
 			while (SDL_PollEvent(&e) > 0 && e.type) {
 				zabalik = inputHandler(e);
 			}
@@ -97,23 +85,22 @@ int main(int argc, char* argv[]){
 			case PLAYING:
 				update(deltaTime);
 				marraztu();
-
 				SDL_UpdateWindowSurface(win);
-				getDeltaTime();
 				break;
 			case HOME:
 				update(deltaTime);
-				aplikatuSurface(0, 0, homeSurface, screenSurface, NULL);
-				drawPlayer(camera, playerSurface, screenSurface);
-				for (int i = 0; i < 3; i++) showInv(i, itemsSurface, screenSurface, textua, HUDSurface);
-				marraztuInvTag(getHoveringInv(), textua, screenSurface);
-				if (hoveringItem.ID != 0)marraztuHoveringItem(itemsSurface, textua, screenSurface);
+				aplikatuSurface(0, 0, surface[homeSurface], surface[screenSurface], NULL);
+				drawPlayer();
+				for (int i = 0; i < 3; i++) showInv(i);
+				marraztuInvTag(getHoveringInv());
+				if (hoveringItem.ID != 0)marraztuHoveringItem();
 				SDL_UpdateWindowSurface(win);
 				break;
 			case PAUSE:
 			case PAUSE_HOME:
-				aplikatuSurface(0, 0, pauseSurface, screenSurface, NULL);
+				aplikatuSurface(0, 0, surface[pauseSurface], surface[screenSurface], NULL);
 				SDL_UpdateWindowSurface(win);
+				break;
 			case COLLOCATING:
 				player.timer += deltaTime;
 				reset();
@@ -130,7 +117,7 @@ int init() {
 	int imgFlags = IMG_INIT_PNG;
 
 	//Hasieratu SDL
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0){
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		printf("SDL ez da hasieratu. SDL_Error: %s\n", SDL_GetError());
 		success = 0;
 	}
@@ -142,7 +129,7 @@ int init() {
 			success = 0;
 		}
 		else {
-			screenSurface = SDL_GetWindowSurface(win);
+			surface[screenSurface] = SDL_GetWindowSurface(win);
 		}
 	}
 
@@ -156,21 +143,26 @@ int init() {
 		printf("SDL_ttf ez da hasieratu. SDL_ttf Error: %s\n", TTF_GetError());
 		success = 0;
 	}
+	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+	{
+		printf("SDL_mixer ez da hasieratu. SDL_mixer Error: %s\n", Mix_GetError());
+		success = 0;
+	}
 	return success;
 }
 
 void close() {
-	SDL_FreeSurface(playerSurface);
-	playerSurface = NULL;
-	SDL_FreeSurface(bgSurface);
-	bgSurface = NULL;
+	SDL_FreeSurface(surface[playerSurface]);
+	surface[playerSurface] = NULL;
+	SDL_FreeSurface(surface[bgSurface]);
+	surface[bgSurface] = NULL;
 
 	SDL_DestroyWindow(win);
 	win = NULL;
 	IMG_Quit();
 	TTF_Quit();
 	SDL_Quit();
-} 
+}
 
 void initGame() {
 	for (int i = 0; i < 256; i++) {
@@ -193,49 +185,37 @@ void initGame() {
 void update(double deltaTime) {
 	updateTiles(deltaTime);
 	movePlayer(deltaTime);
-	
+	checkPosibleInteraction();
+
+
 	ordenatuDroppedItems();
 	pickUpItems();
-	if(player.status == PLAYING) camera = centerCameraInPlayer(camera);
+	if (player.status == PLAYING) camera = centerCameraInPlayer(camera);
 	player.facingTile = getFacingTileId();
 	checkHover();
 	animatePlayer(deltaTime);
 }
 
 void marraztu() {
-	aplikatuSurface(0, 0, bgSurface, screenSurface, &camera);
-	marraztuTiles(spriteSheetTest, screenSurface);
+	aplikatuSurface(0, 0, surface[bgSurface], surface[screenSurface], &camera);
+	marraztuTiles(surface[plantsSurface], surface[screenSurface]);
 	marraztuDroppedItems(0);
 	if (player.y > 64 - 5) {
-		aplikatuSurface(0, 0, signSurface, screenSurface, &camera);
-		drawPlayer(camera, playerSurface, screenSurface);
+		aplikatuSurface(0, 0, surface[signSurface], surface[screenSurface], &camera);
+		drawPlayer();
 	}
 	else {
-		drawPlayer(camera, playerSurface, screenSurface);
-		aplikatuSurface(0, 0, signSurface, screenSurface, &camera);
+		drawPlayer();
+		aplikatuSurface(0, 0, surface[signSurface], surface[screenSurface], &camera);
 	}
 	marraztuDroppedItems(1);
-	aplikatuSurface(0, 0, fenceSurface, screenSurface, &camera);
-	aplikatuSurface(TILE_SIZE, 9 * TILE_SIZE, cowSurface, bgSurface, NULL);
-	aplikatuSurface(TILE_SIZE * 2, 13 * TILE_SIZE, pigSurface, bgSurface, NULL);
-	for (int i = 0; i < 2; i++) showInv(i, itemsSurface, screenSurface, textua, HUDSurface);
-	marraztuInvTag(getHoveringInv(), textua, screenSurface);
-	if(hoveringItem.ID != 0)marraztuHoveringItem(itemsSurface, textua, screenSurface);
+	aplikatuSurface(0, 0, surface[fenceSurface], surface[screenSurface], &camera);
+	aplikatuSurface(TILE_SIZE, 9 * TILE_SIZE, surface[cowSurface], surface[bgSurface], NULL);
+	aplikatuSurface(TILE_SIZE * 2, 13 * TILE_SIZE, surface[pigSurface], surface[bgSurface], NULL);
+	for (int i = 0; i < 2; i++) showInv(i);
+	marraztuInvTag(getHoveringInv());
+	if (hoveringItem.ID != 0)marraztuHoveringItem();
 	return;
-}
-
-void loadFiles() {
-	bgSurface = loadMedia("assets/images/bg.png");
-	signSurface = loadMedia("assets/images/sign.png");
-	fenceSurface = loadMedia("assets/images/fence.png");
-	playerSurface = loadMedia("assets/images/player.png");
-	cowSurface = loadMedia("assets/images/cow.png");
-	pigSurface = loadMedia("assets/images/pig.png");
-	pauseSurface = loadMedia("assets/images/pause.png");
-	homeSurface = loadMedia("assets/images/home.png");
-	itemsSurface = loadMedia("assets/images/items.png");
-	spriteSheetTest = loadMedia("assets/images/sprite.png");
-	HUDSurface = loadMedia("assets/images/HUD.png");
 }
 
 void getDeltaTime() {
@@ -245,12 +225,12 @@ void getDeltaTime() {
 }
 
 void reset() {
-	player.x = 2 * TILE_SIZE;
-	player.y = TILE_SIZE;
-	player.movingDown = 0;
-	player.movingRight = 0;
-	player.movingLeft = 0;
-	if (player.timer > 1000) {
+	if (player.timer > 0.5) {
+		player.x = 2 * TILE_SIZE;
+		player.y = TILE_SIZE;
+		player.movingDown = 0;
+		player.movingRight = 0;
+		player.movingLeft = 0;
 		marraztu();
 		player.timer = 0;
 		player.status = PLAYING;

@@ -4,9 +4,11 @@
 #include "objektuak.h"
 #include <stdio.h>
 
+int checkInRange(int x, int y, int range);
+
 struct Player createPlayer() {
 	struct Player player;
-	player.x = 64*2;
+	player.x = 64 * 2;
 	player.y = 64;
 	player.w = TILE_SIZE;
 	player.h = 2 * TILE_SIZE;
@@ -22,6 +24,7 @@ struct Player createPlayer() {
 	player.frame = 0;
 	player.clip.w = 64;
 	player.clip.h = 128;
+	player.canInteract = 0;
 	return player;
 }
 
@@ -31,7 +34,7 @@ void movePlayer(double deltaTime) {
 
 	player.tile = getTileFromPos(player.x + player.w / 2, player.y + 2 * TILE_SIZE);
 	if (player.status == PLAYING) {
-		while (!bidean && i < 33){
+		while (!bidean && i < 33) {
 			if (tiles[camino_ID[i]].x * TILE_SIZE < player.x + player.w - 20 &&
 				tiles[camino_ID[i]].x * TILE_SIZE + TILE_SIZE > player.x + 20 &&
 				tiles[camino_ID[i]].y * TILE_SIZE < player.y + 2 * TILE_SIZE &&
@@ -75,9 +78,6 @@ void movePlayer(double deltaTime) {
 				if (player.x + 32 > 64 * 2 && player.x + 32 < 64 * 3) {
 					player.status = HOME;
 					closeInvs();
-					inventories[INV_PLAYER].yPos = SCREEN_HEIGHT - inventories[INV_PLAYER].slotSize * 3 - 9;
-					inventories[INV_HOTBAR].yPos = SCREEN_HEIGHT - inventories[INV_HOTBAR].slotSize - 3;
-					closeInvs();
 					player.y = 480 - 64 * 2;
 					player.x = 375;
 				}
@@ -100,7 +100,7 @@ void movePlayer(double deltaTime) {
 	else if (player.status == HOME) {
 
 		if (player.movingRight) {
-			player.x += player.speed * deltaTime * 0.8;
+			player.x += (int)(player.speed * deltaTime * multiplier);
 
 			if (player.x > 640 - 64) {
 				player.x = 640 - 64;
@@ -108,11 +108,11 @@ void movePlayer(double deltaTime) {
 			else if (player.x > 449 - 64 && player.y > 445 - 2 * 64) {
 				player.x = 449 - 64;
 			}
-		
+
 		}
 
 		if (player.movingLeft) {
-			player.x -= player.speed * deltaTime * 0.8;
+			player.x -= (int)(player.speed * deltaTime * multiplier);
 
 			if (player.y < 64 && player.x < 100) {
 				player.x = 100;
@@ -126,7 +126,7 @@ void movePlayer(double deltaTime) {
 		}
 
 		if (player.movingUp) {
-			player.y -= player.speed * deltaTime * 0.8;
+			player.y -= (int)(player.speed * deltaTime * multiplier);
 
 			if (player.y < 64 && player.x < 100) {
 				player.y = 64;
@@ -137,7 +137,7 @@ void movePlayer(double deltaTime) {
 		}
 
 		if (player.movingDown) {
-			player.y += player.speed * deltaTime * 0.8;
+			player.y += (int)(player.speed * deltaTime * multiplier);
 
 			if (player.y > 445 - 64 * 2 && player.x > 352 - 20 && player.x < 449 - 44) {
 				if (player.y > 480 - 64 * 2) {
@@ -145,8 +145,8 @@ void movePlayer(double deltaTime) {
 					closeInvs();
 				}
 			}
-			else if (player.y > 445 - 64*2) {
-				player.y = 445 - 64*2;
+			else if (player.y > 445 - 64 * 2) {
+				player.y = 445 - 64 * 2;
 			}
 		}
 	}
@@ -157,7 +157,7 @@ double animationTime = 0;
 void animatePlayer(double deltaTime) {
 	if (player.movingUp || player.movingDown || player.movingRight || player.movingLeft) {
 		animationTime += deltaTime;
-		if (animationTime >= 0.5)
+		if (animationTime >= 0.1)
 		{
 			player.frame++;
 			if (player.frame > 3)
@@ -172,14 +172,38 @@ void animatePlayer(double deltaTime) {
 		}
 		player.clip.y = player.facingDirection * 128;
 	}
-	else if(player.clip.x != 64){
+	else if (player.clip.x != 64) {
 		player.clip.x = 64;
 		animationTime = 0;
 	}
 	return;
 }
 
-void drawPlayer(SDL_Rect camera, SDL_Surface* surface, SDL_Surface* screenSurface) {
-	aplikatuSurface(player.x - camera.x, player.y - camera.y, surface, screenSurface, &player.clip);
+void drawPlayer() {
+	aplikatuSurface(player.x - camera.x, player.y - camera.y, surface[playerSurface], surface[screenSurface], &player.clip);
+	if (player.canInteract) {
+		SDL_Rect clip;
+		clip.x = 582;
+		clip.y = 210;
+		clip.w = 20;
+		clip.h = 20;
+		aplikatuSurface(player.x - camera.x + player.w, player.y - camera.y, surface[HUDSurface], surface[screenSurface], &clip);
+	}
+	return;
+}
+
+int checkInRange(int x, int y, int range) {
+	double p = (pow(((double)x), 2) / pow(range, 2)) + (pow((double)y, 2) / pow(range, 2));
+	return (p <= 1);
+}
+
+void checkPosibleInteraction() {
+	int x = 896, y = 768;
+	if (checkInRange(x - player.x, y - player.y, 100)) {
+		player.canInteract = 1;
+	}
+	else {
+		player.canInteract = 0;
+	}
 	return;
 }

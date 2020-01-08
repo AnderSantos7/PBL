@@ -4,8 +4,8 @@
 extern const int SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE, GRID_SIZE, LEVEL_SIZE;
 
 extern SDL_Window* win;
-extern SDL_Surface* itemsSurface;
-extern SDL_Surface* screenSurface;
+SDL_Surface* surface[14];
+enum surface { screenSurface, bgSurface, playerSurface, itemsSurface, plantsSurface, textua, pauseSurface, HUDSurface, homeSurface, fenceSurface, cowSurface, pigSurface, signSurface, extraSurface };
 
 extern int main_menu, language;
 
@@ -39,8 +39,8 @@ struct Inventory {
 };
 
 extern struct Inventory inventories[];
-enum INVENTORIES {INV_HOTBAR, INV_PLAYER, INV_CHEST};
-enum LANGUAGES {EUS, ESP, ENG};
+enum INVENTORIES { INV_HOTBAR, INV_PLAYER, INV_CHEST };
+enum LANGUAGES { EUS, ESP, ENG };
 struct posCoord {
 	int x;
 	int y;
@@ -48,7 +48,7 @@ struct posCoord {
 
 extern struct posCoord mousePos;
 
-enum Seed {NONE, CALABAZA, TOMATE};
+enum Seed { NONE, CALABAZA, TOMATE };
 
 struct Plant {
 	int seed;
@@ -86,13 +86,12 @@ struct Player {
 	double timer;
 	int hotbarSlot;
 	int frame;
+	int canInteract;
 	SDL_Rect clip;
 };
 extern struct Player player;
 
 extern SDL_Rect camera;
 enum facingDirection { DIR_DOWN, DIR_UP, DIR_LEFT, DIR_RIGHT };
-enum status { PLAYING, HOME, PAUSE, PAUSE_HOME, SLEEPING, COLLOCATING};
-extern SDL_Surface* homeSurface;
-extern SDL_Surface* playerSurface;
+enum status { PLAYING, HOME, PAUSE, PAUSE_HOME, SLEEPING, COLLOCATING };
 #endif

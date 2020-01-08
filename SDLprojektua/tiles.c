@@ -6,7 +6,7 @@
 
 int i = 0;
 
-void landatu(int seed){
+void landatu(int seed) {
 	if (tiles[player.facingTile].plant.arado && tiles[player.facingDirection].plant.seed == NONE) {
 		tiles[player.facingTile].plant.seed = seed;
 	}
@@ -67,13 +67,13 @@ int getTileFromPos(int x, int y) {
 	return ID;
 }
 
-void marraztuTiles(SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface){
+void marraztuTiles() {
 	int i = 0;
 	SDL_Rect pos;
 	SDL_Rect clip;
 	clip.w = TILE_SIZE;
 	clip.h = TILE_SIZE;
-	for (i = 0; i < 49; i++){
+	for (i = 0; i < 49; i++) {
 		pos.x = tiles[plantable_ID[i]].x * TILE_SIZE;
 		pos.y = tiles[plantable_ID[i]].y * TILE_SIZE;
 		if (tiles[plantable_ID[i]].plant.arado) {
@@ -86,12 +86,12 @@ void marraztuTiles(SDL_Surface* spriteSheetSurface, SDL_Surface* screenSurface){
 				clip.x = (tiles[plantable_ID[i]].plant.stage + 3 * tiles[plantable_ID[i]].plant.water) * TILE_SIZE;
 				clip.y = tiles[plantable_ID[i]].plant.seed * TILE_SIZE;
 			}
-			aplikatuSurface(pos.x - camera.x, pos.y - camera.y, spriteSheetSurface, screenSurface, &clip);
+			aplikatuSurface(pos.x - camera.x, pos.y - camera.y, surface[plantsSurface], surface[screenSurface], &clip);
 		}
 		if (plantable_ID[i] == player.facingTile) {
 			clip.x = 2 * TILE_SIZE;
 			clip.y = 0;
-			aplikatuSurface(pos.x - camera.x, pos.y - camera.y, spriteSheetSurface, screenSurface, &clip);
+			aplikatuSurface(pos.x - camera.x, pos.y - camera.y, surface[plantsSurface], surface[screenSurface], &clip);
 		}
 	}
 }

@@ -56,7 +56,7 @@ struct JSON_Items parseItem(int line) {
 	FILE* fp = fopen(src, "r");
 	char buff[256];
 	int i = 1;
-	struct JSON_Items itemData = {0, 0, 0, 0, 0};
+	struct JSON_Items itemData = { 0, 0, 0, 0, 0 };
 	fgets(buff, 256, fp);
 	while (i <= line && feof(fp) == 0) {
 		fgets(buff, 256, fp);
