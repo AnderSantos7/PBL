@@ -30,6 +30,7 @@ int getTileFromPos(int x, int y);
 struct posCoord getTilePosFromId(int ID);
 int getFacingTileId();
 void landatu(int seed);
+void harvest(int tile);
 void water(int tile);
 void marraztuTiles();
 void updateTiles(double deltaTime);
@@ -53,7 +54,8 @@ void closeInvs();
 void ordenatuDroppedItems();
 void marraztuDroppedItems(int ordena);
 void showDroppedItem(int index);
-void dropItem();
+void dropHoveringItem();
+void dropItem(int tile, int item, int ammount);
 void pickUpItems();
 void sweepFloor(int i);
 #endif

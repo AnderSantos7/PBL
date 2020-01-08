@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
 		loadFiles();
 		renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 		Mix_Music* music = Mix_LoadMUS("assets/sounds/test.wav");
-		Mix_PlayMusic(music, 1);
+		//Mix_PlayMusic(music, 1);
 		/*for (int i = 0; i < 49; i++) {
 			tiles[plantable_ID[i]].plant.arado = 1;
 		}*/

@@ -235,7 +235,9 @@ void mouseHandlerDown(SDL_Event e) {
 							if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot].ID = 0;
 						}
 					}
-					if (hoveringItem.ID == 3) {
+					if (tiles[player.facingTile].plant.seed != 0 && tiles[player.facingTile].plant.stage == 2) {
+						harvest(player.facingTile);
+					}else if (hoveringItem.ID == 3) {
 						water(player.facingTile);
 						hoveringItem.quantity--;
 						if (hoveringItem.quantity < 1) hoveringItem = itemPresets[2];
@@ -248,7 +250,7 @@ void mouseHandlerDown(SDL_Event e) {
 					tiles[player.facingTile].plant.arado = 1;
 				}
 			}else {
-				dropItem();
+				dropHoveringItem();
 			}
 		}
 		break;

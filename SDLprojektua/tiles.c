@@ -3,8 +3,12 @@
 #include "funtzioak.h"
 #include "objektuak.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int i = 0;
+
+void updatePlants(int i, double deltaTime);
+void updateWater(int i, double deltaTime);
 
 void landatu(int seed) {
 	if (tiles[player.facingTile].plant.arado && tiles[player.facingDirection].plant.seed == NONE) {
@@ -26,6 +30,25 @@ void landatu(int seed) {
 	//	tiles[player.facingTile].plant.lastWater = NONE;
 	//	tiles[player.facingTile].plant.water = 1;
 	//}
+}
+
+void harvest(int tile) {
+	if (tiles[tile].plant.seed != 0 && tiles[tile].plant.stage == 2) {
+		int seedAmmount = 0, harvest = 0, seed = 0;
+		seedAmmount = rand() % 3 + 1;
+		switch (tiles[tile].plant.seed) {
+		case CALABAZA: harvest = 4;
+			break;
+		case TOMATE: harvest = 6;
+			break;
+		}
+		seed = harvest + 1;
+		dropItem(tile, seed, seedAmmount);
+		dropItem(tile, harvest, 1);
+		tiles[tile].plant.seed = NONE;
+		tiles[tile].plant.stage = 0;
+		tiles[tile].plant.time = 0;
+	}
 }
 
 void water(int tile) {
@@ -99,34 +122,44 @@ void marraztuTiles() {
 void updateTiles(double deltaTime) {
 	for (int i = 0; i < 49; i++) {
 		if (tiles[plantable_ID[i]].plant.arado) {
-			if (tiles[plantable_ID[i]].plant.seed != NONE) {
-				tiles[plantable_ID[i]].plant.time += deltaTime;
-				if (tiles[plantable_ID[i]].plant.time > 50) {
-					if (tiles[plantable_ID[i]].plant.time > 100) {
-						tiles[plantable_ID[i]].plant.stage = 2;
-					}
-					else {
-						tiles[plantable_ID[i]].plant.stage = 1;
-					}
-				}
+			updatePlants(i, deltaTime);
+			updateWater(i, deltaTime);
+		}
+	}
+	return;
+}
+
+void updatePlants(int i, double deltaTime) {
+	if (tiles[plantable_ID[i]].plant.seed != NONE) {
+		tiles[plantable_ID[i]].plant.time += deltaTime;
+		if (tiles[plantable_ID[i]].plant.time > 50) {
+			if (tiles[plantable_ID[i]].plant.time > 100) {
+				tiles[plantable_ID[i]].plant.stage = 2;
 			}
-			if (tiles[plantable_ID[i]].plant.water) {
-				tiles[plantable_ID[i]].plant.lastWater += deltaTime;
-				if (tiles[plantable_ID[i]].plant.lastWater > 50) {
-					tiles[plantable_ID[i]].plant.water = 0;
-					tiles[plantable_ID[i]].plant.lastWater = 0;
-				}
-			}
-			else if (!tiles[plantable_ID[i]].plant.water) {
-				tiles[plantable_ID[i]].plant.lastWater += deltaTime;
-				if (tiles[plantable_ID[i]].plant.lastWater >= 100) {
-					tiles[plantable_ID[i]].plant.time = 0;
-					tiles[plantable_ID[i]].plant.seed = NONE;
-					tiles[plantable_ID[i]].plant.arado = 0;
-					tiles[plantable_ID[i]].plant.lastWater = 0;
-					tiles[plantable_ID[i]].plant.stage = 0;
-				}
+			else {
+				tiles[plantable_ID[i]].plant.stage = 1;
 			}
 		}
-		}	
+	}
+	return;
+}
+
+void updateWater(int i, double deltaTime) {
+	if (tiles[plantable_ID[i]].plant.water) {
+		tiles[plantable_ID[i]].plant.lastWater += deltaTime;
+		if (tiles[plantable_ID[i]].plant.lastWater > 50) {
+			tiles[plantable_ID[i]].plant.water = 0;
+			tiles[plantable_ID[i]].plant.lastWater = 0;
+		}
+	}else if (!tiles[plantable_ID[i]].plant.water) {
+		tiles[plantable_ID[i]].plant.lastWater += deltaTime;
+		if (tiles[plantable_ID[i]].plant.lastWater >= 100) {
+			tiles[plantable_ID[i]].plant.time = 0;
+			tiles[plantable_ID[i]].plant.seed = NONE;
+			tiles[plantable_ID[i]].plant.arado = 0;
+			tiles[plantable_ID[i]].plant.lastWater = 0;
+			tiles[plantable_ID[i]].plant.stage = 0;
+		}
+	}
+	return;
 }

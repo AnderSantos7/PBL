@@ -60,7 +60,7 @@ void showDroppedItem(int index) {
 	return;
 }
 
-void dropItem() {
+void dropHoveringItem() {
 	if (hoveringItem.ID != 0 && hoveringItem.quantity > 0) {
 		droppedItems[droppedLength] = hoveringItem;
 		droppedItems[droppedLength].xPos = player.x;
@@ -68,6 +68,15 @@ void dropItem() {
 		droppedLength++;
 		hoveringItem.ID = 0;
 	}
+	return;
+}
+
+void dropItem(int tile, int item, int ammount) {
+	droppedItems[droppedLength] = itemPresets[item];
+	droppedItems[droppedLength].xPos = tiles[tile].x * 64;
+	droppedItems[droppedLength].yPos = tiles[tile].y * 64;
+	droppedItems[droppedLength].quantity = ammount;
+	droppedLength++;
 	return;
 }
 
