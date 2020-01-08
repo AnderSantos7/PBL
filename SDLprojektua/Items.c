@@ -80,7 +80,8 @@ void dropItem(int tile, int item, int ammount) {
 	return;
 }
 
-void pickUpItems() {
+int pickUpItems() {
+	int picked = 0;
 	for (int i = 0; i < droppedLength; i++) {
 		if (checkInRange(droppedItems[i].xPos - player.x, droppedItems[i].yPos - player.y - 64, playerPickRange)) {
 			if (!insertItem(INV_HOTBAR, droppedItems[i], droppedItems[i].quantity, -1)) {
@@ -91,10 +92,11 @@ void pickUpItems() {
 			else {
 				sweepFloor(i);
 			}
+			picked = 1;
 			i--;
 		}
 	}
-	return;
+	return picked;
 }
 
 void sweepFloor(int i) {

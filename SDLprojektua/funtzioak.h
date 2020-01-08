@@ -56,6 +56,6 @@ void marraztuDroppedItems(int ordena);
 void showDroppedItem(int index);
 void dropHoveringItem();
 void dropItem(int tile, int item, int ammount);
-void pickUpItems();
+int pickUpItems();
 void sweepFloor(int i);
 #endif
