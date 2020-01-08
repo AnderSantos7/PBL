@@ -187,7 +187,7 @@ void drawPlayer() {
 		clip.y = 210;
 		clip.w = 20;
 		clip.h = 20;
-		aplikatuSurface(player.x - camera.x + player.w, player.y - camera.y, HUDSurface, screenSurface, &clip);
+		aplikatuSurface(player.x - camera.x + player.w, player.y - camera.y, surface[HUDSurface], surface[screenSurface], &clip);
 	}
 	return;
 }
