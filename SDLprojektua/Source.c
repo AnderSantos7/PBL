@@ -192,15 +192,7 @@ void update(double deltaTime) {
 
 	ordenatuDroppedItems();
 	if (pickUpItems()) {
-		char* src = "assets/sounds/pickUpSFX0.wav";
-		int random = rand() % 3;
-		switch (random) {
-		case 0: src = "assets/sounds/pickupsfx0.wav"; break;
-		case 1: src = "assets/sounds/pickupsfx1.wav"; break;
-		case 2: src = "assets/sounds/pickupsfx2.wav"; break;
-		}
-		Mix_Chunk* pickUpSFX = Mix_LoadWAV_RW(SDL_RWFromFile(src, "rb"), 1);
-		int x = Mix_PlayChannelTimed(-1, pickUpSFX, 0, -1);
+		playPickUpSFX();
 	}
 	if (player.status == PLAYING) camera = centerCameraInPlayer(camera);
 	player.facingTile = getFacingTileId();

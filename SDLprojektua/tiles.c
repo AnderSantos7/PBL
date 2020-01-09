@@ -41,6 +41,12 @@ void harvest(int tile) {
 			break;
 		case TOMATE: harvest = 6;
 			break;
+		case PIMIENTO: harvest = 8;
+			break;
+		case BERENJENA: harvest = 10;
+			break;
+		case TRIGO: harvest = 12;
+			break;
 		}
 		seed = harvest + 1;
 		dropItem(tile, seed, seedAmmount);

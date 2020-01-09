@@ -2,6 +2,7 @@
 #include "SDL_image.h"
 #include "funtzioak.h"
 #include "objektuak.h"
+#include "SDL_mixer.h"
 #include <stdio.h>
 
 //enum SURFACE { SURFACE_SCREEN, SURFACE_BACKGROUND, SURFACE_PLAYER, SURFACE_EXTRA, SURFACE_ITEMS, SURFACE_LAND};
@@ -37,4 +38,16 @@ void loadFiles() {
 	surface[pigSurface] = loadMedia("assets/images/pig.png");
 	surface[signSurface] = loadMedia("assets/images/sign.png");
 	surface[HUDSurface] = loadMedia("assets/images/HUD.png");
+}
+void playPickUpSFX() {
+	char* src = "assets/sounds/pickUpSFX0.wav";
+	int random = rand() % 3;
+	switch (random) {
+	case 0: src = "assets/sounds/pickUpSFX0.wav"; break;
+	case 1: src = "assets/sounds/pickUpSFX1.wav"; break;
+	case 2: src = "assets/sounds/pickUpSFX2.wav"; break;
+	}
+	Mix_Chunk* pickUpSFX = Mix_LoadWAV_RW(SDL_RWFromFile(src, "rb"), 1);
+	int x = Mix_PlayChannelTimed(-1, pickUpSFX, 0, -1);
+	return;
 }

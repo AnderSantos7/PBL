@@ -20,6 +20,7 @@ int inputMainMenu(SDL_Event e);
 
 //Media
 SDL_Surface* loadMedia(char* src);
+void playPickUpSFX();
 
 //Data
 void startDic(int language);

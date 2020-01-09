@@ -34,6 +34,11 @@ void updateInv(int inv) {
 	inventories[inv].items[1] = itemPresets[4];
 	inventories[inv].items[13] = itemPresets[6];
 	inventories[inv].items[5] = itemPresets[7];
+	inventories[inv].items[15] = itemPresets[9];
+	inventories[inv].items[17] = itemPresets[11];
+	inventories[inv].items[14] = itemPresets[13];
+	inventories[inv].items[2] = itemPresets[7];
+
 }
 
 void changeInv(int inv, int InvPos) {
