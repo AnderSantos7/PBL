@@ -1,7 +1,8 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(438,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  camera.c
+  dataHandler.c
   InputHandler.c
   Inventory.c
-D:\Docs\Uni\PBL\PBL\SDLprojektua\InputHandler.c(54,26): warning C4013:  'initGame' sin definir; se supone que extern devuelve como resultado int
 D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(100,13): warning C4047:  'función': 'char *' es distinto en los niveles de direccionamiento indirecto de 'char *[128]'
 D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(100,13): warning C4024:  'strcpy': tipos distintos para el parámetro formal y el parámetro real 1
 D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(103,14): warning C4047:  'función': 'char *' es distinto en los niveles de direccionamiento indirecto de 'char *[128]'
@@ -13,14 +14,12 @@ D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(106,51): warning C4047:  'función'
 D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(106,51): warning C4024:  'TTF_RenderText_Solid': tipos distintos para el parámetro formal y el parámetro real 2
   MediaHandler.c
 D:\Docs\Uni\PBL\PBL\SDLprojektua\Items.c(86,19): warning C4013:  'checkInRange' sin definir; se supone que extern devuelve como resultado int
-  Source.c
-D:\Docs\Uni\PBL\PBL\SDLprojektua\MediaHandler.c(44,19): warning C4013:  'rand' sin definir; se supone que extern devuelve como resultado int
-  camera.c
-  dataHandler.c
   obstacles.c
   player.c
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(55,12): warning C4013:  'loadFiles' sin definir; se supone que extern devuelve como resultado int
+D:\Docs\Uni\PBL\PBL\SDLprojektua\MediaHandler.c(44,19): warning C4013:  'rand' sin definir; se supone que extern devuelve como resultado int
+  Source.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\player.c(44,21): warning C4305:  '=': truncamiento de 'double' a 'float'
   tiles.c
   Generando código...
-D:\Docs\Uni\PBL\PBL\SDLprojektua\player.c(44,21): warning C4305:  '=': truncamiento de 'double' a 'float'
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(54,12): warning C4013:  'loadFiles' sin definir; se supone que extern devuelve como resultado int
   SDLprojektua.vcxproj -> D:\Docs\Uni\PBL\PBL\SDLprojektua\-\SDLprojektua.exe

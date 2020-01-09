@@ -14,7 +14,6 @@ int init();
 void close();
 void update(double deltaTime);
 void getDeltaTime();
-void initGame();
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;

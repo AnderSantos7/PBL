@@ -266,7 +266,7 @@ void mouseHandlerDown(SDL_Event e) {
 				}
 			}
 			else {
-				dropItem();
+				dropHoveringItem();
 			}
 		}
 		break;
