@@ -43,6 +43,8 @@ int inputMainMenu(SDL_Event e) {
 		if (e.button.button == SDL_BUTTON_LEFT) {
 			int hovering = 0, i = 0, start=0;
 
+			if (mousePos.x > 259 && mousePos.x < 379 && mousePos.y > 331 && mousePos.y && 383) zabalik = 0;
+
 			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 200 && mousePos.y < 261 && !start) {
 				start = 1;
 				main_menu = 0;
@@ -266,7 +268,7 @@ void mouseHandlerDown(SDL_Event e) {
 				}
 			}
 			else {
-				dropItem();
+				dropHoveringItem();
 			}
 		}
 		break;

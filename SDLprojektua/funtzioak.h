@@ -1,5 +1,8 @@
 #ifndef FUNTZIOAK
 #define FUNTZIOAK
+//Menu
+void menu(double deltaTime);
+
 //Player
 struct Player createPlayer();
 void movePlayer(double deltaTime);
