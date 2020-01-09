@@ -41,17 +41,21 @@ int inputMainMenu(SDL_Event e) {
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		if (e.button.button == SDL_BUTTON_LEFT) {
-			int hovering = 0, i = 0;
+			int hovering = 0, i = 0, start=0;
 
+			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 200 && mousePos.y < 261 && !start) {
+				start = 1;
+				main_menu = 0;
+			}
 			while (!hovering && i < 3) {
-				if (mousePos.x > 64 + 128 * i && mousePos.x < 128 + 128 * i && mousePos.y > 120 && mousePos.y < 168) {
+				if (mousePos.x > 150 + 128 * i && mousePos.x < 214 + 128 * i && mousePos.y > 432 && mousePos.y < 480) {
 					language = i;
 					hovering = 1;
-					main_menu = 0;
 				}
 				i++;
 			}
-			if (hovering) initGame();
+
+			if (start) initGame();
 		}
 		break;
 	}
@@ -95,6 +99,16 @@ void keyHandlerDown(SDL_Event e) {
 		player.movingDown = 1;
 		player.movingUp = 0;
 		break;
+	case SDL_SCANCODE_C:
+		if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
+			tiles[player.facingTile].plant.seed = CALABAZA;
+		}
+		break;
+	case SDL_SCANCODE_T:
+		if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
+			tiles[player.facingTile].plant.seed = TOMATE;
+		}
+		break;
 	case SDL_SCANCODE_ESCAPE:
 		for (i = 1; i < 3; i++) open += inventories[i].open;
 		if (open > 0) {
@@ -108,21 +122,19 @@ void keyHandlerDown(SDL_Event e) {
 		pause();
 	case SDL_SCANCODE_Q:
 		if (player.status == HOME) {
-			if (player.canInteract == 1) {
-				switch (inventories[INV_CHEST].open) {
-				case 0: inventories[INV_CHEST].open = 1; break;
-				case 1: inventories[INV_CHEST].open = 0; break;
-				}
-			}
-		}else if (player.status == PLAYING) {
-			switch (player.canInteract) {
-			case -1: break;
+			switch (inventories[INV_CHEST].open) {
 			case 0:
-				if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 2) {
-					inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[3];
-					inventories[INV_HOTBAR].items[player.hotbarSlot].quantity = 10;
-				}
+				inventories[INV_CHEST].open = 1;
 				break;
+			case 1:
+				inventories[INV_CHEST].open = 0;
+				break;
+			}
+		}
+		else if (player.canInteract) {
+			if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 2) {
+				inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[3];
+				inventories[INV_HOTBAR].items[player.hotbarSlot].quantity = 10;
 			}
 		}
 		break;
@@ -208,14 +220,17 @@ void mouseHandlerDown(SDL_Event e) {
 					struct Item tmpItem = hoveringItem;
 					hoveringItem = inventories[hoveringInv].items[showingItem];
 					inventories[hoveringInv].items[showingItem] = tmpItem;
-				}else {
+				}
+				else {
 					inventories[hoveringInv].items[showingItem].quantity += hoveringItem.quantity;
 					hoveringItem.ID = 0;
 				}
-			}else {
+			}
+			else {
 				hoveringItem = pickHovering();
 			}
-		}else {
+		}
+		else {
 			int i = 0, soil = 0;
 			while (i < 49 && !soil) {
 				if (player.facingTile == plantable_ID[i]) soil = 1;
@@ -235,22 +250,23 @@ void mouseHandlerDown(SDL_Event e) {
 							if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot].ID = 0;
 						}
 					}
-					if (tiles[player.facingTile].plant.seed != 0 && tiles[player.facingTile].plant.stage == 2) {
-						harvest(player.facingTile);
-					}else if (hoveringItem.ID == 3) {
+					if (hoveringItem.ID == 3) {
 						water(player.facingTile);
 						hoveringItem.quantity--;
 						if (hoveringItem.quantity < 1) hoveringItem = itemPresets[2];
-					}else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 3) {
+					}
+					else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 3) {
 						water(player.facingTile);
 						inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
 						if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[2];
 					}
-				}else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 1) {
+				}
+				else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 1) {
 					tiles[player.facingTile].plant.arado = 1;
 				}
-			}else {
-				dropHoveringItem();
+			}
+			else {
+				dropItem();
 			}
 		}
 		break;
