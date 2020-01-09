@@ -1,5 +1,8 @@
 #ifndef FUNTZIOAK
 #define FUNTZIOAK
+//Menu
+void menu(double deltaTime);
+
 //Player
 struct Player createPlayer();
 void movePlayer(double deltaTime);
@@ -8,7 +11,7 @@ void animatePlayer(double deltaTime);
 void checkPosibleInteraction();
 
 void reset();
-
+void initGame();
 //Camera
 SDL_Rect createCamera();
 SDL_Rect centerCameraInPlayer(SDL_Rect camera);

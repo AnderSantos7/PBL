@@ -14,7 +14,6 @@ int init();
 void close();
 void update(double deltaTime);
 void getDeltaTime();
-void initGame();
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -71,12 +70,7 @@ int main(int argc, char* argv[]) {
 			while (SDL_PollEvent(&e) > 0 && e.type) {
 				zabalik = inputMainMenu(e);
 			}
-			SDL_Rect clip = { 582, 64, 64, 48 };
-			for (int i = 0; i < 3; i++) {
-				clip.y = 64 + 48 * i;
-				aplikatuSurface(64 + 128 * i, 120, surface[HUDSurface], surface[screenSurface], &clip);
-				SDL_UpdateWindowSurface(win);
-			}
+			menu(deltaTime);
 		}
 		else {
 			while (SDL_PollEvent(&e) > 0 && e.type) {
@@ -219,6 +213,7 @@ void marraztu() {
 	for (int i = 0; i < 2; i++) showInv(i);
 	marraztuInvTag(getHoveringInv());
 	if (hoveringItem.ID != 0)marraztuHoveringItem();
+	marraztuEnergy();
 	return;
 }
 
