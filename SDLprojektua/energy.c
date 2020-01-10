@@ -20,3 +20,8 @@ void restaEnergy()
 	player.energy = player.energy - 5;
 	return;
 }
+
+void resetEnergy()
+{
+	player.energy = 200;
+}

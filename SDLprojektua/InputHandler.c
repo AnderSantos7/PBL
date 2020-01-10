@@ -268,6 +268,7 @@ int mouseHandlerDown(SDL_Event e) {
 					}
 				}else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 1) {
 					tiles[player.facingTile].plant.arado = 1;
+					restaEnergy();
 				}
 			}else {
 				dropHoveringItem();

@@ -6,7 +6,7 @@ extern const int SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE, GRID_SIZE, LEVEL_SIZE;
 extern SDL_Window* win;
 extern SDL_Renderer* renderer;
 SDL_Texture* textures[16];
-enum textures { bgSurface, playerSurface, itemsSurface, plantsSurface, pauseSurface, HUDSurface, homeSurface, obstacleSurface, firmaSurface, menuSurface };
+enum textures { bgSurface, playerSurface, itemsSurface, plantsSurface, pauseSurface, HUDSurface, homeSurface, obstacleSurface, firmaSurface, menuSurface, cofreSurface };
 
 extern int main_menu, language;
 

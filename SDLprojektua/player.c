@@ -101,7 +101,10 @@ void movePlayer(double deltaTime) {
 	else if (player.status == HOME) {
 		if (player.movingRight) {
 			player.x += (int)(player.speed * deltaTime * multiplier);
-
+			if (player.y < 70 && player.x > 340 && player.x < 350)
+			{
+				player.x = 340;
+			}
 			if (player.x > 640 - 64) {
 				player.x = 640 - 64;
 			}
@@ -113,8 +116,11 @@ void movePlayer(double deltaTime) {
 
 		if (player.movingLeft) {
 			player.x -= (int)(player.speed * deltaTime * multiplier);
-
-			if (player.y < 64 && player.x < 100) {
+			if (player.y < 70 && player.x < 440 && player.x >430)
+			{
+				player.x = 440;
+			}
+			else if (player.y < 150 && player.x < 100) {
 				player.x = 100;
 			}
 			else if (player.x < 0) {
@@ -127,9 +133,12 @@ void movePlayer(double deltaTime) {
 
 		if (player.movingUp) {
 			player.y -= (int)(player.speed * deltaTime * multiplier);
-
-			if (player.y < 64 && player.x < 100) {
-				player.y = 64;
+			if (player.y < 70 && player.x > 340 && player.x < 440)
+			{
+				player.y = 70;
+			}
+			else if (player.y < 150 && player.x < 100) {
+				player.y = 150;
 			}
 			else if (player.x >= 100 && player.x <= 640 - 64 && player.y < 0) {
 				player.y = 0;

@@ -45,6 +45,8 @@ void loadFiles() {
 	textures[HUDSurface] = loadMedia("assets/images/HUD.png");
 	textures[firmaSurface] = loadMedia("assets/images/FIRMA.png");
 	textures[menuSurface] = loadMedia("assets/images/ANCIENTGARDEN.png");
+	textures[cofreSurface] = loadMedia("assets/images/cofre.png");
+	
 	return;
 }
 

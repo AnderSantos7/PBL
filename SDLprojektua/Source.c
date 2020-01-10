@@ -53,8 +53,8 @@ int main(int argc, char* argv[]) {
 
 	if (zabalik) {
 		loadFiles();
-		//Mix_Music* music = Mix_LoadMUS("assets/sounds/test.wav");
-		//Mix_PlayMusic(music, 1);
+		Mix_Music* music = Mix_LoadMUS("assets/sounds/stardey.wav");
+		Mix_PlayMusic(music, 1);
 		/*for (int i = 0; i < 49; i++) {
 			tiles[plantable_ID[i]].plant.arado = 1;
 		}*/
@@ -87,7 +87,14 @@ int main(int argc, char* argv[]) {
 			case HOME:
 				update(deltaTime);
 				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[homeSurface], NULL);
+				SDL_Rect clip = { 170 , 0 , 55 , 90 };
+				clip.y = 0;
+				clip.w = 55;
+				clip.h = 90;
+				aplikatuSurface(390, 70, 55, 90, textures[obstacleSurface], &clip);
+
 				checkPosibleInteraction();
+
 				drawPlayer();
 				for (int i = 0; i < 3; i++) showInv(i);
 				marraztuInvTag(getHoveringInv());
@@ -198,6 +205,7 @@ void marraztu() {
 	aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[bgSurface], &camera);
 	marraztuTiles();
 	marraztuDroppedItems(0);
+	marraztuEnergy();
 	SDL_Rect clip = { 0, 126, 60, 61 };
 	if (player.y > 64 - 5) {
 		aplikatuSurface(12 * TILE_SIZE - camera.x, 3 * TILE_SIZE - camera.y, 60, 61, textures[obstacleSurface], &clip);

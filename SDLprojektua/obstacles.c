@@ -12,5 +12,5 @@ struct Obstacle obstaclesOutside[] = {
 
 struct Obstacle obstaclesInside[] = {
 	{0, 0, 100, 160}, //Cama
-	{300, 0, 64, 64}, //Cofre tmp
+	{340, 0, 100, 78}, //Cofre tmp
 };
