@@ -275,6 +275,7 @@ void mouseHandlerDown(SDL_Event e) {
 				}
 			}
 <<<<<<< HEAD
+<<<<<<< HEAD
 			else {
 				dropHoveringItem();
 			}
@@ -283,6 +284,11 @@ void mouseHandlerDown(SDL_Event e) {
 		case SDL_BUTTON_RIGHT:
 			break;
 >>>>>>> fb9fed919c29d093c058db11ac66ec85caff9148
+=======
+			break;
+		case SDL_BUTTON_RIGHT:
+			break;
+>>>>>>> dec3231e8f860d054ca3388df4da5ee2397a29a9
 		}
 	}
 	return;
