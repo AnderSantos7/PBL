@@ -6,8 +6,9 @@
 #include <stdio.h>
 #include <math.h>
 
+struct Item droppedItems[128];
 int playerPickRange = 50;
-int droppedLength = 0;
+droppedLength = 0;
 
 void ordenatuDroppedItems() {
 	for (int i = 0; i < droppedLength; i++) {
@@ -56,7 +57,7 @@ void showDroppedItem(int index) {
 	clip.w = 64;
 	clip.h = 64;
 
-	aplikatuSurface(droppedItems[index].xPos - camera.x, droppedItems[index].yPos - camera.y, surface[itemsSurface], surface[screenSurface], &clip);
+	aplikatuSurface(droppedItems[index].xPos - camera.x, droppedItems[index].yPos - camera.y, 64, 64, textures[itemsSurface], &clip);
 	return;
 }
 

@@ -4,8 +4,9 @@
 extern const int SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE, GRID_SIZE, LEVEL_SIZE;
 
 extern SDL_Window* win;
-SDL_Surface* surface[14];
-enum surface { screenSurface, bgSurface, playerSurface, itemsSurface, plantsSurface, textua, pauseSurface, HUDSurface, homeSurface, fenceSurface, cowSurface, pigSurface, signSurface, extraSurface };
+extern SDL_Renderer* renderer;
+SDL_Texture* textures[16];
+enum textures { bgSurface, playerSurface, itemsSurface, plantsSurface, pauseSurface, HUDSurface, homeSurface, obstacleSurface, firmaSurface, menuSurface };
 
 extern int main_menu, language;
 
@@ -21,7 +22,8 @@ struct Item {
 };
 
 extern struct Item itemPresets[];
-struct Item droppedItems[128];
+extern struct Item droppedItems[];
+extern int droppedLength;
 extern struct Item hoveringItem;
 extern int showingItem;
 
@@ -48,7 +50,7 @@ struct posCoord {
 
 extern struct posCoord mousePos;
 
-enum Seed { NONE, CALABAZA, TOMATE, PIMIENTO, BERENJENA, TRIGO };
+enum Seed { NONE, CALABAZA, TOMATE };
 
 struct Plant {
 	int seed;
@@ -87,7 +89,9 @@ struct Player {
 	int hotbarSlot;
 	int frame;
 	int canInteract;
+	int load;
 	SDL_Rect clip;
+	int energy;
 };
 extern struct Player player;
 

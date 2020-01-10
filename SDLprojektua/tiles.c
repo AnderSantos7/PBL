@@ -41,12 +41,6 @@ void harvest(int tile) {
 			break;
 		case TOMATE: harvest = 6;
 			break;
-		case PIMIENTO: harvest = 8;
-			break;
-		case BERENJENA: harvest = 10;
-			break;
-		case TRIGO: harvest = 12;
-			break;
 		}
 		seed = harvest + 1;
 		dropItem(tile, seed, seedAmmount);
@@ -115,12 +109,12 @@ void marraztuTiles() {
 				clip.x = (tiles[plantable_ID[i]].plant.stage + 3 * tiles[plantable_ID[i]].plant.water) * TILE_SIZE;
 				clip.y = tiles[plantable_ID[i]].plant.seed * TILE_SIZE;
 			}
-			aplikatuSurface(pos.x - camera.x, pos.y - camera.y, surface[plantsSurface], surface[screenSurface], &clip);
+			aplikatuSurface(pos.x - camera.x, pos.y - camera.y, 64, 64, textures[plantsSurface], &clip);
 		}
 		if (plantable_ID[i] == player.facingTile) {
 			clip.x = 2 * TILE_SIZE;
 			clip.y = 0;
-			aplikatuSurface(pos.x - camera.x, pos.y - camera.y, surface[plantsSurface], surface[screenSurface], &clip);
+			aplikatuSurface(pos.x - camera.x, pos.y - camera.y, 64, 64, textures[plantsSurface], &clip);
 		}
 	}
 }

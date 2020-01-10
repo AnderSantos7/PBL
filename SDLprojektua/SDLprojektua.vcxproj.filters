@@ -42,7 +42,19 @@
     <ClCompile Include="dataHandler.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="SaveState.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
     <ClCompile Include="obstacles.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="energy.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="DayCycle.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

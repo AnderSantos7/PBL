@@ -80,13 +80,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Docs\Uni\PBL\PBL\SDL2_ttf\include;D:\Docs\Uni\PBL\PBL\SDL2\include;D:\Docs\Uni\PBL\PBL\SDL2_mixer-2.0.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Docs\Uni\PBL\PBL\SDL2_mixer-2.0.4\include;D:\Docs\Uni\PBL\PBL\SDL2\include;D:\Docs\Uni\PBL\PBL\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>D:\Docs\Uni\PBL\PBL\SDL2\lib\x86;D:\Docs\Uni\PBL\PBL\SDL2_ttf\lib\x86;D:\Docs\Uni\PBL\PBL\SDL2_mixer-2.0.4\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -95,12 +96,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Docs\Uni\PBL\PBL\SDL2\include;E:\Docs\Uni\PBL\PBL\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Docs\Uni\PBL\PBL\SDL2\include;D:\Docs\Uni\PBL\PBL\SDL2_ttf\include;D:\Docs\Uni\PBL\PBL\SDL2_mixer-2.0.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>E:\Docs\Uni\PBL\PBL\SDL2\lib\x86;E:\Docs\Uni\PBL\PBL\SDL2_ttf\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;SDL2test.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Docs\Uni\PBL\PBL\SDL2\lib\x86;D:\Docs\Uni\PBL\PBL\SDL2_ttf\lib\x86;D:\Docs\Uni\PBL\PBL\SDL2_mixer-2.0.4\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;SDL2test.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,12 +137,16 @@
   <ItemGroup>
     <ClCompile Include="camera.c" />
     <ClCompile Include="dataHandler.c" />
+    <ClCompile Include="DayCycle.c" />
+    <ClCompile Include="energy.c" />
     <ClCompile Include="InputHandler.c" />
     <ClCompile Include="Inventory.c" />
     <ClCompile Include="Items.c" />
     <ClCompile Include="MediaHandler.c" />
+    <ClCompile Include="menu.c" />
     <ClCompile Include="obstacles.c" />
     <ClCompile Include="player.c" />
+    <ClCompile Include="SaveState.c" />
     <ClCompile Include="Source.c" />
     <ClCompile Include="tiles.c" />
   </ItemGroup>

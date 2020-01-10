@@ -4,7 +4,7 @@
 #include "objektuak.h"
 #include <stdio.h>
 
-void mouseHandlerDown(SDL_Event e);
+int mouseHandlerDown(SDL_Event e);
 void keyHandlerDown(SDL_Event e);
 void updateFacingDir();
 void keyHandlerUp(SDL_Event e);
@@ -18,7 +18,7 @@ int inputHandler(SDL_Event e) {
 		zabalik = 0;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		mouseHandlerDown(e);
+		zabalik = mouseHandlerDown(e);
 		break;
 	case SDL_MOUSEWHEEL:
 		hotbarScroll(e);
@@ -41,7 +41,9 @@ int inputMainMenu(SDL_Event e) {
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		if (e.button.button == SDL_BUTTON_LEFT) {
-			int hovering = 0, i = 0, start=0;
+			int hovering = 0, i = 0, start = 0;
+
+			if (mousePos.x > 259 && mousePos.x < 379 && mousePos.y > 331 && mousePos.y < 383) zabalik = 0;
 
 			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 200 && mousePos.y < 261 && !start) {
 				start = 1;
@@ -99,16 +101,6 @@ void keyHandlerDown(SDL_Event e) {
 		player.movingDown = 1;
 		player.movingUp = 0;
 		break;
-	case SDL_SCANCODE_C:
-		if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
-			tiles[player.facingTile].plant.seed = CALABAZA;
-		}
-		break;
-	case SDL_SCANCODE_T:
-		if (tiles[player.facingTile].plant.seed == NONE && tiles[player.facingTile].plant.water != NONE) {
-			tiles[player.facingTile].plant.seed = TOMATE;
-		}
-		break;
 	case SDL_SCANCODE_ESCAPE:
 		for (i = 1; i < 3; i++) open += inventories[i].open;
 		if (open > 0) {
@@ -120,21 +112,29 @@ void keyHandlerDown(SDL_Event e) {
 		break;
 	case SDL_SCANCODE_P:
 		pause();
+		break;
+	case SDL_SCANCODE_L:
+		player.load = 1;
+		load();
+		break;
 	case SDL_SCANCODE_Q:
 		if (player.status == HOME) {
-			switch (inventories[INV_CHEST].open) {
-			case 0:
-				inventories[INV_CHEST].open = 1;
-				break;
-			case 1:
-				inventories[INV_CHEST].open = 0;
-				break;
+			if (player.canInteract == 1) {
+				switch (inventories[INV_CHEST].open) {
+				case 0: inventories[INV_CHEST].open = 1; break;
+				case 1: inventories[INV_CHEST].open = 0; break;
+				}
 			}
-		}
-		else if (player.canInteract) {
-			if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 2) {
-				inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[3];
-				inventories[INV_HOTBAR].items[player.hotbarSlot].quantity = 10;
+		}else if (player.status == PLAYING) {
+			switch (player.canInteract) {
+			case -1: break;
+			case 0:
+				if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 2 || inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 3) {
+					inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[3];
+					inventories[INV_HOTBAR].items[player.hotbarSlot].quantity = 10;
+					playWellWaterSFX();
+				}
+				break;
 			}
 		}
 		break;
@@ -208,29 +208,34 @@ void updateFacingDir() {
 	return;
 }
 
-void mouseHandlerDown(SDL_Event e) {
+int mouseHandlerDown(SDL_Event e) {
 	int mouseSlot = 0;
 	int hoveringInv;
+	int zabalik = 1;
 	switch (e.button.button) {
 	case SDL_BUTTON_LEFT:
 		hoveringInv = getHoveringInv();
-		if (hoveringInv != -1 && checkHover(hoveringInv)) {
+		if (player.status == PAUSE || player.status == PAUSE_HOME) {
+			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 183 && mousePos.y < 245) {
+				save();
+			}else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 316 && mousePos.y < 375) {
+				zabalik = 0;
+			}
+		}
+		else if (hoveringInv != -1 && checkHover(hoveringInv)) {
 			if (hoveringItem.ID != 0) {
 				if (inventories[hoveringInv].items[showingItem].ID != hoveringItem.ID) {
 					struct Item tmpItem = hoveringItem;
 					hoveringItem = inventories[hoveringInv].items[showingItem];
 					inventories[hoveringInv].items[showingItem] = tmpItem;
-				}
-				else {
+				}else {
 					inventories[hoveringInv].items[showingItem].quantity += hoveringItem.quantity;
 					hoveringItem.ID = 0;
 				}
-			}
-			else {
+			}else {
 				hoveringItem = pickHovering();
 			}
-		}
-		else {
+		}else {
 			int i = 0, soil = 0;
 			while (i < 49 && !soil) {
 				if (player.facingTile == plantable_ID[i]) soil = 1;
@@ -250,22 +255,21 @@ void mouseHandlerDown(SDL_Event e) {
 							if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot].ID = 0;
 						}
 					}
-					if (hoveringItem.ID == 3) {
+					if (tiles[player.facingTile].plant.seed != 0 && tiles[player.facingTile].plant.stage == 2) {
+						harvest(player.facingTile);
+					}else if (hoveringItem.ID == 3) {
 						water(player.facingTile);
 						hoveringItem.quantity--;
 						if (hoveringItem.quantity < 1) hoveringItem = itemPresets[2];
-					}
-					else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 3) {
+					}else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 3) {
 						water(player.facingTile);
 						inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
 						if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[2];
 					}
-				}
-				else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 1) {
+				}else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 1) {
 					tiles[player.facingTile].plant.arado = 1;
 				}
-			}
-			else {
+			}else {
 				dropHoveringItem();
 			}
 		}
@@ -273,7 +277,7 @@ void mouseHandlerDown(SDL_Event e) {
 	case SDL_BUTTON_RIGHT:
 		break;
 	}
-	return;
+	return zabalik;
 }
 
 void hotbarScroll(SDL_Event e) {

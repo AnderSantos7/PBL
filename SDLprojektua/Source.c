@@ -12,8 +12,9 @@ struct posCoord getTilePosFromId(int ID);
 void marraztu();
 int init();
 void close();
-void update(double deltaTime);
+void update();
 void getDeltaTime();
+
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -52,8 +53,7 @@ int main(int argc, char* argv[]) {
 
 	if (zabalik) {
 		loadFiles();
-		renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
-		Mix_Music* music = Mix_LoadMUS("assets/sounds/test.wav");
+		//Mix_Music* music = Mix_LoadMUS("assets/sounds/test.wav");
 		//Mix_PlayMusic(music, 1);
 		/*for (int i = 0; i < 49; i++) {
 			tiles[plantable_ID[i]].plant.arado = 1;
@@ -70,37 +70,34 @@ int main(int argc, char* argv[]) {
 			while (SDL_PollEvent(&e) > 0 && e.type) {
 				zabalik = inputMainMenu(e);
 			}
-			SDL_Rect clip = { 582, 64, 64, 48 };
-			for (int i = 0; i < 3; i++) {
-				clip.y = 64 + 48 * i;
-				aplikatuSurface(64 + 128 * i, 120, surface[HUDSurface], surface[screenSurface], &clip);
-				SDL_UpdateWindowSurface(win);
-			}
+			menu(deltaTime);
+			SDL_RenderPresent(renderer);
 		}
 		else {
 			while (SDL_PollEvent(&e) > 0 && e.type) {
 				zabalik = inputHandler(e);
 			}
+			SDL_RenderPresent;
 			switch (player.status) {
 			case PLAYING:
 				update(deltaTime);
 				marraztu();
-				SDL_UpdateWindowSurface(win);
+				SDL_RenderPresent(renderer);
 				break;
 			case HOME:
 				update(deltaTime);
-				aplikatuSurface(0, 0, surface[homeSurface], surface[screenSurface], NULL);
+				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[homeSurface], NULL);
 				checkPosibleInteraction();
 				drawPlayer();
 				for (int i = 0; i < 3; i++) showInv(i);
 				marraztuInvTag(getHoveringInv());
 				if (hoveringItem.ID != 0)marraztuHoveringItem();
-				SDL_UpdateWindowSurface(win);
+				SDL_RenderPresent(renderer);
 				break;
 			case PAUSE:
 			case PAUSE_HOME:
-				aplikatuSurface(0, 0, surface[pauseSurface], surface[screenSurface], NULL);
-				SDL_UpdateWindowSurface(win);
+				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[pauseSurface], NULL);
+				SDL_RenderPresent(renderer);
 				break;
 			case COLLOCATING:
 				player.timer += deltaTime;
@@ -130,7 +127,8 @@ int init() {
 			success = 0;
 		}
 		else {
-			surface[screenSurface] = SDL_GetWindowSurface(win);
+			renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_PRESENTVSYNC);
+			SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 		}
 	}
 
@@ -153,15 +151,13 @@ int init() {
 }
 
 void close() {
-	SDL_FreeSurface(surface[playerSurface]);
-	surface[playerSurface] = NULL;
-	SDL_FreeSurface(surface[bgSurface]);
-	surface[bgSurface] = NULL;
+	for (int i = 0; i < 16; i++) SDL_DestroyTexture(textures[i]);
 
 	SDL_DestroyWindow(win);
 	win = NULL;
 	IMG_Quit();
 	TTF_Quit();
+	Mix_Quit();
 	SDL_Quit();
 }
 
@@ -180,44 +176,57 @@ void initGame() {
 	startPresests();
 	updateInv(INV_PLAYER);
 	updateInv(INV_CHEST);
+	load();
 	return;
 }
 
-void update(double deltaTime) {
+void update() {
+	updateDay(deltaTime);
 	updateTiles(deltaTime);
 	movePlayer(deltaTime);
 	checkPosibleInteraction();
-
-
 	ordenatuDroppedItems();
-	if (pickUpItems()) {
-		playPickUpSFX();
-	}
+	if (pickUpItems()) playPickUpSFX();
 	if (player.status == PLAYING) camera = centerCameraInPlayer(camera);
 	player.facingTile = getFacingTileId();
 	checkHover();
 	animatePlayer(deltaTime);
+	return;
 }
 
 void marraztu() {
-	aplikatuSurface(0, 0, surface[bgSurface], surface[screenSurface], &camera);
-	marraztuTiles(surface[plantsSurface], surface[screenSurface]);
+	aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[bgSurface], &camera);
+	marraztuTiles();
 	marraztuDroppedItems(0);
+	SDL_Rect clip = { 0, 126, 60, 61 };
 	if (player.y > 64 - 5) {
-		aplikatuSurface(0, 0, surface[signSurface], surface[screenSurface], &camera);
+		aplikatuSurface(12 * TILE_SIZE - camera.x, 3 * TILE_SIZE - camera.y, 60, 61, textures[obstacleSurface], &clip);
 		drawPlayer();
 	}
 	else {
 		drawPlayer();
-		aplikatuSurface(0, 0, surface[signSurface], surface[screenSurface], &camera);
+		aplikatuSurface(12 * TILE_SIZE - camera.x, 3 * TILE_SIZE - camera.y, 60, 61, textures[obstacleSurface], &clip);
 	}
 	marraztuDroppedItems(1);
-	aplikatuSurface(0, 0, surface[fenceSurface], surface[screenSurface], &camera);
-	aplikatuSurface(TILE_SIZE, 9 * TILE_SIZE, surface[cowSurface], surface[bgSurface], NULL);
-	aplikatuSurface(TILE_SIZE * 2, 13 * TILE_SIZE, surface[pigSurface], surface[bgSurface], NULL);
+	//Fence
+	clip.y = 186;
+	clip.w = 172;
+	clip.h = 402;
+	aplikatuSurface(0 - camera.x, 8 * TILE_SIZE - camera.y, 243, 574, textures[obstacleSurface], &clip);
+	//Cow
+	clip.y = 0;
+	clip.w = 121;
+	clip.h = 90;
+	aplikatuSurface(TILE_SIZE - camera.x, 9 * TILE_SIZE - camera.y, 121, 90, textures[obstacleSurface], &clip);
+	//Pig
+	clip.y = 91;
+	clip.w = 49;
+	clip.h = 35;
+	aplikatuSurface(TILE_SIZE * 2 - camera.x, 13 * TILE_SIZE - camera.y, 49, 35, textures[obstacleSurface], &clip);
+	drawDayFilter();
 	for (int i = 0; i < 2; i++) showInv(i);
 	marraztuInvTag(getHoveringInv());
-	if (hoveringItem.ID != 0)marraztuHoveringItem();
+	if (hoveringItem.ID != 0) marraztuHoveringItem();
 	return;
 }
 
@@ -225,6 +234,7 @@ void getDeltaTime() {
 	start = end;
 	end = clock();
 	deltaTime = (double)(end - start) / CLOCKS_PER_SEC;
+	return;
 }
 
 void reset() {
@@ -237,7 +247,9 @@ void reset() {
 		marraztu();
 		player.timer = 0;
 		player.status = PLAYING;
+		//s
 		inventories[INV_HOTBAR].yPos = 0;
 		inventories[INV_PLAYER].yPos = inventories[INV_PLAYER].slotSize + inventories[INV_PLAYER].headerSize + 3;
 	}
+	return;
 }

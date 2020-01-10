@@ -4,12 +4,10 @@
 #include "objektuak.h"
 #include <stdio.h>
 
-int checkInRange(int x, int y, int range);
-
 struct Player createPlayer() {
 	struct Player player;
-	player.x = 64 * 2;
-	player.y = 64;
+	player.x = 0;
+	player.y = 0;
 	player.w = TILE_SIZE;
 	player.h = 2 * TILE_SIZE;
 	player.speed = 300;
@@ -24,7 +22,10 @@ struct Player createPlayer() {
 	player.frame = 0;
 	player.clip.w = 64;
 	player.clip.h = 128;
+	player.clip.x = 64;
+	player.clip.y = 0;
 	player.canInteract = 0;
+	player.energy = 200;
 	return player;
 }
 
@@ -70,7 +71,7 @@ void movePlayer(double deltaTime) {
 			if (player.y < 0) {
 				player.y = 0;
 			}
-			if (player.y + 64 * 2 < 64 * 3 && player.y + 64 * 2 > 64 * 3 - 5 && player.x > 12 * 64 && player.x < 14 * 64) {
+			if (player.y < 64 && player.y  > 64 - 13 && player.x > 12 * 64 && player.x < 14 * 64) {
 				player.y = 64;
 			}
 			else if (player.y < 64 && player.x < 4 * 64) {
@@ -91,8 +92,8 @@ void movePlayer(double deltaTime) {
 			if (player.y > 6 * 64 - 8 && player.x < 3 * 64 + 32 && player.x >= 0) {
 				player.y = 6 * 64 - 8;
 			}
-			else if (player.y + 64 * 2 < 64 * 3 && player.y + 64 * 2 > 64 * 3 - 5 && player.x > 12 * 64 && player.x < 14 * 64) {
-				player.y = 64 - 5;
+			else if (player.y < 64 && player.y > 64 - 13 && player.x > 12 * 64 && player.x < 14 * 64) {
+				player.y = 64 - 13;
 			}
 		}
 	}
@@ -179,14 +180,14 @@ void animatePlayer(double deltaTime) {
 }
 
 void drawPlayer() {
-	aplikatuSurface(player.x - camera.x, player.y - camera.y, surface[playerSurface], surface[screenSurface], &player.clip);
+	aplikatuSurface(player.x - camera.x, player.y - camera.y, player.w, player.h, textures[playerSurface], &player.clip);
 	if (player.canInteract != -1) {
 		SDL_Rect clip;
 		clip.x = 582;
 		clip.y = 208;
 		clip.w = 20;
 		clip.h = 20;
-		aplikatuSurface(player.x - camera.x + player.w, player.y - camera.y, surface[HUDSurface], surface[screenSurface], &clip);
+		aplikatuSurface(player.x - camera.x + player.w, player.y - camera.y, 20, 20, textures[HUDSurface], &clip);
 	}
 	return;
 }

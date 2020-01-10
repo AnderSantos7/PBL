@@ -1,0 +1,47 @@
+﻿  Source.c
+  tiles.c
+  Generando código...
+Inventory.obj : error LNK2019: símbolo externo SDL_itoa sin resolver al que se hace referencia en la función marraztuHoveringItem
+Inventory.obj : error LNK2019: símbolo externo SDL_FreeSurface sin resolver al que se hace referencia en la función marraztuHoveringItem
+MediaHandler.obj : error LNK2001: símbolo externo SDL_FreeSurface sin resolver
+Inventory.obj : error LNK2019: símbolo externo SDL_CreateTextureFromSurface sin resolver al que se hace referencia en la función marraztuHoveringItem
+MediaHandler.obj : error LNK2001: símbolo externo SDL_CreateTextureFromSurface sin resolver
+Inventory.obj : error LNK2019: símbolo externo SDL_QueryTexture sin resolver al que se hace referencia en la función marraztuHoveringItem
+Source.obj : error LNK2001: símbolo externo SDL_QueryTexture sin resolver
+Inventory.obj : error LNK2019: símbolo externo SDL_DestroyTexture sin resolver al que se hace referencia en la función marraztuHoveringItem
+Source.obj : error LNK2001: símbolo externo SDL_DestroyTexture sin resolver
+Inventory.obj : error LNK2019: símbolo externo TTF_OpenFont sin resolver al que se hace referencia en la función marraztuHoveringItem
+Inventory.obj : error LNK2019: símbolo externo TTF_RenderText_Solid sin resolver al que se hace referencia en la función marraztuHoveringItem
+Inventory.obj : error LNK2019: símbolo externo TTF_CloseFont sin resolver al que se hace referencia en la función marraztuHoveringItem
+MediaHandler.obj : error LNK2019: símbolo externo SDL_GetError sin resolver al que se hace referencia en la función loadMedia
+Source.obj : error LNK2001: símbolo externo SDL_GetError sin resolver
+MediaHandler.obj : error LNK2019: símbolo externo SDL_RWFromFile sin resolver al que se hace referencia en la función loadMedia
+MediaHandler.obj : error LNK2019: símbolo externo SDL_RenderCopy sin resolver al que se hace referencia en la función aplikatuSurface
+MediaHandler.obj : error LNK2019: símbolo externo IMG_LoadPNG_RW sin resolver al que se hace referencia en la función loadMedia
+MediaHandler.obj : error LNK2019: símbolo externo Mix_LoadWAV_RW sin resolver al que se hace referencia en la función playPickUpSFX
+MediaHandler.obj : error LNK2019: símbolo externo Mix_PlayChannelTimed sin resolver al que se hace referencia en la función playPickUpSFX
+Source.obj : error LNK2019: símbolo externo SDL_CreateWindow sin resolver al que se hace referencia en la función init
+Source.obj : error LNK2019: símbolo externo SDL_DestroyWindow sin resolver al que se hace referencia en la función close
+Source.obj : error LNK2019: símbolo externo SDL_GetMouseState sin resolver al que se hace referencia en la función SDL_main
+Source.obj : error LNK2019: símbolo externo SDL_PollEvent sin resolver al que se hace referencia en la función SDL_main
+Source.obj : error LNK2019: símbolo externo SDL_CreateRenderer sin resolver al que se hace referencia en la función init
+Source.obj : error LNK2019: símbolo externo SDL_SetRenderDrawBlendMode sin resolver al que se hace referencia en la función init
+Source.obj : error LNK2019: símbolo externo SDL_RenderPresent sin resolver al que se hace referencia en la función SDL_main
+Source.obj : error LNK2019: símbolo externo SDL_Init sin resolver al que se hace referencia en la función init
+Source.obj : error LNK2019: símbolo externo SDL_Quit sin resolver al que se hace referencia en la función close
+Source.obj : error LNK2019: símbolo externo IMG_Init sin resolver al que se hace referencia en la función init
+Source.obj : error LNK2019: símbolo externo IMG_Quit sin resolver al que se hace referencia en la función close
+Source.obj : error LNK2019: símbolo externo TTF_Init sin resolver al que se hace referencia en la función init
+Source.obj : error LNK2019: símbolo externo TTF_Quit sin resolver al que se hace referencia en la función close
+Source.obj : error LNK2019: símbolo externo Mix_Quit sin resolver al que se hace referencia en la función close
+Source.obj : error LNK2019: símbolo externo Mix_OpenAudio sin resolver al que se hace referencia en la función init
+Source.obj : error LNK2019: símbolo externo Mix_LoadMUS sin resolver al que se hace referencia en la función SDL_main
+Source.obj : error LNK2019: símbolo externo Mix_PlayMusic sin resolver al que se hace referencia en la función SDL_main
+MSVCRTD.lib(exe_winmain.obj) : error LNK2019: símbolo externo WinMain sin resolver al que se hace referencia en la función "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+D:\Docs\Uni\PBL\PBL\SDL2\lib\x86\SDL2.lib : warning LNK4272: el tipo de máquina de biblioteca 'x86' está en conflicto con el tipo de máquina de destino 'x64'
+D:\Docs\Uni\PBL\PBL\SDL2\lib\x86\SDL2_image.lib : warning LNK4272: el tipo de máquina de biblioteca 'x86' está en conflicto con el tipo de máquina de destino 'x64'
+D:\Docs\Uni\PBL\PBL\SDL2\lib\x86\SDL2_ttf.lib : warning LNK4272: el tipo de máquina de biblioteca 'x86' está en conflicto con el tipo de máquina de destino 'x64'
+D:\Docs\Uni\PBL\PBL\SDL2\lib\x86\SDL2main.lib : warning LNK4272: el tipo de máquina de biblioteca 'x86' está en conflicto con el tipo de máquina de destino 'x64'
+D:\Docs\Uni\PBL\PBL\SDL2\lib\x86\SDL2test.lib : warning LNK4272: el tipo de máquina de biblioteca 'x86' está en conflicto con el tipo de máquina de destino 'x64'
+D:\Docs\Uni\PBL\PBL\SDL2_mixer-2.0.4\lib\x86\SDL2_mixer.lib : warning LNK4272: el tipo de máquina de biblioteca 'x86' está en conflicto con el tipo de máquina de destino 'x64'
+D:\Docs\Uni\PBL\PBL\SDLprojektua\x64\Debug\SDLprojektua.exe : fatal error LNK1120: 32 externos sin resolver
