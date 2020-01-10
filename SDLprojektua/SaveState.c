@@ -25,7 +25,7 @@ void save() {
 	for (i = 0; i < 18; i++) {
 		fprintf(fp, "%i %i", inventories[1].items[i].ID, inventories[1].items[i].quantity); //datos inventario
 		if (i != 8 && i != 17) fprintf(fp, " ");
-		else if (i == 8) fprintf(fp,"\n");
+		else if (i == 8) fprintf(fp, "\n");
 	}
 	fprintf(fp, "\n");
 
@@ -35,16 +35,30 @@ void save() {
 		else if (i == 8 || i == 17) fprintf(fp, "\n");
 	}
 	fprintf(fp, "\n");
+
+	fprintf(fp, "%i ", droppedLength);
 	for (i = 0; i < droppedLength; i++) {
-		fprintf(fp, "%i %i %i %i", droppedItems[i].ID, droppedItems[i].quantity, droppedItems[i].xPos, droppedItems[i].yPos);
+		fprintf(fp, "%i %i %i %i", droppedItems[i].ID, droppedItems[i].quantity, droppedItems[i].xPos, droppedItems[i].yPos); //datos drop
 		if (i != droppedLength - 1) fprintf(fp, " ");
 	}
+	fprintf(fp, "\n");
+
+	int lastWater;
+	int time;
+	for (i = 0; i < 49; i++) {
+		lastWater = tiles[plantable_ID[i]].plant.lastWater;
+		time = tiles[plantable_ID[i]].plant.time;
+		fprintf(fp, "%i %i %i %i %i", tiles[plantable_ID[i]].plant.arado, tiles[plantable_ID[i]].plant.water, lastWater, tiles[plantable_ID[i]].plant.seed, time); //datos plantado
+		if (i != 6 && i != 13 && i != 20 && i != 27 && i != 34 && i != 41 && i != 48) fprintf(fp, " ");
+		else if (i == 6 || i == 13 || i == 20 || i == 27 || i == 34 || i == 41) fprintf(fp, "\n");
+	}
+
 	fclose(fp);
-} 
+}
 
 void load() {
 	int i = 0;
-	char buff[256];
+	char buff[512];
 	char* src = "assets/data/GUARDADO_DEFAULT.txt";
 	if (player.load == 1) {
 		src = "assets/data/GUARDADO.txt";
@@ -150,48 +164,99 @@ void load() {
 			fgets(buff, 256, fp);
 		}
 	}
-	if (player.load == 1) {
-		fgets(buff, 256, fp);
+	if (player.load == 1) { //cargar items droppeados && cargar plantado
+		for (i = 0; i < 512; i++) {
+			droppedItems[i].ID = 0;
+			droppedItems[i].quantity = 0;
+			droppedItems[i].xPos = 0;
+			droppedItems[i].yPos = 0;
+		}
+		fgets(buff, 512, fp);
 		i = 0;
 		j = 0;
-		int y;
-		int id;
-		while (buff[i] != '\n' && buff[i] != '\0') {
-			droppedItems[j].ID = 0;
-			id = 0;
-			while (buff[i] != ' ') {
-				droppedItems[j].ID = droppedItems[j].ID * 10 + buff[i] - 48;
-				id = id * 10 + buff[i] - 48;
+		int x = 0;
+		int y = 0;
+		int cuanto = 0;
+		int seed;
+		int sheetx;
+		int sheety;
+		char* name;
+		if (buff[i] > 0) {
+			i += 2;
+			while (buff[i] != '\n' && buff[i] != '\0') { //cargar items droppeados
+				while (buff[i] != ' ') {
+					droppedItems[j].ID = droppedItems[j].ID * 10 + buff[i] - 48;
+					droppedItems[j].name = itemPresets[droppedItems[j].ID].name;
+					droppedItems[j].seed = itemPresets[droppedItems[j].ID].seed;
+					droppedItems[j].sheetPosX = itemPresets[droppedItems[j].ID].sheetPosX;
+					droppedItems[j].sheetPosY = itemPresets[droppedItems[j].ID].sheetPosY;
+					name = itemPresets[droppedItems[j].ID].name;
+					seed = itemPresets[droppedItems[j].ID].seed;
+					sheetx = itemPresets[droppedItems[j].ID].sheetPosX;
+					sheety = itemPresets[droppedItems[j].ID].sheetPosY;
+					i++;
+				}
 				i++;
+				while (buff[i] != ' ') {
+					droppedItems[j].quantity = droppedItems[j].quantity * 10 + buff[i] - 48;
+					cuanto = cuanto * 10 + buff[i] - 48;
+					i++;
+				}
+				i++;
+				while (buff[i] != ' ') {
+					droppedItems[j].xPos = droppedItems[j].xPos * 10 + buff[i] - 48;
+					x = x * 10 + buff[i] - 48;
+					i++;
+				}
+				i++;
+				while (buff[i] != ' ' && buff[i] != '\0' && buff[i] != '\n') {
+					droppedItems[j].yPos = droppedItems[j].yPos * 10 + buff[i] - 48;
+					y = y * 10 + buff[i] - 48;
+					i++;
+				}
+				j++;
+				droppedLength++;
+				if (buff[i] == ' ') i++;
 			}
-			droppedItems[j].name = itemPresets[droppedItems[j].ID].name;
-			droppedItems[j].seed = itemPresets[droppedItems[j].ID].seed;
-			droppedItems[j].sheetPosX = itemPresets[droppedItems[j].ID].sheetPosX;
-			droppedItems[j].sheetPosY = itemPresets[droppedItems[j].ID].sheetPosY;
+		}
 
-			i++;
-			droppedItems[j].quantity = 0;
+		for (j = 0; j < 49; j++) { //cargar tiles
+			if (j % 7 == 0) {
+				i = 0;
+				fgets(buff, 216, fp);
+			}
+			tiles[plantable_ID[j]].plant.arado = 0;
+			tiles[plantable_ID[j]].plant.water = 0;
+			tiles[plantable_ID[j]].plant.lastWater = 0;
+			tiles[plantable_ID[j]].plant.seed = 0;
+			tiles[plantable_ID[j]].plant.time = 0;
+			tiles[plantable_ID[j]].ID = j;
 			while (buff[i] != ' ') {
-				droppedItems[j].quantity = droppedItems[j].quantity * 10 + buff[i] - 48;
+				tiles[plantable_ID[j]].plant.arado = tiles[plantable_ID[j]].plant.arado * 10 + buff[i] - 48;
 				i++;
 			}
 			i++;
-			droppedItems[j].xPos = 0;
 			while (buff[i] != ' ') {
-				droppedItems[j].xPos = droppedItems[j].xPos * 10 + buff[i] - 48;
+				tiles[plantable_ID[j]].plant.water = tiles[plantable_ID[j]].plant.water * 10 + buff[i] - 48;
 				i++;
 			}
 			i++;
-			droppedItems[j].yPos = 0;
-			while (buff[i] != ' ' && buff[i] != '\0') {
-				droppedItems[j].yPos = droppedItems[j].yPos * 10 + buff[i] - 48;
+			while (buff[i] != ' ') {
+				tiles[plantable_ID[j]].plant.lastWater = tiles[plantable_ID[j]].plant.lastWater * 10 + buff[i] - 48;
 				i++;
 			}
-			j++;
-			if(buff[i] == ' ') i++;
-			droppedLength++;
+			i++;
+			while (buff[i] != ' ') {
+				tiles[plantable_ID[j]].plant.seed = tiles[plantable_ID[j]].plant.seed * 10 + buff[i] - 48;
+				i++;
+			}
+			i++;
+			while (buff[i] != ' ' && buff[i] != '\n' && buff[i] != '\0') {
+				tiles[plantable_ID[j]].plant.time = tiles[plantable_ID[j]].plant.time * 10 + buff[i] - 48;
+				i++;
+			}
+			i++;
 		}
 	}
-	
 	fclose(fp);
 }
