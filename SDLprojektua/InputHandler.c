@@ -43,8 +43,6 @@ int inputMainMenu(SDL_Event e) {
 		if (e.button.button == SDL_BUTTON_LEFT) {
 			int hovering = 0, i = 0, start=0;
 
-			if (mousePos.x > 259 && mousePos.x < 379 && mousePos.y > 331 && mousePos.y < 383) zabalik = 0;
-
 			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 200 && mousePos.y < 261 && !start) {
 				start = 1;
 				main_menu = 0;
@@ -213,83 +211,67 @@ void updateFacingDir() {
 void mouseHandlerDown(SDL_Event e) {
 	int mouseSlot = 0;
 	int hoveringInv;
-	if (player.energia)
-	{
-		switch (e.button.button) {
-		case SDL_BUTTON_LEFT:
-			hoveringInv = getHoveringInv();
-			if (hoveringInv != -1 && checkHover(hoveringInv)) {
-				if (hoveringItem.ID != 0) {
-					if (inventories[hoveringInv].items[showingItem].ID != hoveringItem.ID) {
-						struct Item tmpItem = hoveringItem;
-						hoveringItem = inventories[hoveringInv].items[showingItem];
-						inventories[hoveringInv].items[showingItem] = tmpItem;
-					}
-					else {
-						inventories[hoveringInv].items[showingItem].quantity += hoveringItem.quantity;
-						hoveringItem.ID = 0;
-					}
+	switch (e.button.button) {
+	case SDL_BUTTON_LEFT:
+		hoveringInv = getHoveringInv();
+		if (hoveringInv != -1 && checkHover(hoveringInv)) {
+			if (hoveringItem.ID != 0) {
+				if (inventories[hoveringInv].items[showingItem].ID != hoveringItem.ID) {
+					struct Item tmpItem = hoveringItem;
+					hoveringItem = inventories[hoveringInv].items[showingItem];
+					inventories[hoveringInv].items[showingItem] = tmpItem;
 				}
 				else {
-					hoveringItem = pickHovering();
+					inventories[hoveringInv].items[showingItem].quantity += hoveringItem.quantity;
+					hoveringItem.ID = 0;
 				}
 			}
 			else {
-				int i = 0, soil = 0;
-				while (i < 49 && !soil) {
-					if (player.facingTile == plantable_ID[i]) soil = 1;
-					i++;
-				}
-				if (soil) {
-					if (tiles[player.facingTile].plant.arado) {
-						if (tiles[player.facingTile].plant.seed == NONE) {
-							if (hoveringItem.ID != 0 && hoveringItem.seed != 0) {
-								landatu(hoveringItem.seed);
-								hoveringItem.quantity--;
-								if (hoveringItem.quantity < 1) hoveringItem.ID = 0;
-							}
-							else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID != 0 && inventories[INV_HOTBAR].items[player.hotbarSlot].seed != 0) {
-								landatu(inventories[INV_HOTBAR].items[player.hotbarSlot].seed);
-								inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
-								if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot].ID = 0;
-							}
-						}
-						if (hoveringItem.ID == 3) {
-							water(player.facingTile);
+				hoveringItem = pickHovering();
+			}
+		}
+		else {
+			int i = 0, soil = 0;
+			while (i < 49 && !soil) {
+				if (player.facingTile == plantable_ID[i]) soil = 1;
+				i++;
+			}
+			if (soil) {
+				if (tiles[player.facingTile].plant.arado) {
+					if (tiles[player.facingTile].plant.seed == NONE) {
+						if (hoveringItem.ID != 0 && hoveringItem.seed != 0) {
+							landatu(hoveringItem.seed);
 							hoveringItem.quantity--;
-							if (hoveringItem.quantity < 1) hoveringItem = itemPresets[2];
+							if (hoveringItem.quantity < 1) hoveringItem.ID = 0;
 						}
-						else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 3) {
-							water(player.facingTile);
+						else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID != 0 && inventories[INV_HOTBAR].items[player.hotbarSlot].seed != 0) {
+							landatu(inventories[INV_HOTBAR].items[player.hotbarSlot].seed);
 							inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
-							if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[2];
+							if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot].ID = 0;
 						}
 					}
-					else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 1) {
-						tiles[player.facingTile].plant.arado = 1;
-						restaEnergy();
+					if (hoveringItem.ID == 3) {
+						water(player.facingTile);
+						hoveringItem.quantity--;
+						if (hoveringItem.quantity < 1) hoveringItem = itemPresets[2];
+					}
+					else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 3) {
+						water(player.facingTile);
+						inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
+						if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[2];
 					}
 				}
-				else {
-					dropHoveringItem();
+				else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 1) {
+					tiles[player.facingTile].plant.arado = 1;
 				}
 			}
-<<<<<<< HEAD
-<<<<<<< HEAD
 			else {
 				dropHoveringItem();
 			}
-=======
-			break;
-		case SDL_BUTTON_RIGHT:
-			break;
->>>>>>> fb9fed919c29d093c058db11ac66ec85caff9148
-=======
-			break;
-		case SDL_BUTTON_RIGHT:
-			break;
->>>>>>> dec3231e8f860d054ca3388df4da5ee2397a29a9
 		}
+		break;
+	case SDL_BUTTON_RIGHT:
+		break;
 	}
 	return;
 }

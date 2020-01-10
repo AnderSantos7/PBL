@@ -1,32 +1,25 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(445,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  InputHandler.c
-D:\Docs\Uni\PBL\PBL\SDLprojektua\InputHandler.c(270,18): warning C4013: 'restaEnergy' sin definir; se supone que extern devuelve como resultado int
-D:\Docs\Uni\PBL\PBL\SDLprojektua\InputHandler.c(277,1): error C2143: error de sintaxis: falta ';' delante de '<<'
-D:\Docs\Uni\PBL\PBL\SDLprojektua\InputHandler.c(281,1): error C2143: error de sintaxis: falta ';' delante de '=='
-D:\Docs\Uni\PBL\PBL\SDLprojektua\InputHandler.c(285,1): error C2143: error de sintaxis: falta ';' delante de '>>'
-D:\Docs\Uni\PBL\PBL\SDLprojektua\InputHandler.c(291,32): error C2143: error de sintaxis: falta ';' delante de '{'
-D:\Docs\Uni\PBL\PBL\SDLprojektua\InputHandler.c(303,14): error C2143: error de sintaxis: falta ';' delante de '{'
-D:\Docs\Uni\PBL\PBL\SDLprojektua\InputHandler.c(313,1): fatal error C1004: se encontró un final de archivo no esperado
-  Inventory.c
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(100,13): warning C4047: 'función': 'char *' es distinto en los niveles de direccionamiento indirecto de 'char *[128]'
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(100,13): warning C4024: 'strcpy': tipos distintos para el parámetro formal y el parámetro real 1
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(103,14): warning C4047: 'función': 'char *' es distinto en los niveles de direccionamiento indirecto de 'char *[128]'
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(103,14): warning C4024: 'strcat': tipos distintos para el parámetro formal y el parámetro real 1
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(104,14): warning C4047: 'función': 'char *' es distinto en los niveles de direccionamiento indirecto de 'char *[128]'
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(104,14): warning C4024: 'strcat': tipos distintos para el parámetro formal y el parámetro real 1
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(106,51): warning C4047: 'función': 'const char *' es distinto en los niveles de direccionamiento indirecto de 'char *[128]'
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(106,51): warning C4024: 'TTF_RenderText_Solid': tipos distintos para el parámetro formal y el parámetro real 2
-  Items.c
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Items.c(86,19): warning C4013: 'checkInRange' sin definir; se supone que extern devuelve como resultado int
-  MediaHandler.c
-D:\Docs\Uni\PBL\PBL\SDLprojektua\MediaHandler.c(47,19): warning C4013: 'rand' sin definir; se supone que extern devuelve como resultado int
-  Source.c
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(54,12): warning C4013: 'loadFiles' sin definir; se supone que extern devuelve como resultado int
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(216,16): warning C4013: 'marraztuEnergy' sin definir; se supone que extern devuelve como resultado int
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(438,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
   camera.c
   dataHandler.c
+  InputHandler.c
+  Inventory.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(100,13): warning C4047:  'función': 'char *' es distinto en los niveles de direccionamiento indirecto de 'char *[128]'
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(100,13): warning C4024:  'strcpy': tipos distintos para el parámetro formal y el parámetro real 1
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(103,14): warning C4047:  'función': 'char *' es distinto en los niveles de direccionamiento indirecto de 'char *[128]'
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(103,14): warning C4024:  'strcat': tipos distintos para el parámetro formal y el parámetro real 1
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(104,14): warning C4047:  'función': 'char *' es distinto en los niveles de direccionamiento indirecto de 'char *[128]'
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(104,14): warning C4024:  'strcat': tipos distintos para el parámetro formal y el parámetro real 1
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(106,51): warning C4047:  'función': 'const char *' es distinto en los niveles de direccionamiento indirecto de 'char *[128]'
+  Items.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(106,51): warning C4024:  'TTF_RenderText_Solid': tipos distintos para el parámetro formal y el parámetro real 2
+  MediaHandler.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Items.c(86,19): warning C4013:  'checkInRange' sin definir; se supone que extern devuelve como resultado int
   obstacles.c
   player.c
-D:\Docs\Uni\PBL\PBL\SDLprojektua\player.c(46,22): warning C4305: '=': truncamiento de 'double' a 'float'
+D:\Docs\Uni\PBL\PBL\SDLprojektua\MediaHandler.c(44,19): warning C4013:  'rand' sin definir; se supone que extern devuelve como resultado int
+  Source.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\player.c(44,21): warning C4305:  '=': truncamiento de 'double' a 'float'
   tiles.c
   Generando código...
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(54,12): warning C4013:  'loadFiles' sin definir; se supone que extern devuelve como resultado int
+  SDLprojektua.vcxproj -> D:\Docs\Uni\PBL\PBL\SDLprojektua\-\SDLprojektua.exe

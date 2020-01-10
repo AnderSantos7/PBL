@@ -70,7 +70,12 @@ int main(int argc, char* argv[]) {
 			while (SDL_PollEvent(&e) > 0 && e.type) {
 				zabalik = inputMainMenu(e);
 			}
-			menu(deltaTime);
+			SDL_Rect clip = { 582, 64, 64, 48 };
+			for (int i = 0; i < 3; i++) {
+				clip.y = 64 + 48 * i;
+				aplikatuSurface(64 + 128 * i, 120, surface[HUDSurface], surface[screenSurface], &clip);
+				SDL_UpdateWindowSurface(win);
+			}
 		}
 		else {
 			while (SDL_PollEvent(&e) > 0 && e.type) {
@@ -195,7 +200,6 @@ void update(double deltaTime) {
 }
 
 void marraztu() {
-<<<<<<< HEAD
 	aplikatuSurface(0, 0, surface[bgSurface], surface[screenSurface], &camera);
 	marraztuTiles(surface[plantsSurface], surface[screenSurface]);
 	marraztuDroppedItems(0);
@@ -214,28 +218,6 @@ void marraztu() {
 	for (int i = 0; i < 2; i++) showInv(i);
 	marraztuInvTag(getHoveringInv());
 	if (hoveringItem.ID != 0)marraztuHoveringItem();
-	marraztuEnergy();
-=======
-		aplikatuSurface(0, 0, surface[bgSurface], surface[screenSurface], &camera);
-		marraztuTiles(surface[plantsSurface], surface[screenSurface]);
-		marraztuDroppedItems(0);
-		if (player.y > 64 - 5) {
-			aplikatuSurface(0, 0, surface[signSurface], surface[screenSurface], &camera);
-			drawPlayer();
-		}
-		else {
-			drawPlayer();
-			aplikatuSurface(0, 0, surface[signSurface], surface[screenSurface], &camera);
-		}
-		marraztuDroppedItems(1);
-		aplikatuSurface(0, 0, surface[fenceSurface], surface[screenSurface], &camera);
-		aplikatuSurface(TILE_SIZE, 9 * TILE_SIZE, surface[cowSurface], surface[bgSurface], NULL);
-		aplikatuSurface(TILE_SIZE * 2, 13 * TILE_SIZE, surface[pigSurface], surface[bgSurface], NULL);
-		for (int i = 0; i < 2; i++) showInv(i);
-		marraztuInvTag(getHoveringInv());
-		if (hoveringItem.ID != 0)marraztuHoveringItem();
-		marraztuEnergy();
->>>>>>> dec3231e8f860d054ca3388df4da5ee2397a29a9
 	return;
 }
 

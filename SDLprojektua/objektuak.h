@@ -5,7 +5,7 @@ extern const int SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE, GRID_SIZE, LEVEL_SIZE;
 
 extern SDL_Window* win;
 SDL_Surface* surface[14];
-enum surface { screenSurface, bgSurface, playerSurface, itemsSurface, plantsSurface, textua, pauseSurface, HUDSurface, homeSurface, fenceSurface, cowSurface, pigSurface, signSurface, extraSurface , firmaSurface , menuSurface };
+enum surface { screenSurface, bgSurface, playerSurface, itemsSurface, plantsSurface, textua, pauseSurface, HUDSurface, homeSurface, fenceSurface, cowSurface, pigSurface, signSurface, extraSurface };
 
 extern int main_menu, language;
 
@@ -87,7 +87,6 @@ struct Player {
 	int hotbarSlot;
 	int frame;
 	int canInteract;
-	int energia;
 	SDL_Rect clip;
 };
 extern struct Player player;

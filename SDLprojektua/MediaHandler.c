@@ -38,10 +38,7 @@ void loadFiles() {
 	surface[pigSurface] = loadMedia("assets/images/pig.png");
 	surface[signSurface] = loadMedia("assets/images/sign.png");
 	surface[HUDSurface] = loadMedia("assets/images/HUD.png");
-	surface[firmaSurface] = loadMedia("assets/images/FIRMA.png");
-	surface[menuSurface] = loadMedia("assets/images/ANCIENTGARDEN.png");
 }
-
 void playPickUpSFX() {
 	char* src = "assets/sounds/pickUpSFX0.wav";
 	int random = rand() % 3;
