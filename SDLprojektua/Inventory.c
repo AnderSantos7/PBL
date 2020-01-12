@@ -8,7 +8,6 @@
 #include <string.h>
 
 void marraztuInv(int inv) {
-
 	SDL_Rect clip;
 	clip.w = inventories[inv].slotSize;
 	clip.h = inventories[inv].slotSize;
@@ -70,6 +69,7 @@ int checkHover() {
 void marraztuInvTag(int inv) {
 	char str[128], qty[128];
 	if (inventories[inv].open && showingItem > -1 && inventories[inv].items[showingItem].ID != 0) {
+
 		TTF_Font* font;
 		font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 16);
 		SDL_Color color = { 255, 255, 255 };
@@ -82,9 +82,15 @@ void marraztuInvTag(int inv) {
 		SDL_Surface* s = TTF_RenderText_Solid(font, str, color);
 		SDL_Texture* t = SDL_CreateTextureFromSurface(renderer, s);
 		int w, h;
+		int offSet = 16;
 		SDL_QueryTexture(t, NULL, NULL, &w, &h);
-		aplikatuSurface(mousePos.x, mousePos.y, w, h, t, NULL);
-		SDL_FreeSurface(s);
+		SDL_Rect clip = {201, 477, 200, 50};
+		int posX = mousePos.x, posY = mousePos.y;
+		if (mousePos.x + w + 40 >= SCREEN_WIDTH) posX = mousePos.x - w -20;
+		if (mousePos.y + h + 40 >= SCREEN_WIDTH) posY = mousePos.y - h - 20;
+		aplikatuSurface(posX + offSet - 10, posY + offSet - 10, w + 20, h + 20, textures[HUDSurface], &clip);
+		aplikatuSurface(posX + offSet, mousePos.y + offSet, w, h, t, NULL);
+		SDL_FreeSurface(s);	
 		SDL_DestroyTexture(t);
 		TTF_CloseFont(font);
 	}

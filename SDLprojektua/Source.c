@@ -183,6 +183,7 @@ void initGame() {
 	startPresests();
 	updateInv(INV_PLAYER);
 	updateInv(INV_CHEST);
+	getNextQuest();
 	load();
 	return;
 }
@@ -236,6 +237,8 @@ void marraztu() {
 	for (int i = 0; i < 2; i++) showInv(i);
 	marraztuInvTag(getHoveringInv());
 	if (hoveringItem.ID != 0) marraztuHoveringItem();
+	showCurrentQuest();
+	questCompleteAnim(deltaTime);
 	return;
 }
 

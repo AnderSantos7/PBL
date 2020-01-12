@@ -50,7 +50,7 @@ struct posCoord {
 
 extern struct posCoord mousePos;
 
-enum Seed { NONE, CALABAZA, TOMATE };
+enum Seed { NONE, CALABAZA, TOMATE, PIMIENTO, BERENJENA, TRIGO };
 
 struct Plant {
 	int seed;
@@ -96,6 +96,7 @@ struct Player {
 extern struct Player player;
 
 struct Obstacle {
+	int interactuable;
 	int x;
 	int y;
 	int w;
@@ -116,7 +117,7 @@ struct Quest {
 	int complete;
 };
 
-enum Actions { HARVEST, PLANT, WATER, ENTREGA, ARAR };
+enum Actions { HARVEST, PLANT, WATER, ENTREGA, ARAR, FERTILIZAR };
 
 extern struct Obstacle obstaclesOutside[];
 extern struct Obstacle obstaclesInside[];

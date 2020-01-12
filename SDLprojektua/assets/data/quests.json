@@ -1,9 +1,11 @@
-{"ID":0;"name_str":0;"sheetPosX":0;"sheetPosY":0;"seed":0;},
-{"ID":1;"name_str":1;"sheetPosX":64;"sheetPosY":0;"seed":0;},
-{"ID":2;"name_str":2;"sheetPosX":128;"sheetPosY":0;"seed":0;},
-{"ID":3;"name_str":3;"sheetPosX":192;"sheetPosY":0;"seed":0;},
-{"ID":4;"name_str":4;"sheetPosX":0;"sheetPosY":64;"seed":0;},
-{"ID":5;"name_str":5;"sheetPosX":64;"sheetPosY":64;"seed":1;},
-{"ID":6;"name_str":6;"sheetPosX":128;"sheetPosY":64;"seed":0;},
-{"ID":7;"name_str":7;"sheetPosX":192;"sheetPosY":64;"seed":2;},
-{"ID":8;"name_str":8;"sheetPosX":256;"sheetPosY":64;"seed":0;},
+{"ID":0;"dialog_str":0;"action":4;"requiredItem":0;"requiredAmmount":1;"rewardItem":5;"rewardAmmount":1;}, //Arar
+{"ID":1;"dialog_str":1;"action":1;"requiredItem":1;"requiredAmmount":1;"rewardItem":2;"rewardAmmount":1;}, //Plantar calabaza
+{"ID":2;"dialog_str":2;"action":2;"requiredItem":1;"requiredAmmount":1;"rewardItem":16;"rewardAmmount":1;}, //Water calabaza
+{"ID":3;"dialog_str":3;"action":5;"requiredItem":1;"requiredAmmount":1;"rewardItem":0;"rewardAmmount":0;}, //Fertilizar calabaza
+{"ID":4;"dialog_str":4;"action":0;"requiredItem":4;"requiredAmmount":1;"rewardItem":7;"rewardAmmount":1;}, //Harvest calabaza
+{"ID":5;"dialog_str":5;"action":1;"requiredItem":2;"requiredAmmount":1;"rewardItem":0;"rewardAmmount":0;}, //Plantar tomate
+{"ID":6;"dialog_str":6;"action":0;"requiredItem":6;"requiredAmmount":2;"rewardItem":9;"rewardAmmount":1;}, //Recoger 2 tomates
+{"ID":7;"dialog_str":7;"action":1;"requiredItem":3;"requiredAmmount":1;"rewardItem":16;"rewardAmmount":5;}, //Plantar pimientos
+{"ID":8;"dialog_str":8;"action":3;"requiredItem":8;"requiredAmmount":5;"rewardItem":11;"rewardAmmount":3;}, //Entregar 5 pimientos
+{"ID":9;"dialog_str":9;"action":1;"requiredItem":0;"requiredAmmount":10;"rewardItem":11;"rewardAmmount":1;}, //Plantar 10 semillas
+{"ID":10;"dialog_str":10;"action":0;"requiredItem":10;"requiredAmmount":10;"rewardItem"130;"rewardAmmount":1;}, //Recoger 10 berenjenas

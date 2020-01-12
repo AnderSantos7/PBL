@@ -24,12 +24,7 @@ void harvest(int tile) {
 	if (tiles[tile].plant.seed != 0 && tiles[tile].plant.stage == 2) {
 		int seedAmmount = 0, harvest = 0, seed = 0;
 		seedAmmount = rand() % 3 + 1;
-		switch (tiles[tile].plant.seed) {
-		case CALABAZA: harvest = 4;
-			break;
-		case TOMATE: harvest = 6;
-			break;
-		}
+		harvest = seedToItem(tiles[tile].plant.seed);
 		seed = harvest + 1;
 		dropItem(tile, seed, seedAmmount);
 		dropItem(tile, harvest, 1);
@@ -46,7 +41,7 @@ void water(int tile) {
 	tiles[tile].plant.lastWater = 0;
 	restaEnergy();
 
-	checkQuestCompletion(WATER, 0, 1);
+	checkQuestCompletion(WATER, tiles[tile].plant.seed, 1);
 	return;
 }
 
@@ -55,6 +50,13 @@ void arar(int tile) {
 	restaEnergy();
 
 	checkQuestCompletion(ARAR, 0, 1);
+	return;
+}
+
+void fertilize(int tile) {
+	tiles[tile].plant.time += 100;
+
+	checkQuestCompletion(FERTILIZAR, tiles[tile].plant.seed, 1);
 	return;
 }
 
@@ -123,7 +125,7 @@ void marraztuTiles() {
 void updateTiles(double deltaTime) {
 	for (int i = 0; i < 49; i++) {
 		if (tiles[plantable_ID[i]].plant.arado) {
-			updatePlants(i, deltaTime);
+			updatePlants(i, deltaTime * 10);
 			updateWater(i, deltaTime);
 		}
 	}

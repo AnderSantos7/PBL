@@ -193,12 +193,14 @@ void animatePlayer(double deltaTime) {
 void drawPlayer() {
 	aplikatuSurface(player.x - camera.x, player.y - camera.y, player.w, player.h, textures[playerSurface], &player.clip);
 	if (player.canInteract != -1) {
-		SDL_Rect clip;
-		clip.x = 582;
-		clip.y = 208;
-		clip.w = 30;
-		clip.h = 30;
-		aplikatuSurface(player.x - camera.x + player.w, player.y - camera.y, 30, 30, textures[HUDSurface], &clip);
+		if (player.status == PLAYING && obstaclesOutside[player.canInteract].interactuable) {
+			SDL_Rect clip;
+			clip.x = 582;
+			clip.y = 208;
+			clip.w = 30;
+			clip.h = 30;
+			aplikatuSurface(player.x - camera.x + player.w, player.y - camera.y, 30, 30, textures[HUDSurface], &clip);
+		}
 	}
 	return;
 }

@@ -9,6 +9,7 @@
 
 int getNextNode(char* str, int startPos);
 struct JSON_Items parseItem(int line);
+struct JSON_Quests parseQuest(int line);
 
 struct JSON_Items {
 	int ID;
@@ -16,6 +17,16 @@ struct JSON_Items {
 	int sheetPosX;
 	int sheetPosY;
 	int seed;
+};
+
+struct JSON_Quests {
+	int ID;
+	int dialog_str;
+	int action;
+	int requiredItem;
+	int requiredAmmount;
+	int rewardItem;
+	int rewardAmmount;
 };
 
 char dic_Items[128][128], dic_Quests[128];
@@ -88,6 +99,72 @@ struct JSON_Items parseItem(int line) {
 		i++;
 	}
 	return itemData;
+}
+
+struct Quest getQuest(int ID) {
+	struct JSON_Quests questData = parseQuest(ID);
+	struct Quest quest;
+
+	quest.ID = questData.ID;
+	quest.dialog_str = questData.dialog_str;
+	quest.action = questData.action;
+	quest.requiredItem = questData.requiredItem;
+	quest.requiredAmmount = questData.requiredAmmount;
+	quest.rewardItem = questData.rewardItem;
+	quest.rewardAmmount = questData.rewardAmmount;
+	quest.complete = 0;
+	quest.completion = 0;
+	
+	return quest;
+}
+
+struct JSON_Quests parseQuest(int line) {
+	char* src = "assets/data/quests.json";
+	FILE* fp = fopen(src, "r");
+	char buff[256];
+	int i = 1;
+	struct JSON_Quests questData = { 0, 0, 0, 0, 0, 0, 0 };
+	fgets(buff, 256, fp);
+	while (i <= line && feof(fp) == 0) {
+		fgets(buff, 256, fp);
+		i++;
+	}
+	i = getNextNode(buff, 0);
+	while (buff[i] != ';') {
+		questData.ID = questData.ID * 10 + buff[i] - 48;
+		i++;
+	}
+	i = getNextNode(buff, i);
+	while (buff[i] != ';') {
+		questData.dialog_str = questData.dialog_str * 10 + buff[i] - 48;
+		i++;
+	}
+	i = getNextNode(buff, i);
+	while (buff[i] != ';') {
+		questData.action = questData.action * 10 + buff[i] - 48;
+		i++;
+	}
+	i = getNextNode(buff, i);
+	while (buff[i] != ';') {
+		questData.requiredItem = questData.requiredItem * 10 + buff[i] - 48;
+		i++;
+	}
+	i = getNextNode(buff, i);
+	while (buff[i] != ';') {
+		questData.requiredAmmount = questData.requiredAmmount * 10 + buff[i] - 48;
+		i++;
+	}
+	i = getNextNode(buff, i);
+	while (buff[i] != ';') {
+		questData.rewardItem = questData.rewardItem * 10 + buff[i] - 48;
+		i++;
+	}
+	i = getNextNode(buff, i);
+	while (buff[i] != ';') {
+		questData.rewardAmmount = questData.rewardAmmount * 10 + buff[i] - 48;
+		i++;
+	}
+	return questData;
 }
 
 int getNextNode(char* str, int startPos) {

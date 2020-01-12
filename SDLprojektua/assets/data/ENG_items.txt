@@ -6,3 +6,12 @@ Pumpkin
 Pumpkin seeds
 Tomato
 Tomato seeds
+Pepper
+Pepper seeds
+Aubergine
+Aubergine seeds
+Wheat
+Wheat seeds
+x
+x seeds
+Fertilizer

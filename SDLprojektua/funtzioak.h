@@ -38,6 +38,7 @@ int getFacingTileId();
 void landatu(int seed);
 void harvest(int tile);
 void water(int tile);
+void fertilize(int tile);
 void marraztuTiles();
 void updateTiles(double deltaTime);
 
@@ -64,6 +65,7 @@ void dropHoveringItem();
 void dropItem(int tile, int item, int ammount);
 int pickUpItems();
 void sweepFloor(int i);
+int seedToItem(int seed);
 
 //Guardar partida
 void load();
@@ -80,9 +82,14 @@ void restaEnergy();
 void updateDay(double deltaTime);
 void drawDayFilter();
 void drawClock();
+void resetDay();
 
 //Quests
 void checkQuestCompletion(int action, int item, int ammount);
 void acceptReward();
-void resetDay();
+void questCompleteAnim(double deltaTime);
+struct Quest getQuest(int ID);
+void getNextQuest();
+void showCurrentQuest();
+int deliverQuest();
 #endif

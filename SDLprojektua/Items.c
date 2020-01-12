@@ -84,7 +84,7 @@ void dropItem(int tile, int item, int ammount) {
 int pickUpItems() {
 	int picked = 0;
 	for (int i = 0; i < droppedLength; i++) {
-		if (checkInRange(droppedItems[i].xPos - player.x - player.w / 2, droppedItems[i].yPos - player.y - player.h, playerPickRange)) {
+		if (checkInRange(droppedItems[i].xPos - player.x - player.w / 2, droppedItems[i].yPos - player.y - player.h / 2, playerPickRange)) {
 			if (!insertItem(INV_HOTBAR, droppedItems[i], droppedItems[i].quantity, -1)) {
 				if (insertItem(INV_PLAYER, droppedItems[i], droppedItems[i].quantity, -1)) {
 					sweepFloor(i);
@@ -106,4 +106,21 @@ void sweepFloor(int i) {
 		droppedItems[i] = droppedItems[i + 1];
 	}
 	return;
+}
+
+int seedToItem(int seed) {
+	int item = 0;
+	switch (seed) {
+	case CALABAZA: item = 4;
+		break;
+	case TOMATE: item = 6;
+		break;
+	case PIMIENTO: item = 8;
+		break;
+	case BERENJENA: item = 10;
+		break;
+	case TRIGO: item = 12;
+		break;
+	}
+	return item;
 }
