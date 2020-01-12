@@ -35,13 +35,13 @@ int main_menu = 1, language = EUS;
 struct Player player;
 SDL_Rect camera;
 struct Inventory inventories[3] = { {
-	1, 35, 3, 1, 9, 64, 0, 0, 3
+	1, 35, 413, 1, 9, 64, 0, 0, 3
 	},
 	{
-	0, 35, 90, 2, 9, 64, 0, 70, 20
+	0, 35, 279, 2, 9, 64, 0, 70, 20
 	},
 	{
-	0, 35, 240, 3, 9, 64, 0, 221, 20
+	0, 35, 241, 3, 9, 64, 0, 221, 20
 	}
 };
 
@@ -205,15 +205,14 @@ void marraztu() {
 	aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[bgSurface], &camera);
 	marraztuTiles();
 	marraztuDroppedItems(0);
-	marraztuEnergy();
 	SDL_Rect clip = { 0, 126, 60, 61 };
 	if (player.y > 64 - 5) {
-		aplikatuSurface(12 * TILE_SIZE - camera.x, 3 * TILE_SIZE - camera.y, 60, 61, textures[obstacleSurface], &clip);
+		aplikatuSurface(13 * TILE_SIZE - camera.x, 2 * TILE_SIZE - camera.y + 1, 60, 61, textures[obstacleSurface], &clip);
 		drawPlayer();
 	}
 	else {
 		drawPlayer();
-		aplikatuSurface(12 * TILE_SIZE - camera.x, 3 * TILE_SIZE - camera.y, 60, 61, textures[obstacleSurface], &clip);
+		aplikatuSurface(13 * TILE_SIZE - camera.x, 2 * TILE_SIZE - camera.y + 1, 60, 61, textures[obstacleSurface], &clip);
 	}
 	marraztuDroppedItems(1);
 	//Fence
@@ -232,6 +231,8 @@ void marraztu() {
 	clip.h = 35;
 	aplikatuSurface(TILE_SIZE * 2 - camera.x, 13 * TILE_SIZE - camera.y, 49, 35, textures[obstacleSurface], &clip);
 	drawDayFilter();
+	marraztuEnergy();
+	drawClock();
 	for (int i = 0; i < 2; i++) showInv(i);
 	marraztuInvTag(getHoveringInv());
 	if (hoveringItem.ID != 0) marraztuHoveringItem();
@@ -255,9 +256,8 @@ void reset() {
 		marraztu();
 		player.timer = 0;
 		player.status = PLAYING;
-		//s
-		inventories[INV_HOTBAR].yPos = 0;
-		inventories[INV_PLAYER].yPos = inventories[INV_PLAYER].slotSize + inventories[INV_PLAYER].headerSize + 3;
+		inventories[INV_HOTBAR].yPos = 413;
+		inventories[INV_PLAYER].yPos = 407 - (inventories[INV_PLAYER].slotSize  * inventories[INV_PLAYER].rows);
 	}
 	return;
 }

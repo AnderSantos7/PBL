@@ -45,7 +45,6 @@ void loadFiles() {
 	textures[HUDSurface] = loadMedia("assets/images/HUD.png");
 	textures[firmaSurface] = loadMedia("assets/images/FIRMA.png");
 	textures[menuSurface] = loadMedia("assets/images/ANCIENTGARDEN.png");
-	textures[cofreSurface] = loadMedia("assets/images/cofre.png");
 	
 	return;
 }
@@ -54,13 +53,12 @@ void playPickUpSFX() {
 	char* src = "assets/sounds/pickUpSFX0.wav";
 	int random = rand() % 3;
 	switch (random) {
-	case 0: src = "assets/sounds/pickupsfx0.wav"; break;
-	case 1: src = "assets/sounds/pickupsfx1.wav"; break;
-	case 2: src = "assets/sounds/pickupsfx2.wav"; break;
+	case 0: src = "assets/sounds/pickUpSFX0.wav"; break;
+	case 1: src = "assets/sounds/pickUpSFX1.wav"; break;
+	case 2: src = "assets/sounds/pickUpSFX2.wav"; break;
 	}
 	Mix_Chunk* pickUpSFX = Mix_LoadWAV_RW(SDL_RWFromFile(src, "rb"), 1);
 	Mix_PlayChannelTimed(-1, pickUpSFX, 0, -1);
-	Mix_FreeChunk(pickUpSFX);
 	return;
 }
 

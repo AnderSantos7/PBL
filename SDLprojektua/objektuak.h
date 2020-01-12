@@ -6,7 +6,7 @@ extern const int SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE, GRID_SIZE, LEVEL_SIZE;
 extern SDL_Window* win;
 extern SDL_Renderer* renderer;
 SDL_Texture* textures[16];
-enum textures { bgSurface, playerSurface, itemsSurface, plantsSurface, pauseSurface, HUDSurface, homeSurface, obstacleSurface, firmaSurface, menuSurface, cofreSurface };
+enum textures { bgSurface, playerSurface, itemsSurface, plantsSurface, pauseSurface, HUDSurface, homeSurface, obstacleSurface, firmaSurface, menuSurface };
 
 extern int main_menu, language;
 
@@ -102,6 +102,17 @@ struct Obstacle {
 	int h;
 	int sheetPosX;
 	int sheetPosY;
+};
+
+struct Quest {
+	int ID;
+	int dialog_str;
+	int action;
+	int requiredItem;
+	int requiredAmmount;
+	int rewardItem;
+	int rewardAmmount;
+	int complete;
 };
 
 extern struct Obstacle obstaclesOutside[];

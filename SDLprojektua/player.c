@@ -78,6 +78,8 @@ void movePlayer(double deltaTime) {
 				player.y = 64;
 				if (player.x + 32 > 64 * 2 && player.x + 32 < 64 * 3) {
 					player.status = HOME;
+					inventories[INV_HOTBAR].yPos = 3;
+					inventories[INV_PLAYER].yPos = 90;
 					closeInvs();
 					player.y = 480 - 64 * 2;
 					player.x = 375;
@@ -194,9 +196,9 @@ void drawPlayer() {
 		SDL_Rect clip;
 		clip.x = 582;
 		clip.y = 208;
-		clip.w = 20;
-		clip.h = 20;
-		aplikatuSurface(player.x - camera.x + player.w, player.y - camera.y, 20, 20, textures[HUDSurface], &clip);
+		clip.w = 30;
+		clip.h = 30;
+		aplikatuSurface(player.x - camera.x + player.w, player.y - camera.y, 30, 30, textures[HUDSurface], &clip);
 	}
 	return;
 }
@@ -212,7 +214,7 @@ void checkPosibleInteraction() {
 	switch(player.status) {
 	case PLAYING:
 		while (player.canInteract == -1 && i < 3) {
-			if (checkInRange(obstaclesOutside[i].x + obstaclesOutside[i].w / 2 - player.x, obstaclesOutside[i].y + obstaclesOutside[i].h / 2 - player.y, range)) {
+			if (checkInRange(obstaclesOutside[i].x + obstaclesOutside[i].w / 2 - player.x - player.w / 2, obstaclesOutside[i].y + obstaclesOutside[i].h / 2 - player.y - player.h, range)) {
 				player.canInteract = i;
 				finished = 1;
 			}

@@ -10,16 +10,38 @@
 
 double dayTime = 0;
 void updateDay(double deltaTime) {
-	dayTime += deltaTime;
-	if (dayTime >= 100) dayTime = 0;
+	dayTime += 10 * deltaTime;
+	if (dayTime >= 250) dayTime = 0;
 
 	return;
 }
 
 void drawDayFilter() {
-	int color = dayTime / 500 * 255;
-	SDL_Rect rect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, color);
-	SDL_RenderFillRect(renderer, &rect);
+	if (dayTime >= 150) {
+		int alpha = (dayTime - 150) / 100 * 128;
+		if (dayTime >= 200) {
+			alpha -= (dayTime - 200) / 50 * 128;
+		}
+		SDL_SetRenderDrawColor(renderer, 255, 63, 0, alpha);
+		SDL_RenderFillRect(renderer, NULL);
+	}
+
+	if (dayTime >= 200) {
+		int alpha = (dayTime - 200) / 50 * 192;
+		SDL_SetRenderDrawColor(renderer, 0, 0, 32, alpha);
+		SDL_RenderFillRect(renderer, NULL);
+	}
+	return;
+}
+	
+void drawClock() {
+	int xOffset = 16;
+	SDL_Rect clip = {dayTime * 2, 436, 200, 40};
+	aplikatuSurface(SCREEN_WIDTH - 200 - xOffset, 16, clip.w, clip.h, textures[HUDSurface], &clip);
+	clip.x = 0;
+	clip.y = 476;
+	clip.w = 200;
+	clip.h = 57;
+	aplikatuSurface(SCREEN_WIDTH - 200 - xOffset, 11, clip.w, clip.h, textures[HUDSurface], &clip);
 	return;
 }

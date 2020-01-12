@@ -1,3 +1,6 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(445,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  InputHandler.c
+  Items.c
+  player.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\player.c(45,21): warning C4305: '=': truncamiento de 'double' a 'float'
+  Generando código...
   SDLprojektua.vcxproj -> D:\Docs\Uni\PBL\PBL\SDLprojektua\-\SDLprojektua.exe

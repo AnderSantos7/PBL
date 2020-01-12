@@ -124,6 +124,17 @@ struct Item removeItemFromInv(int inv, int pos) {
 	return item;
 }
 
+void moveItemToHotbar(int slot) {
+	int inv = getHoveringInv();
+	if (showingItem != -1 && inventories[inv].items[showingItem].ID != 0) {
+		struct Item tmp;
+		tmp = inventories[inv].items[showingItem];
+		inventories[inv].items[showingItem] = inventories[INV_HOTBAR].items[slot];
+		inventories[INV_HOTBAR].items[slot] = tmp;
+	}
+	return;
+}
+
 struct Item pickHovering() {
 	struct Item item = itemPresets[0];
 	int inv = getHoveringInv();

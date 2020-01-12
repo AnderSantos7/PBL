@@ -48,6 +48,7 @@ int checkHover();
 void marraztuInvTag(int inv);
 int insertItem(int inv, struct Item item, int quantity, int pos);
 struct Item removeItemFromInv(int inv, int pos);
+void moveItemToHotbar(int slot);
 struct Item pickHovering();
 void showStackSize(int inv);
 void showInv(int inv);
@@ -78,4 +79,5 @@ void restaEnergy();
 //Day Cycle
 void updateDay(double deltaTime);
 void drawDayFilter();
+void drawClock();
 #endif

@@ -148,15 +148,42 @@ void keyHandlerDown(SDL_Event e) {
 			break;
 		}
 		break;
-	case SDL_SCANCODE_1: player.hotbarSlot = 0; break;
-	case SDL_SCANCODE_2: player.hotbarSlot = 1; break;
-	case SDL_SCANCODE_3: player.hotbarSlot = 2; break;
-	case SDL_SCANCODE_4: player.hotbarSlot = 3; break;
-	case SDL_SCANCODE_5: player.hotbarSlot = 4; break;
-	case SDL_SCANCODE_6: player.hotbarSlot = 5; break;
-	case SDL_SCANCODE_7: player.hotbarSlot = 6; break;
-	case SDL_SCANCODE_8: player.hotbarSlot = 7; break;
-	case SDL_SCANCODE_9: player.hotbarSlot = 8; break;
+	case SDL_SCANCODE_1:
+		player.hotbarSlot = 0;
+		moveItemToHotbar(0);
+		break;
+	case SDL_SCANCODE_2:
+		player.hotbarSlot = 1;
+		moveItemToHotbar(1);
+		break;
+	case SDL_SCANCODE_3:
+		player.hotbarSlot = 2;
+		moveItemToHotbar(2);
+		break;
+	case SDL_SCANCODE_4:
+		player.hotbarSlot = 3;
+		moveItemToHotbar(3);
+		break;
+	case SDL_SCANCODE_5:
+		player.hotbarSlot = 4;
+		moveItemToHotbar(4);
+		break;
+	case SDL_SCANCODE_6:
+		player.hotbarSlot = 5;
+		moveItemToHotbar(5);
+		break;
+	case SDL_SCANCODE_7:
+		player.hotbarSlot = 6;
+		moveItemToHotbar(6);
+		break;
+	case SDL_SCANCODE_8:
+		player.hotbarSlot = 7;
+		moveItemToHotbar(7);
+		break;
+	case SDL_SCANCODE_9:
+		player.hotbarSlot = 8;
+		moveItemToHotbar(8);
+		break;
 		}
 	}
 	return;
