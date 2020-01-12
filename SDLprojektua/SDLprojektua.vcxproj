@@ -146,6 +146,7 @@
     <ClCompile Include="menu.c" />
     <ClCompile Include="obstacles.c" />
     <ClCompile Include="player.c" />
+    <ClCompile Include="Quest.c" />
     <ClCompile Include="SaveState.c" />
     <ClCompile Include="Source.c" />
     <ClCompile Include="tiles.c" />

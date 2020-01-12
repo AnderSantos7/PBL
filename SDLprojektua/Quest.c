@@ -7,13 +7,15 @@
 struct Quest currentQuest = { 0, 0, 0, 4, 1, 7, 1, 0};
 
 void giveReward();
+void getNextQuest();
 
 void giveReward() {
 	if (!insertItem(0, itemPresets[currentQuest.rewardItem], currentQuest.rewardAmmount, -1)) {
 		if (!insertItem(1, itemPresets[currentQuest.rewardItem], currentQuest.rewardAmmount, -1)) {
 			dropItem(player.facingTile, currentQuest.rewardItem, currentQuest.rewardAmmount);
-		}
+		}	
 	}
+	getNextQuest();
 	return;
 }
 
@@ -27,6 +29,7 @@ void checkQuestCompletion(int action, int item, int ammount) {
 		currentQuest.completion += ammount;
 		if (currentQuest.completion >= currentQuest.requiredAmmount) {
 			currentQuest.complete = 1;
+			acceptReward();
 		}
 	}
 	return;

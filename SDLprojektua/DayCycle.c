@@ -10,7 +10,7 @@
 
 double dayTime = 0;
 void updateDay(double deltaTime) {
-	dayTime += 10 * deltaTime;
+	dayTime += deltaTime;
 	if (dayTime >= 250) dayTime = 0;
 
 	return;
@@ -43,5 +43,10 @@ void drawClock() {
 	clip.w = 200;
 	clip.h = 57;
 	aplikatuSurface(SCREEN_WIDTH - 200 - xOffset, 11, clip.w, clip.h, textures[HUDSurface], &clip);
+	return;
+}
+
+void resetDay() {
+	dayTime = 0;
 	return;
 }

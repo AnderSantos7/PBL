@@ -57,6 +57,9 @@
     <ClCompile Include="DayCycle.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="Quest.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="funtzioak.h">

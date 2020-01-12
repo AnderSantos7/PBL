@@ -80,4 +80,9 @@ void restaEnergy();
 void updateDay(double deltaTime);
 void drawDayFilter();
 void drawClock();
+
+//Quests
+void checkQuestCompletion(int action, int item, int ammount);
+void acceptReward();
+void resetDay();
 #endif

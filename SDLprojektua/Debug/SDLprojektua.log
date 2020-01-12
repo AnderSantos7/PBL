@@ -1,6 +1,28 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(445,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  camera.c
+  dataHandler.c
+  DayCycle.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\DayCycle.c(23,39): warning C4244: '-=': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\DayCycle.c(21,1): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\DayCycle.c(30,1): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\DayCycle.c(39,1): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+  energy.c
+  InputHandler.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\InputHandler.c(297,10): warning C4013: 'arar' sin definir; se supone que extern devuelve como resultado int
+  Inventory.c
   Items.c
+  MediaHandler.c
+  menu.c
+  obstacles.c
   player.c
 D:\Docs\Uni\PBL\PBL\SDLprojektua\player.c(45,21): warning C4305: '=': truncamiento de 'double' a 'float'
+  Quest.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(32,10): warning C4013: 'printf' sin definir; se supone que extern devuelve como resultado int
+  SaveState.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\SaveState.c(49,53): warning C4244: '=': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\SaveState.c(50,43): warning C4244: '=': conversión de 'double' a 'int'; posible pérdida de datos
+  Source.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(80,4): warning C4550: la expresión se evalúa como una función a la que le falta una lista de argumentos
+  tiles.c
   Generando código...
   SDLprojektua.vcxproj -> D:\Docs\Uni\PBL\PBL\SDLprojektua\-\SDLprojektua.exe

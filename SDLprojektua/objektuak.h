@@ -112,8 +112,11 @@ struct Quest {
 	int requiredAmmount;
 	int rewardItem;
 	int rewardAmmount;
+	int completion;
 	int complete;
 };
+
+enum Actions { HARVEST, PLANT, WATER, ENTREGA, ARAR };
 
 extern struct Obstacle obstaclesOutside[];
 extern struct Obstacle obstaclesInside[];

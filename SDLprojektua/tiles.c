@@ -14,22 +14,10 @@ void landatu(int seed) {
 	if (tiles[player.facingTile].plant.arado && tiles[player.facingDirection].plant.seed == NONE) {
 		tiles[player.facingTile].plant.seed = seed;
 	}
-	return;
-	/*if (!tiles[player.facingTile].plant.arado){
-		tiles[player.facingTile].plant.arado = 1;
-	}*/
+	restaEnergy();
 
-	//else if (tiles[player.facingTile].plant.stage == 2) {
-	//	//changeInv(i);
-	//	i++;
-	//	tiles[player.facingTile].plant.time = 0;
-	//	tiles[player.facingTile].plant.stage = NONE;
-	//	tiles[player.facingTile].plant.seed = NONE;
-	//}
-	//else if (tiles[player.facingTile].plant.arado && !tiles[player.facingTile].plant.water) {
-	//	tiles[player.facingTile].plant.lastWater = NONE;
-	//	tiles[player.facingTile].plant.water = 1;
-	//}
+	checkQuestCompletion(PLANT, seed, 1);
+	return;
 }
 
 void harvest(int tile) {
@@ -48,12 +36,25 @@ void harvest(int tile) {
 		tiles[tile].plant.seed = NONE;
 		tiles[tile].plant.stage = 0;
 		tiles[tile].plant.time = 0;
+
+		checkQuestCompletion(HARVEST, harvest, 1);
 	}
 }
 
 void water(int tile) {
 	tiles[tile].plant.water = 1;
 	tiles[tile].plant.lastWater = 0;
+	restaEnergy();
+
+	checkQuestCompletion(WATER, 0, 1);
+	return;
+}
+
+void arar(int tile) {
+	tiles[tile].plant.arado = 1;
+	restaEnergy();
+
+	checkQuestCompletion(ARAR, 0, 1);
 	return;
 }
 
