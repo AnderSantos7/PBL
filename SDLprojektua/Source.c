@@ -92,14 +92,19 @@ int main(int argc, char* argv[]) {
 				clip.w = 55;
 				clip.h = 90;
 				aplikatuSurface(390, 70, 55, 90, textures[obstacleSurface], &clip);
-
+				if (player.sleeping)
+				{
+					SDL_Rect klap = { 0, 0, 64, 64 };
+					aplikatuSurface(20, 71, 64, 64, textures[playerSurface], &klap);
+				}
 				checkPosibleInteraction();
 
-				drawPlayer();
+				if(player.sleeping==0)drawPlayer();
 				for (int i = 0; i < 3; i++) showInv(i);
 				marraztuInvTag(getHoveringInv());
 				if (hoveringItem.ID != 0)marraztuHoveringItem();
-				SDL_RenderPresent(renderer);
+				if (player.sleeping)paintSleep();
+				SDL_RenderPresent(renderer);	
 				break;
 			case PAUSE:
 			case PAUSE_HOME:
@@ -192,6 +197,8 @@ void update() {
 	updateDay(deltaTime);
 	updateTiles(deltaTime);
 	movePlayer(deltaTime);
+	checkEnergy();
+	chronoEnergy(deltaTime);
 	checkPosibleInteraction();
 	ordenatuDroppedItems();
 	if (pickUpItems()) playPickUpSFX();

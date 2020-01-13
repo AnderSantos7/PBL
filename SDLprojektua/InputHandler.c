@@ -120,7 +120,10 @@ void keyHandlerDown(SDL_Event e) {
 	case SDL_SCANCODE_Q:
 		if (player.status == HOME) {
 			switch(player.canInteract) {
-			case 0: break; //cama
+			case 0: 
+				sleep();
+				break; //cama
+
 			case 1:
 				switch (inventories[INV_CHEST].open) {
 				case 0: inventories[INV_CHEST].open = 1; break;

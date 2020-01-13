@@ -92,6 +92,7 @@ struct Player {
 	int load;
 	SDL_Rect clip;
 	int energy;
+	int sleeping;
 };
 extern struct Player player;
 

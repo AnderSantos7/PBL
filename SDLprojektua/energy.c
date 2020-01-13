@@ -6,7 +6,7 @@
 #include <stdio.h>
 void marraztuEnergy()
 {
-	if (player.energy < 0)
+	if (player.energy <= 0)
 	{
 		player.energy = 0;
 	}
@@ -24,8 +24,8 @@ void marraztuEnergy()
 
 void restaEnergy()
 {
-	player.energy -= 5;
-	if (player.energy < 0) player.energy = 0;
+	player.energy -= 20;
+	
 	return;
 }
 
@@ -33,4 +33,13 @@ void resetEnergy()
 {
 	player.energy = 200;
 	return;
+}
+
+void checkEnergy()
+{
+	if (player.energy <= 0)
+	{
+		sleep();
+	}
+
 }
