@@ -30,7 +30,7 @@ void getNextQuest() {
 }
 
 void checkQuestCompletion(int action, int item, int ammount) {
-	if (!currentQuest.complete && action == currentQuest.action && item == currentQuest.requiredItem)
+	 if (!currentQuest.complete && action == currentQuest.action && (item == currentQuest.requiredItem || currentQuest.requiredItem == 0))
 	{
 		currentQuest.completion += ammount;
 		if (currentQuest.completion >= currentQuest.requiredAmmount) {
@@ -58,28 +58,23 @@ int deliverQuest() {
 	int success = 0;
 	if (currentQuest.action == ENTREGA && !currentQuest.complete) {
 		success = 1;
-		int invItemAmmount = 0, i = 0;
-		int leftovers = currentQuest.requiredAmmount - currentQuest.completion;
-		while (leftovers > 0 && i < inventories[INV_HOTBAR].cols) {
-			if (inventories[INV_HOTBAR].items[i].ID == currentQuest.requiredItem) {
-				inventories[INV_HOTBAR].items[i].quantity -= leftovers;
-				leftovers = -inventories[INV_HOTBAR].items[i].quantity;
-				if (inventories[INV_HOTBAR].items[i].quantity < 1) inventories[INV_HOTBAR].items[i] = itemPresets[0];
+		int toBeDelivered = checkHowManyOfItem(currentQuest.requiredItem);
+		int missingForQuest = currentQuest.requiredAmmount - currentQuest.completion;
+		if (toBeDelivered > 0) {
+			if (toBeDelivered >= missingForQuest) {
+				removeCertainItem(currentQuest.requiredItem, missingForQuest);
+				currentQuest.completion += currentQuest.requiredAmmount;
 			}
-			i++;
-		}
-		i = 0;
-		while (leftovers > 0 && i < inventories[INV_PLAYER].cols) {
-			if (inventories[INV_PLAYER].items[i].ID == currentQuest.requiredItem) {
-				inventories[INV_PLAYER].items[i].quantity -= leftovers;
-				leftovers = -inventories[INV_PLAYER].items[i].quantity;
-				if (inventories[INV_PLAYER].items[i].quantity < 1) inventories[INV_HOTBAR].items[i] = itemPresets[0];
+			else {
+				removeCertainItem(currentQuest.requiredItem, toBeDelivered);
+				currentQuest.completion += toBeDelivered;
 			}
-			i++;
 		}
-		currentQuest.completion = currentQuest.requiredAmmount - leftovers;
-		if (currentQuest.completion > currentQuest.requiredAmmount) currentQuest.completion = currentQuest.requiredAmmount;
-		if (currentQuest.completion == currentQuest.requiredAmmount) completeQuest();
+		if (currentQuest.completion >= currentQuest.requiredAmmount) {
+			currentQuest.completion = currentQuest.requiredAmmount;
+			completeQuest();
+
+		}
 	}
 	return success;
 }
@@ -108,16 +103,21 @@ void showCurrentQuest() {
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 128);
 	SDL_RenderFillRect(renderer, &percent);
 
-
+	TTF_CloseFont(font);
+	SDL_FreeSurface(s);
+	SDL_DestroyTexture(t);
 
 	font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 12);
 	SDL_itoa(percentil * 100, tmp, 10);
 	strcat(tmp, "%");
-	s = TTF_RenderText_Solid(font, tmp, color);
+	if(font != NULL) s = TTF_RenderText_Solid(font, tmp, color);
 	t = SDL_CreateTextureFromSurface(renderer, s);
 	int wBar = w / 2;
 	SDL_QueryTexture(t, NULL, NULL, &w, &h);
 	aplikatuSurface(xOffset + wBar + 8, 2.5 * h + yOffset + 8, w, h, t, NULL);
+
+	SDL_FreeSurface(s);
+	SDL_DestroyTexture(t);
 
 	switch (currentQuest.action) {
 	case HARVEST: strcpy(str, "Harvest: "); break;
@@ -132,8 +132,9 @@ void showCurrentQuest() {
 	if (currentQuest.requiredItem != 0) {
 		if (currentQuest.action == PLANT || currentQuest.action == WATER || currentQuest.action == FERTILIZAR) {
 			strcat(str, itemPresets[seedToItem(currentQuest.requiredItem)].name);
-		}
-		else {
+		}else if (currentQuest.requiredItem == 0) {
+			strcat(str, "Edozein");
+		}else{
 			strcat(str, itemPresets[currentQuest.requiredItem].name);
 		}
 		strcat(str, " ");
@@ -147,12 +148,11 @@ void showCurrentQuest() {
 	t = SDL_CreateTextureFromSurface(renderer, s);
 	SDL_QueryTexture(t, NULL, NULL, &w, &h);
 	aplikatuSurface(xOffset + 6, h + 14 + yOffset, w, h, t, NULL);
+
 	SDL_FreeSurface(s);
 	SDL_DestroyTexture(t);
-
-
-
 	TTF_CloseFont(font);
+	return;
 }
 
 double animTime;
@@ -182,4 +182,18 @@ void questCompleteAnim(double deltaTime) {
 		animTime += deltaTime;
 	}
 	return;
+}
+
+int questMenuOpen = 0;
+void setQuestMenuState(int state) {
+	questMenuOpen = state;
+	return;
+}
+
+int getQuestMenuState() {
+	return questMenuOpen;
+}
+
+void showQuestMenu() {
+
 }

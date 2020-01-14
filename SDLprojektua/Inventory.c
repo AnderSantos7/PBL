@@ -112,14 +112,16 @@ int insertItem(int inv, struct Item item, int quantity, int pos) {
 	else {
 		i = 0;
 		while (i < slots && pos < 0) {
-			if (inventories[inv].items[i].ID == 0) pos = i;
-			i++;
+			if (inventories[inv].items[i].ID == 0) {
+				pos = i;
+			}else i++;
 		}
 		if (i != slots) {
 			inventories[inv].items[pos] = item;
 			success = 1;
 		}
 	}
+	struct Inventory inb = inventories[inv];
 	return success;
 }
 
@@ -227,4 +229,44 @@ void closeInvs() {
 		inventories[i].open = 0;
 	}
 	return;
+}
+
+int checkHowManyOfItem(int item) {
+	int ammount = 0;
+	for (int i = 0; i < 2; i++) {
+		int slots = inventories[i].cols * inventories[i].rows;
+		for (int j = 0; j < slots; j++) {
+			if (inventories[i].items[j].ID == item) ammount += inventories[i].items[j].quantity;
+		}
+	}
+	return ammount;
+}
+
+int removeCertainItem(int item, int ammount) {
+	int success = 0;
+	int i = 0;
+	int removedAmmount = 0;
+	int toBeRemoved = ammount;
+	while (i < 2 && removedAmmount < ammount) {
+		int slots = inventories[i].cols * inventories[i].rows;
+		int j = 0;
+		while (j < slots && removedAmmount < ammount) {
+			if (inventories[i].items[j].ID == item) {
+				if (inventories[i].items[j].quantity >= toBeRemoved) {
+					removedAmmount = toBeRemoved;
+					toBeRemoved -= removedAmmount;
+					inventories[i].items[j].quantity -= removedAmmount;
+					if (inventories[i].items[j].quantity < 1) inventories[i].items[j] = itemPresets[0];
+				}else {
+					removedAmmount = inventories[i].items[j].quantity;
+					toBeRemoved -= removedAmmount;
+					inventories[i].items[j] = itemPresets[0];
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	if (!toBeRemoved) success = 1;
+	return success;
 }

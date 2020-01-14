@@ -56,6 +56,8 @@ void showInv(int inv);
 int getHoveringInv();
 void marraztuHoveringItem();
 void closeInvs();
+int checkHowManyOfItem(int item);
+int removeCertainItem(int item, int ammount);
 
 //Items
 void ordenatuDroppedItems();
