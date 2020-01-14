@@ -37,8 +37,9 @@ void resetEnergy()
 
 void checkEnergy()
 {
-	if (player.energy == 0)
+	if (player.energy <= 0)
 	{
 		sleep();
 	}
+
 }

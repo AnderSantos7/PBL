@@ -5,12 +5,10 @@
 #include "objektuak.h"
 
 struct Obstacle obstaclesOutside[] = {
-	{1, 896, 864, 100, 34 }, //Pozo
-	{1, 836, 132, 60, 62}, //Cartel
+	{1, 896, 864, 100, 34 } , //Pozo
 	{0, 0, 0, 256, 192}, //Casa
-	{1, 0, 365, 300, 80}, //vaca
-	{1, 0, 765, 260, 80}, //cerdo
-	
+	{1, 836, 132, 60, 62} //Cartel
+
 };
 
 struct Obstacle obstaclesInside[] = {
