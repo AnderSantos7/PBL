@@ -5,19 +5,21 @@
 #include "funtzioak.h"
 #include "objektuak.h"
 #include <string.h>
+#include <stdlib.h>
 
 struct Quest currentQuest = {-1, 0, 0, 0, 0, 0};
 
 void giveReward();
 void getNextQuest();
 void completeQuest();
+struct Quest generateRandomQuest();
 
 int completeAnimation = 0;
 void giveReward() {
 	if (!insertItem(0, itemPresets[currentQuest.rewardItem], currentQuest.rewardAmmount, -1)) {
 		if (!insertItem(1, itemPresets[currentQuest.rewardItem], currentQuest.rewardAmmount, -1)) {
 			dropItem(player.facingTile, currentQuest.rewardItem, currentQuest.rewardAmmount);
-		}	
+		}
 	}
 	SDL_SetRenderDrawColor(renderer, 128, 255, 0, 255);
 	SDL_RenderFillRect(renderer, NULL);
@@ -25,7 +27,12 @@ void giveReward() {
 }
 
 void getNextQuest() {
-	currentQuest = getQuest(currentQuest.ID + 1);
+	int lastQuest = 1;
+	if (currentQuest.ID >= lastQuest) {
+		currentQuest = generateRandomQuest();
+	}else{
+		currentQuest = getQuest(currentQuest.ID + 1);
+	}
 	return;
 }
 
@@ -73,7 +80,6 @@ int deliverQuest() {
 		if (currentQuest.completion >= currentQuest.requiredAmmount) {
 			currentQuest.completion = currentQuest.requiredAmmount;
 			completeQuest();
-
 		}
 	}
 	return success;
@@ -196,4 +202,36 @@ int getQuestMenuState() {
 
 void showQuestMenu() {
 
+}
+
+struct Quest generateRandomQuest() {
+	struct Quest quest;
+	int seedKopurua = 5;
+	int maxRequired = 20;
+
+	quest.ID = currentQuest.ID + 1;
+	quest.action = rand() % 6;
+
+	if (quest.action == PLANT || quest.action == WATER || quest.action == FERTILIZAR) {
+		quest.requiredItem = rand() % seedKopurua + 1;
+	}
+	else if(quest.action == ARAR){
+		quest.requiredItem = 0;
+	}
+	else {
+		int harvest[] = { 4, 6, 8, 10, 12, 14};	
+		quest.requiredItem = harvest[rand() % (seedKopurua + 1)];
+	}
+
+	quest.requiredAmmount = rand() % maxRequired + 1;
+
+	quest.rewardItem = 16;
+	quest.rewardAmmount = rand() % maxRequired + 1;
+	quest.complete = 0;
+	quest.completion = 0;
+	return quest;
+}
+
+struct Quest getCurrentQuest() {
+	return currentQuest;
 }

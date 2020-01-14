@@ -159,6 +159,7 @@ int init() {
 		printf("SDL_mixer ez da hasieratu. SDL_mixer Error: %s\n", Mix_GetError());
 		success = 0;
 	}
+	srand(time(0));
 	return success;
 }
 

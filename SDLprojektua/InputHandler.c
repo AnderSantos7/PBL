@@ -117,6 +117,9 @@ void keyHandlerDown(SDL_Event e) {
 		player.load = 1;
 		load();
 		break;
+	case SDL_SCANCODE_C:
+		getNextQuest();
+		break;
 	case SDL_SCANCODE_Q:
 		if (player.status == HOME) {
 			switch(player.canInteract) {

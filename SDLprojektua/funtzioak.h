@@ -96,6 +96,7 @@ struct Quest getQuest(int ID);
 void getNextQuest();
 void showCurrentQuest();
 int deliverQuest();
+struct Quest getCurrentQuest();
 
 //Sleep
 void sleep();

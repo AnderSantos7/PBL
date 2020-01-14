@@ -1,8 +1,5 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(445,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  Quest.c
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(111,26): warning C4244: 'función': conversión de 'float' a 'int'; posible pérdida de datos
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(117,59): warning C4244: 'función': conversión de 'double' a 'int'; posible pérdida de datos
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(99,1): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(99,1): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
-D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(170,1): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(438,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  Source.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(80,4): warning C4550:  la expresión se evalúa como una función a la que le falta una lista de argumentos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(162,15): warning C4244:  'función': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
   SDLprojektua.vcxproj -> D:\Docs\Uni\PBL\PBL\SDLprojektua\-\SDLprojektua.exe
