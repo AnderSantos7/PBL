@@ -79,6 +79,8 @@ void menu(double deltaTime);
 //Energy
 void marraztuEnergy();
 void restaEnergy();
+void checkEnergy();
+void resetEnergy();
 
 //Day Cycle
 void updateDay(double deltaTime);
@@ -94,4 +96,10 @@ struct Quest getQuest(int ID);
 void getNextQuest();
 void showCurrentQuest();
 int deliverQuest();
+
+//Sleep
+void sleep();
+void chronoEnergy(double deltaTime);
+void paintSleep();
+
 #endif
