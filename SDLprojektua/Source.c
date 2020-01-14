@@ -245,7 +245,8 @@ void marraztu() {
 	for (int i = 0; i < 2; i++) showInv(i);
 	marraztuInvTag(getHoveringInv());
 	if (hoveringItem.ID != 0) marraztuHoveringItem();
-	showCurrentQuest();
+	if(!getQuestMenuState())showCurrentQuest();
+	showQuestMenu();
 	questCompleteAnim(deltaTime);
 	return;
 }

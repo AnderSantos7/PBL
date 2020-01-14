@@ -37,3 +37,14 @@ void menu(double deltaTime)
 	}
 	return;
 }
+
+int checkIfClicking(SDL_Rect* button) {
+	int success = 0;
+	if (mousePos.x > button->x&&
+		mousePos.x < button->x + button->w &&
+		mousePos.y > button->y&&
+		mousePos.y < button-> y + button->h) {
+		success = 1;
+	}
+	return success;
+}

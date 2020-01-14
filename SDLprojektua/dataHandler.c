@@ -29,7 +29,7 @@ struct JSON_Quests {
 	int rewardAmmount;
 };
 
-char dic_Items[128][128], dic_Quests[128];
+char dic_Items[128][128], dic_Quests[128][128];
 struct Item itemPresets[128];
 
 void startDic(int language) {
@@ -44,7 +44,17 @@ void startDic(int language) {
 		strcpy(dic_Items[i], buff);
 		i++;
 	}
+	fclose(fp);
 
+	char* src2[] = { "assets/data/EUS_quests.txt", "assets/data/ESP_quests.txt", "assets/data/ENG_quests.txt" };
+	fp = fopen(src2[language], "r");
+	i = 0;
+	while (feof(fp) == 0) {
+		fgets(buff, 128, fp);
+		strtok(buff, "\n");
+		strcpy(dic_Quests[i], buff);
+		i++;
+	}
 	fclose(fp);
 	return;
 }

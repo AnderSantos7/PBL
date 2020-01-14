@@ -68,7 +68,7 @@ int checkHover() {
 
 void marraztuInvTag(int inv) {
 	char str[128], qty[128];
-	if (inventories[inv].open && showingItem > -1 && inventories[inv].items[showingItem].ID != 0) {
+	if (!getQuestMenuState() && inventories[inv].open && showingItem > -1 && inventories[inv].items[showingItem].ID != 0) {
 
 		TTF_Font* font;
 		font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 16);

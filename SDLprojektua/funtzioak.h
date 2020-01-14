@@ -75,6 +75,7 @@ void save();
 
 //Menu
 void menu(double deltaTime);
+int checkIfClicking(SDL_Rect* button);
 
 //Energy
 void marraztuEnergy();
@@ -97,6 +98,10 @@ void getNextQuest();
 void showCurrentQuest();
 int deliverQuest();
 struct Quest getCurrentQuest();
+void showQuestMenu();
+void interactQuestMenu();
+int getQuestMenuState();
+void setQuestMenuState(int state);
 
 //Sleep
 void sleep();

@@ -119,6 +119,7 @@ struct Quest {
 };
 
 enum Actions { HARVEST, PLANT, WATER, ENTREGA, ARAR, FERTILIZAR };
+extern char dic_Quests[128][128];
 
 extern struct Obstacle obstaclesOutside[];
 extern struct Obstacle obstaclesInside[];

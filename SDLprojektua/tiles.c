@@ -79,7 +79,6 @@ int getFacingTileId() {
 	return ID;
 }
 
-
 struct posCoord getTilePosFromId(int ID) {
 	struct posCoord pos;
 	pos.x = ID % GRID_SIZE;
