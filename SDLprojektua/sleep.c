@@ -36,6 +36,7 @@ void chronoEnergy(double deltaTime)
 void paintSleep()
 {
 	int alpha = chronometro / 10 * 255;
+	printf("%d ", alpha);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, alpha);
 	SDL_RenderFillRect(renderer, NULL);
 }

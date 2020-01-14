@@ -147,6 +147,13 @@ void keyHandlerDown(SDL_Event e) {
 			case 2:
 				if(!deliverQuest()) acceptReward();
 				break;
+
+			case 3:
+				if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 12) {
+					inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[16];
+					inventories[INV_HOTBAR].items[player.hotbarSlot].quantity = 4;
+					break;
+				}
 			}
 		}
 		break;
