@@ -82,10 +82,14 @@ int main(int argc, char* argv[]) {
 			case PLAYING:
 				update(deltaTime);
 				marraztu();
+				SDL_Rect jelp = { 0-camera.x , 365-camera.y , 300 , 80 };
+				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+				SDL_RenderFillRect(renderer, &jelp);
 				SDL_RenderPresent(renderer);
 				break;
 			case HOME:
 				update(deltaTime);
+				
 				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[homeSurface], NULL);
 				SDL_Rect clip = { 170 , 0 , 55 , 90 };
 				clip.y = 0;
@@ -100,10 +104,11 @@ int main(int argc, char* argv[]) {
 				checkPosibleInteraction();
 
 				if(player.sleeping==0)drawPlayer();
+				else paintSleep();
+
 				for (int i = 0; i < 3; i++) showInv(i);
 				marraztuInvTag(getHoveringInv());
 				if (hoveringItem.ID != 0)marraztuHoveringItem();
-				if (player.sleeping)paintSleep();
 				SDL_RenderPresent(renderer);	
 				break;
 			case PAUSE:
@@ -199,7 +204,7 @@ void update() {
 	updateTiles(deltaTime);
 	movePlayer(deltaTime);
 	checkEnergy();
-	chronoEnergy(deltaTime);
+	if(player.sleeping)chronoEnergy(deltaTime);
 	checkPosibleInteraction();
 	ordenatuDroppedItems();
 	if (pickUpItems()) playPickUpSFX();
