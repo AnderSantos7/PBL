@@ -80,11 +80,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Docs\Uni\PBL\PBL\SDL2_mixer-2.0.4\include;D:\Docs\Uni\PBL\PBL\SDL2\include;D:\Docs\Uni\PBL\PBL\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDL2_mixer-2.0.4\include;C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDL2_ttf\include;C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>D:\Docs\Uni\PBL\PBL\SDL2\lib\x86;D:\Docs\Uni\PBL\PBL\SDL2_ttf\lib\x86;D:\Docs\Uni\PBL\PBL\SDL2_mixer-2.0.4\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDL2\lib\x86;C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDL2_mixer-2.0.4\lib\x86;C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDL2_ttf\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -96,12 +96,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Docs\Uni\PBL\PBL\SDL2\include;D:\Docs\Uni\PBL\PBL\SDL2_ttf\include;D:\Docs\Uni\PBL\PBL\SDL2_mixer-2.0.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Docs\Uni\PBL\PBL\SDL2\include;E:\Docs\Uni\PBL\PBL\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>D:\Docs\Uni\PBL\PBL\SDL2\lib\x86;D:\Docs\Uni\PBL\PBL\SDL2_ttf\lib\x86;D:\Docs\Uni\PBL\PBL\SDL2_mixer-2.0.4\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;SDL2test.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\Docs\Uni\PBL\PBL\SDL2\lib\x86;E:\Docs\Uni\PBL\PBL\SDL2_ttf\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;SDL2test.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
