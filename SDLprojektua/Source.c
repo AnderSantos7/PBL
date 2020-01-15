@@ -53,8 +53,7 @@ int main(int argc, char* argv[]) {
 
 	if (zabalik) {
 		loadFiles();
-		Mix_Music* music = Mix_LoadMUS("assets/sounds/stardey.wav");
-		Mix_PlayMusic(music, 1);
+		
 		/*for (int i = 0; i < 49; i++) {
 			tiles[plantable_ID[i]].plant.arado = 1;
 		}*/
@@ -72,7 +71,13 @@ int main(int argc, char* argv[]) {
 			}
 			menu(deltaTime);
 			SDL_RenderPresent(renderer);
+			if (!main_menu)
+			{
+				Mix_Music* music = Mix_LoadMUS("assets/sounds/china.wav");
+				Mix_PlayMusic(music, 1);
+			}
 		}
+		
 		else {
 			while (SDL_PollEvent(&e) > 0 && e.type) {
 				zabalik = inputHandler(e);
@@ -100,10 +105,10 @@ int main(int argc, char* argv[]) {
 				checkPosibleInteraction();
 
 				if(player.sleeping==0)drawPlayer();
+				else paintSleep();
 				for (int i = 0; i < 3; i++) showInv(i);
 				marraztuInvTag(getHoveringInv());
 				if (hoveringItem.ID != 0)marraztuHoveringItem();
-				if (player.sleeping)paintSleep();
 				SDL_RenderPresent(renderer);	
 				break;
 			case PAUSE:
@@ -199,7 +204,7 @@ void update() {
 	updateTiles(deltaTime);
 	movePlayer(deltaTime);
 	checkEnergy();
-	chronoSleep(deltaTime);
+	if(player.sleeping)chronoSleep(deltaTime);
 	checkPosibleInteraction();
 	ordenatuDroppedItems();
 	if (pickUpItems()) playPickUpSFX();

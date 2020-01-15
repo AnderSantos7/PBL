@@ -24,7 +24,7 @@ double chronometro = 0;
 void chronoSleep(double deltaTime)
 {
 	chronometro += deltaTime;
-	if (chronometro > 10 && player.sleeping)
+	if (chronometro > 5 && player.sleeping)
 	{
 		player.sleeping = 0;
 		resetEnergy();
@@ -36,7 +36,7 @@ void chronoSleep(double deltaTime)
 
 void paintSleep()
 {
-	int alpha = chronometro / 10 * 255;
+	int alpha = chronometro / 5 * 255;
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, alpha);
 	SDL_RenderFillRect(renderer, NULL);
 	return;
