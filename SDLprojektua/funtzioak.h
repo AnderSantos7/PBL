@@ -111,6 +111,4 @@ void sleep();
 void chronoSleep(double deltaTime);
 void paintSleep();
 
-
-void margotuVaca();
 #endif

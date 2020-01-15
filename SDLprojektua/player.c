@@ -6,8 +6,6 @@
 
 struct Player createPlayer() {
 	struct Player player;
-	player.x = 0;
-	player.y = 0;
 	player.w = TILE_SIZE;
 	player.h = 2 * TILE_SIZE;
 	player.speed = 300;
@@ -25,7 +23,6 @@ struct Player createPlayer() {
 	player.clip.x = 64;
 	player.clip.y = 0;
 	player.canInteract = 0;
-	player.energy = 200;
 	player.sleeping = 0;
 	return player;
 }
@@ -154,7 +151,7 @@ void movePlayer(double deltaTime) {
 
 				if (player.y > 445 - 64 * 2 && player.x > 352 - 20 && player.x < 449 - 44) {
 					if (player.y > 480 - 64 * 2) {
-						player.status = COLLOCATING;
+						player.timer += deltaTime;
 						closeInvs();
 					}
 				}
@@ -225,11 +222,11 @@ int checkInRange(int x, int y, int range) {
 }
 
 void checkPosibleInteraction() {
-	int i = 0, finished = 0, range = 150;
+	int i = 0, finished = 0, range = 100;
 	player.canInteract = -1;
 	switch(player.status) {
 	case PLAYING:
-		while (player.canInteract == -1 && i < 4) {
+		while (player.canInteract == -1 && i < 3) {
 			if (checkInRange(obstaclesOutside[i].x + obstaclesOutside[i].w / 2 - player.x - player.w / 2, obstaclesOutside[i].y + obstaclesOutside[i].h / 2 - player.y - player.h, range)) {
 				player.canInteract = i;
 				finished = 1;

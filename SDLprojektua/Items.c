@@ -31,7 +31,7 @@ void marraztuDroppedItems(int ordena) { // ordena = 0 --> Player atzetik, ordena
 		int i = 0, finished = 0;
 		while (i < droppedLength && !finished) {
 			if (droppedItems[i].yPos + 64 < player.y + player.h) {
-				showDroppedItem(i);
+				if (droppedItems[i].status == player.status) showDroppedItem(i);
 			}
 			else {
 				finished = 1;
@@ -44,7 +44,9 @@ void marraztuDroppedItems(int ordena) { // ordena = 0 --> Player atzetik, ordena
 		int i = lastItemDrawn;
 		if (droppedItems[i].yPos + 64 < player.y + player.h) i++;
 		for (i; i < droppedLength; i++) {
-			showDroppedItem(i);
+			if (droppedItems[i].status == player.status) {
+				showDroppedItem(i);
+			}
 		}
 	}
 	return;
@@ -66,6 +68,7 @@ void dropHoveringItem() {
 		droppedItems[droppedLength] = hoveringItem;
 		droppedItems[droppedLength].xPos = player.x;
 		droppedItems[droppedLength].yPos = player.y;
+		droppedItems[droppedLength].status = player.status;
 		droppedLength++;
 		hoveringItem.ID = 0;
 	}
@@ -84,7 +87,7 @@ void dropItem(int tile, int item, int ammount) {
 int pickUpItems() {
 	int picked = 0;
 	for (int i = 0; i < droppedLength; i++) {
-		if (checkInRange(droppedItems[i].xPos - player.x - player.w / 2, droppedItems[i].yPos - player.y - player.h / 2, playerPickRange)) {
+		if (checkInRange(droppedItems[i].xPos - player.x - player.w / 2, droppedItems[i].yPos - player.y - player.h / 2, playerPickRange) && player.status == droppedItems[i].status ) {
 			if (!insertItem(INV_HOTBAR, droppedItems[i], droppedItems[i].quantity, -1)) {
 				if (insertItem(INV_PLAYER, droppedItems[i], droppedItems[i].quantity, -1)) {
 					sweepFloor(i);

@@ -157,18 +157,6 @@ void keyHandlerDown(SDL_Event e) {
 					setQuestMenuState(0);
 				}
 				break;
-			case 3:
-				if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 12 && checkHowManyOfItem(12)>=5)
-				{
-					removeCertainItem(12, 5);
-					if (!insertItem(INV_HOTBAR, itemPresets[16], 1, -1))
-					{
-						if (!insertItem(INV_PLAYER, itemPresets[16], 1, -1))
-						{
-							dropItem(player.facingTile, 16, 1);
-						}
-					}
-				}
 			}
 		}
 		break;
@@ -357,6 +345,9 @@ int mouseHandlerDown(SDL_Event e) {
 						dropHoveringItem();
 					}
 				}
+			}
+			else if (player.status == HOME) {
+				dropHoveringItem();
 			}
 		}
 		break;

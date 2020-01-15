@@ -19,6 +19,7 @@ struct Item {
 	int seed;
 	int xPos;
 	int yPos;
+	int status;
 };
 
 extern struct Item itemPresets[];
@@ -126,5 +127,5 @@ extern struct Obstacle obstaclesInside[];
 
 extern SDL_Rect camera;
 enum facingDirection { DIR_DOWN, DIR_UP, DIR_LEFT, DIR_RIGHT };
-enum status { PLAYING, HOME, PAUSE, PAUSE_HOME, SLEEPING, COLLOCATING };
+enum status { PLAYING, HOME, PAUSE, PAUSE_HOME, SLEEPING };
 #endif
