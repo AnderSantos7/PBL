@@ -71,7 +71,6 @@ int keyDownA = 0;
 int keyDownS = 0;
 int keyDownD = 0;
 
-int closed = 0;
 
 void keyHandlerDown(SDL_Event e) {
 	int open = 0, i;
@@ -106,13 +105,8 @@ void keyHandlerDown(SDL_Event e) {
 		for (i = 1; i < 3; i++) open += inventories[i].open;
 		if (open > 0) {
 			closeInvs();
-			closed = 1;
 		}
-		if (getQuestMenuState()) {
-			setQuestMenuState(0);
-			closed = 1;
-		}
-		if(!closed){
+		else {
 			pause();
 		}
 		break;
@@ -122,9 +116,6 @@ void keyHandlerDown(SDL_Event e) {
 	case SDL_SCANCODE_L:
 		player.load = 1;
 		load();
-		break;
-	case SDL_SCANCODE_C:
-		getNextQuest();
 		break;
 	case SDL_SCANCODE_Q:
 		if (player.status == HOME) {
@@ -151,24 +142,18 @@ void keyHandlerDown(SDL_Event e) {
 				}
 				break;
 			case 2:
-				if (!getQuestMenuState()) {
-					setQuestMenuState(1);
-				}else {
-					setQuestMenuState(0);
-				}
+				if(!deliverQuest()) acceptReward();
 				break;
 			case 3:
-				if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 12 && checkHowManyOfItem(12)>=5)
-				{
-					removeCertainItem(12, 5);
-					if (!insertItem(INV_HOTBAR, itemPresets[16], 1, -1))
-					{
-						if (!insertItem(INV_PLAYER, itemPresets[16], 1, -1))
-						{
-							dropItem(player.facingTile, 16, 1);
-						}
-					}
+				switch (inventories[INV_SHOP].open) {
+				case 0:
+					inventories[INV_SHOP].open = 1;
+					break;
+				case 1:
+					inventories[INV_SHOP].open = 0;
+					break;
 				}
+				break;
 			}
 		}
 		break;
@@ -279,84 +264,73 @@ int mouseHandlerDown(SDL_Event e) {
 		if (player.status == PAUSE || player.status == PAUSE_HOME) {
 			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 183 && mousePos.y < 245) {
 				save();
-			}
-			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 316 && mousePos.y < 375) {
+			}else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 316 && mousePos.y < 375) {
 				zabalik = 0;
 			}
 		}
-		else if (!getQuestMenuState() && hoveringInv != -1 && checkHover(hoveringInv)) {
+		else if (hoveringInv != -1 && checkHover(hoveringInv) && !inventories[INV_SHOP].open) {
 			if (hoveringItem.ID != 0) {
 				if (inventories[hoveringInv].items[showingItem].ID != hoveringItem.ID) {
 					struct Item tmpItem = hoveringItem;
 					hoveringItem = inventories[hoveringInv].items[showingItem];
 					inventories[hoveringInv].items[showingItem] = tmpItem;
-				}
-				else {
+				}else {
 					inventories[hoveringInv].items[showingItem].quantity += hoveringItem.quantity;
 					hoveringItem.ID = 0;
 				}
-			}
-			else {
+			}else {
 				hoveringItem = pickHovering();
 			}
-		}else{
-			if (player.status == PLAYING) {
-				if (getQuestMenuState()) {
-					interactQuestMenu();
-				}else {
-					int i = 0, soil = 0;
-					while (i < 49 && !soil) {
-						if (player.facingTile == plantable_ID[i]) soil = 1;
-						i++;
-					}
-					if (soil) {
-						if (tiles[player.facingTile].plant.arado) {
-							if (tiles[player.facingTile].plant.seed == NONE) {
-								if (hoveringItem.ID != 0 && hoveringItem.seed != 0) {
-									landatu(hoveringItem.seed);
-									hoveringItem.quantity--;
-									if (hoveringItem.quantity < 1) hoveringItem = itemPresets[0];
-								}
-								else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID != 0 && inventories[INV_HOTBAR].items[player.hotbarSlot].seed != 0) {
-									landatu(inventories[INV_HOTBAR].items[player.hotbarSlot].seed);
-									inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
-									if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[0];
-								}
-							}
-							if (tiles[player.facingTile].plant.seed != 0 && tiles[player.facingTile].plant.stage == 2) {
-								harvest(player.facingTile);
-							}
-							else if (hoveringItem.ID == 3) {
-								water(player.facingTile);
-								hoveringItem.quantity--;
-								if (hoveringItem.quantity < 1) hoveringItem = itemPresets[2];
-							}
-							else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 3) {
-								water(player.facingTile);
-								inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
-								if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[2];
-
-							}
-							else if (hoveringItem.ID == 16 && tiles[player.facingTile].plant.seed != 0) {
-								fertilize(player.facingTile);
-								hoveringItem.quantity--;
-								if (hoveringItem.quantity < 1) hoveringItem = itemPresets[0];
-							}
-							else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 16 && tiles[player.facingTile].plant.seed != 0) {
-								fertilize(player.facingTile);
-								inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
-								if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[0];
-							}
+		}
+		else if (inventories[INV_SHOP].open) {
+			buyItem(showingItem);
+		}else {
+			int i = 0, soil = 0;
+			while (i < 49 && !soil) {
+				if (player.facingTile == plantable_ID[i]) soil = 1;
+				i++;
+			}
+			if (soil) {
+				if (tiles[player.facingTile].plant.arado) {
+					if (tiles[player.facingTile].plant.seed == NONE) {
+						if (hoveringItem.ID != 0 && hoveringItem.seed != 0) {
+							landatu(hoveringItem.seed);
+							hoveringItem.quantity--;
+							if (hoveringItem.quantity < 1) hoveringItem = itemPresets[0];
 						}
-						else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 1) {
-							arar(player.facingTile);
+						else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID != 0 && inventories[INV_HOTBAR].items[player.hotbarSlot].seed != 0) {
+							landatu(inventories[INV_HOTBAR].items[player.hotbarSlot].seed);
+							inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
+							if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[0];
 						}
+					}
+					if (tiles[player.facingTile].plant.seed != 0 && tiles[player.facingTile].plant.stage == 2) {
+						harvest(player.facingTile);
+					}else if (hoveringItem.ID == 3) {
+						water(player.facingTile);
+						hoveringItem.quantity--;
+						if (hoveringItem.quantity < 1) hoveringItem = itemPresets[2];
+					}else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 3) {
+						water(player.facingTile);
+						inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
+						if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[2];
 
+					}else if (hoveringItem.ID == 16 && tiles[player.facingTile].plant.seed != 0) {
+						fertilize(player.facingTile);
+						hoveringItem.quantity--;
+						if (hoveringItem.quantity < 1) hoveringItem = itemPresets[0];
 					}
-					else {
-						dropHoveringItem();
+					else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 16 && tiles[player.facingTile].plant.seed != 0) {
+						fertilize(player.facingTile);
+						inventories[INV_HOTBAR].items[player.hotbarSlot].quantity--;
+						if (inventories[INV_HOTBAR].items[player.hotbarSlot].quantity < 1) inventories[INV_HOTBAR].items[player.hotbarSlot] = itemPresets[0];
 					}
+				}else if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 1) {
+					arar(player.facingTile);
 				}
+
+			}else {
+				dropHoveringItem();
 			}
 		}
 		break;

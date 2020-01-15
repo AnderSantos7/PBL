@@ -106,11 +106,18 @@ void interactQuestMenu();
 int getQuestMenuState();
 void setQuestMenuState(int state);
 
+//Shop
+void unlockShopItem();
+void shop();
+void buyItem(int pos);
+void currency();
+
+
 //Sleep
 void sleep();
 void chronoSleep(double deltaTime);
 void paintSleep();
 
-
+//Vaca
 void margotuVaca();
 #endif

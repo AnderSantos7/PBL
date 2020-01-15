@@ -237,11 +237,11 @@ int checkInRange(int x, int y, int range) {
 }
 
 void checkPosibleInteraction() {
-	int i = 0, finished = 0, range = 100;
+	int i = 0, finished = 0, range = 150;
 	player.canInteract = -1;
 	switch(player.status) {
 	case PLAYING:
-		while (player.canInteract == -1 && i < 4) {
+		while (player.canInteract == -1 && i < 5) {
 			if (checkInRange(obstaclesOutside[i].x + obstaclesOutside[i].w / 2 - player.x - player.w / 2, obstaclesOutside[i].y + obstaclesOutside[i].h / 2 - player.y - player.h, range)) {
 				player.canInteract = i;
 				finished = 1;

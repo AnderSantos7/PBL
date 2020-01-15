@@ -20,7 +20,7 @@ struct Item {
 	int xPos;
 	int yPos;
 };
-
+extern int shopOk;
 extern struct Item itemPresets[];
 extern struct Item droppedItems[];
 extern int droppedLength;
@@ -38,10 +38,11 @@ struct Inventory {
 	int sheetPosY;
 	int headerSize;
 	struct Item items[128];
+	struct Item currency[128];
 };
 
 extern struct Inventory inventories[];
-enum INVENTORIES { INV_HOTBAR, INV_PLAYER, INV_CHEST };
+enum INVENTORIES { INV_HOTBAR, INV_PLAYER, INV_CHEST, INV_SHOP };
 enum LANGUAGES { EUS, ESP, ENG };
 struct posCoord {
 	int x;
@@ -119,7 +120,6 @@ struct Quest {
 };
 
 enum Actions { HARVEST, PLANT, WATER, ENTREGA, ARAR, FERTILIZAR };
-extern char dic_Quests[128][128];
 
 extern struct Obstacle obstaclesOutside[];
 extern struct Obstacle obstaclesInside[];
@@ -127,4 +127,5 @@ extern struct Obstacle obstaclesInside[];
 extern SDL_Rect camera;
 enum facingDirection { DIR_DOWN, DIR_UP, DIR_LEFT, DIR_RIGHT };
 enum status { PLAYING, HOME, PAUSE, PAUSE_HOME, SLEEPING, COLLOCATING };
+
 #endif
