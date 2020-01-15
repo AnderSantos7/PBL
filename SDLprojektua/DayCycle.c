@@ -50,3 +50,11 @@ void resetDay() {
 	dayTime = 0;
 	return;
 }
+
+double getDayTime() {
+	return (int)dayTime;
+}
+
+void setDayTime(int time) {
+	dayTime = time;
+}

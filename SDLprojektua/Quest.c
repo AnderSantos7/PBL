@@ -355,3 +355,8 @@ struct Quest generateRandomQuest() {
 struct Quest getCurrentQuest() {
 	return currentQuest;
 }
+
+void setCurrentQuest(struct Quest quest) {
+	currentQuest = quest;
+	return;
+}

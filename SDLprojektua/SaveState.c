@@ -9,13 +9,14 @@
 #include <time.h>
 
 FILE* fp;
-struct Item droppedItems[128];
+struct Item droppedItems[512];
 
 void save() {
 	int i = 0;
 	int j = 0;
+	int day = getDayTime();
 	fp = fopen("assets/data/GUARDADO.txt", "w");
-	fprintf(fp, "%i %i %i\n", player.x, player.y, player.status); //datos player
+	fprintf(fp, "%i %i %i %i %i\n", player.x, player.y, player.status, player.energy, day); //datos player
 	for (i = 0; i < 9; i++) {
 		fprintf(fp, "%i %i", inventories[0].items[i].ID, inventories[0].items[i].quantity); //datos hotbar
 		if (i != 8) fprintf(fp, " ");
@@ -52,6 +53,10 @@ void save() {
 		if (i != 6 && i != 13 && i != 20 && i != 27 && i != 34 && i != 41 && i != 48) fprintf(fp, " ");
 		else if (i == 6 || i == 13 || i == 20 || i == 27 || i == 34 || i == 41) fprintf(fp, "\n");
 	}
+	fprintf(fp, "\n");
+
+	struct Quest quest = getCurrentQuest();
+	fprintf(fp, "%i %i %i %i %i %i %i %i %i", quest.ID, quest.action, quest.complete, quest.completion, quest.dialog_str, quest.requiredAmmount, quest.requiredItem, quest.rewardAmmount, quest.rewardItem);
 
 	fclose(fp);
 }
@@ -64,6 +69,7 @@ void load() {
 		src = "assets/data/GUARDADO.txt";
 		player.x = 0;
 		player.y = 0;
+		player.energy = 0;
 	}
 	fp = fopen(src, "r");
 	fgets(buff, 256, fp);
@@ -77,16 +83,29 @@ void load() {
 		i++;
 	}
 	i++;
-	while (buff[i] != '\n') {
+	while (buff[i] != ' ') {
 		player.status = buff[i] - 48;
 		if (player.status == PAUSE_HOME) {
 			player.status = HOME;
 			camera.x = 0;
 			camera.y = 0;
+			inventories[INV_HOTBAR].yPos = 3;
 		}
 		else if (player.status == PAUSE) player.status = PLAYING;
 		i++;
 	}
+	i++;
+	while (buff[i] != ' ') {
+		player.energy = player.energy * 10 + buff[i] - 48;
+		i++;
+	}
+	i++;
+	int time = 0;
+	while (buff[i] != '\n') {
+		time = time * 10 + buff[i] - 48;
+		i++;
+	}
+	setDayTime(time);
 	fgets(buff, 256, fp);
 	i = 0;
 	int j;
@@ -174,13 +193,6 @@ void load() {
 		fgets(buff, 512, fp);
 		i = 0;
 		j = 0;
-		int x = 0;
-		int y = 0;
-		int cuanto = 0;
-		int seed;
-		int sheetx;
-		int sheety;
-		char* name;
 		if (buff[i] > 0) {
 			i += 2;
 			while (buff[i] != '\n' && buff[i] != '\0') { //cargar items droppeados
@@ -190,28 +202,21 @@ void load() {
 					droppedItems[j].seed = itemPresets[droppedItems[j].ID].seed;
 					droppedItems[j].sheetPosX = itemPresets[droppedItems[j].ID].sheetPosX;
 					droppedItems[j].sheetPosY = itemPresets[droppedItems[j].ID].sheetPosY;
-					name = itemPresets[droppedItems[j].ID].name;
-					seed = itemPresets[droppedItems[j].ID].seed;
-					sheetx = itemPresets[droppedItems[j].ID].sheetPosX;
-					sheety = itemPresets[droppedItems[j].ID].sheetPosY;
 					i++;
 				}
 				i++;
 				while (buff[i] != ' ') {
 					droppedItems[j].quantity = droppedItems[j].quantity * 10 + buff[i] - 48;
-					cuanto = cuanto * 10 + buff[i] - 48;
 					i++;
 				}
 				i++;
 				while (buff[i] != ' ') {
 					droppedItems[j].xPos = droppedItems[j].xPos * 10 + buff[i] - 48;
-					x = x * 10 + buff[i] - 48;
 					i++;
 				}
 				i++;
 				while (buff[i] != ' ' && buff[i] != '\0' && buff[i] != '\n') {
 					droppedItems[j].yPos = droppedItems[j].yPos * 10 + buff[i] - 48;
-					y = y * 10 + buff[i] - 48;
 					i++;
 				}
 				j++;
@@ -257,6 +262,70 @@ void load() {
 			}
 			i++;
 		}
+
+		fgets(buff, 216, fp);
+		struct Quest quest;
+		i = 0;
+		quest.ID = 0;
+		quest.action = 0;
+		quest.complete = 0;
+		quest.completion = 0;
+		quest.dialog_str = 0;
+		quest.requiredAmmount = 0;
+		quest.requiredItem = 0;
+		quest.rewardAmmount = 0;
+		quest.rewardItem = 0;
+		while (buff[i] != ' ') {
+			quest.ID = quest.ID * 10 + buff[i] - 48;
+			i++;
+		}
+		i++;
+		while (buff[i] != ' ') {
+			quest.action = quest.action * 10 + buff[i] - 48;
+			i++;
+		}
+		i++;
+		while (buff[i] != ' ') {
+			quest.complete = quest.complete * 10 + buff[i] - 48;
+			i++;
+
+		}
+		i++;
+		while (buff[i] != ' ') {
+			quest.completion = quest.completion * 10 + buff[i] - 48;
+			i++;
+
+		}
+		i++;
+		while (buff[i] != ' ') {
+			quest.dialog_str = quest.dialog_str * 10 + buff[i] - 48;
+			i++;
+		}
+		i++;
+		while (buff[i] != ' ') {
+			quest.requiredAmmount = quest.requiredAmmount * 10 + buff[i] - 48;
+			i++;
+		}
+		i++;
+		while (buff[i] != ' ') {
+			quest.requiredItem = quest.requiredItem * 10 + buff[i] - 48;
+			i++;
+		}
+		i++;
+		while (buff[i] != ' ') {
+			quest.rewardAmmount = quest.rewardAmmount * 10 + buff[i] - 48;
+			i++;
+		}
+		i++;
+		while (buff[i] != '\0' && buff[i] != '\n') {
+			quest.rewardItem = quest.rewardItem * 10 + buff[i] - 48;
+			i++;
+		}
+
+		setCurrentQuest(quest);
 	}
+
+
+
 	fclose(fp);
 }

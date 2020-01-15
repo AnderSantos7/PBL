@@ -88,6 +88,8 @@ void updateDay(double deltaTime);
 void drawDayFilter();
 void drawClock();
 void resetDay();
+double getDayTime();
+void setDayTime(int time);
 
 //Quests
 void checkQuestCompletion(int action, int item, int ammount);
@@ -98,6 +100,7 @@ void getNextQuest();
 void showCurrentQuest();
 int deliverQuest();
 struct Quest getCurrentQuest();
+void setCurrentQuest(struct Quest quest);
 void showQuestMenu();
 void interactQuestMenu();
 int getQuestMenuState();
@@ -105,7 +108,7 @@ void setQuestMenuState(int state);
 
 //Sleep
 void sleep();
-void chronoEnergy(double deltaTime);
+void chronoSleep(double deltaTime);
 void paintSleep();
 
 #endif

@@ -190,7 +190,7 @@ void initGame() {
 	updateInv(INV_PLAYER);
 	updateInv(INV_CHEST);
 	getNextQuest();
-	load();
+	//load();
 	return;
 }
 
@@ -199,7 +199,7 @@ void update() {
 	updateTiles(deltaTime);
 	movePlayer(deltaTime);
 	checkEnergy();
-	chronoEnergy(deltaTime);
+	chronoSleep(deltaTime);
 	checkPosibleInteraction();
 	ordenatuDroppedItems();
 	if (pickUpItems()) playPickUpSFX();

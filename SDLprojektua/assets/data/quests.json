@@ -9,7 +9,7 @@
 {"ID":8;"dialog_str":8;"action":3;"requiredItem":8;"requiredAmmount":5;"rewardItem":11;"rewardAmmount":3;}, //Entregar 5 pimientos
 {"ID":9;"dialog_str":9;"action":1;"requiredItem":0;"requiredAmmount":10;"rewardItem":11;"rewardAmmount":1;}, //Plantar 10 semillas
 {"ID":10;"dialog_str":10;"action":0;"requiredItem":10;"requiredAmmount":10;"rewardItem":13;"rewardAmmount":1;}, //Recoger 10 berenjenas
-{"ID":11;"dialog_str":11;"action":1;"requiredItem":13;"requiredAmmount":15;"rewardItem":16;"rewardAmmount":5;}, //Plantar 15 trigo
+{"ID":11;"dialog_str":11;"action":1;"requiredItem":5;"requiredAmmount":15;"rewardItem":16;"rewardAmmount":5;}, //Plantar 15 trigo
 {"ID":12;"dialog_str":12;"action":3;"requiredItem":4;"requiredAmmount":12;"rewardItem":7;"rewardAmmount":1;}, //Entrega 12 calabazas
 {"ID":13;"dialog_str":13;"action":3;"requiredItem":13;"requiredAmmount":20;"rewardItem":13;"rewardAmmount":1;}, //Entrega 20 semillas de trigo
 {"ID":14;"dialog_str":14;"action":2;"requiredItem":0;"requiredAmmount":7;"rewardItem":13;"rewardAmmount":1;}, //Regar 7 plantas
