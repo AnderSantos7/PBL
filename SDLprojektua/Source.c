@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
 			SDL_RenderPresent(renderer);
 			if (!main_menu)
 			{
-				Mix_Music* music = Mix_LoadMUS("assets/sounds/Fondo2.wav");
+				Mix_Music* music = Mix_LoadMUS("assets/sounds/china.wav");
 				Mix_PlayMusic(music, 1);
 			}
 		}
@@ -97,7 +97,6 @@ int main(int argc, char* argv[]) {
 				clip.w = 55;
 				clip.h = 90;
 				aplikatuSurface(390, 70, 55, 90, textures[obstacleSurface], &clip);
-				marraztuDroppedItems(0);
 				if (player.sleeping)
 				{
 					SDL_Rect klap = { 0, 0, 64, 64 };
@@ -105,19 +104,21 @@ int main(int argc, char* argv[]) {
 				}
 				checkPosibleInteraction();
 
-				if(player.sleeping == 0)drawPlayer();
+				if(player.sleeping==0)drawPlayer();
 				else paintSleep();
-				marraztuDroppedItems(1);
 				for (int i = 0; i < 3; i++) showInv(i);
 				marraztuInvTag(getHoveringInv());
 				if (hoveringItem.ID != 0)marraztuHoveringItem();
-				SDL_RenderPresent(renderer);
-				reset();
+				SDL_RenderPresent(renderer);	
 				break;
 			case PAUSE:
 			case PAUSE_HOME:
 				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[pauseSurface], NULL);
 				SDL_RenderPresent(renderer);
+				break;
+			case COLLOCATING:
+				player.timer += deltaTime;
+				reset();
 				break;
 			}
 		}
@@ -194,7 +195,7 @@ void initGame() {
 	updateInv(INV_PLAYER);
 	updateInv(INV_CHEST);
 	getNextQuest();
-	load();
+	//load();
 	return;
 }
 
@@ -269,6 +270,7 @@ void reset() {
 		player.movingDown = 0;
 		player.movingRight = 0;
 		player.movingLeft = 0;
+		marraztu();
 		player.timer = 0;
 		player.status = PLAYING;
 		inventories[INV_HOTBAR].yPos = 413;
