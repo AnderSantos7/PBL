@@ -40,5 +40,5 @@ void checkEnergy()
 	{
 		sleep();
 	}
-	return;
+
 }

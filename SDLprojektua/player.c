@@ -54,10 +54,6 @@ void movePlayer(double deltaTime) {
 				if (player.x > LEVEL_SIZE - player.w) {
 					player.x = LEVEL_SIZE - player.w;
 				}
-				if (player.y < 70 && player.x > 440 && player.x < 580)
-				{
-					player.x = 440;
-				}
 			}
 			if (player.movingLeft) {
 				player.x -= (int)(player.speed * multiplier * deltaTime);
@@ -70,10 +66,6 @@ void movePlayer(double deltaTime) {
 				}
 				else if (player.y < 64 && player.x < 4 * 64) {
 					player.x = 4 * 64;
-				}
-				if (player.y < 70 && player.x > 440 && player.x < 580)
-				{
-					player.x =580;
 				}
 			}
 			if (player.movingUp) {
@@ -94,10 +86,6 @@ void movePlayer(double deltaTime) {
 						player.y = 480 - 64 * 2;
 						player.x = 375;
 					}
-				}
-				if (player.y < 70 && player.x > 440 && player.x < 580)
-				{
-					player.y = 70;
 				}
 			}
 			if (player.movingDown) {
@@ -166,7 +154,7 @@ void movePlayer(double deltaTime) {
 
 				if (player.y > 445 - 64 * 2 && player.x > 352 - 20 && player.x < 449 - 44) {
 					if (player.y > 480 - 64 * 2) {
-						player.timer += deltaTime;
+						player.status = COLLOCATING;
 						closeInvs();
 					}
 				}
@@ -237,7 +225,7 @@ int checkInRange(int x, int y, int range) {
 }
 
 void checkPosibleInteraction() {
-	int i = 0, finished = 0, range = 100;
+	int i = 0, finished = 0, range = 150;
 	player.canInteract = -1;
 	switch(player.status) {
 	case PLAYING:
@@ -258,7 +246,7 @@ void checkPosibleInteraction() {
 			}
 			i++;
 		}
-		if (player.canInteract == -1 && inventories[INV_CHEST].open) inventories[INV_CHEST].open = 0;
+		if (player.canInteract != 1 && inventories[INV_CHEST].open) inventories[INV_CHEST].open = 0;
 	}
 
 	return;
