@@ -39,7 +39,7 @@ void save() {
 
 	fprintf(fp, "%i ", droppedLength);
 	for (i = 0; i < droppedLength; i++) {
-		fprintf(fp, "%i %i %i %i %i", droppedItems[i].ID, droppedItems[i].quantity, droppedItems[i].xPos, droppedItems[i].yPos, droppedItems[i].status); //datos drop
+		fprintf(fp, "%i %i %i %i", droppedItems[i].ID, droppedItems[i].quantity, droppedItems[i].xPos, droppedItems[i].yPos); //datos drop
 		if (i != droppedLength - 1) fprintf(fp, " ");
 	}
 	fprintf(fp, "\n");
@@ -67,45 +67,44 @@ void load() {
 	char* src = "assets/data/GUARDADO_DEFAULT.txt";
 	if (player.load == 1) {
 		src = "assets/data/GUARDADO.txt";
+		player.x = 0;
+		player.y = 0;
+		player.energy = 0;
 	}
 	fp = fopen(src, "r");
 	fgets(buff, 256, fp);
-	int xPos = 0;
-	int yPos = 0;
-	int energy = 0;
+	while (buff[i] != ' ') {
+		player.x = player.x * 10 + buff[i] - 48; //cargar player
+		i++;
+	}
+	i++;
+	while (buff[i] != ' ') {
+		player.y = player.y * 10 + buff[i] - 48;
+		i++;
+	}
+	i++;
+	while (buff[i] != ' ') {
+		player.status = buff[i] - 48;
+		if (player.status == PAUSE_HOME) {
+			player.status = HOME;
+			camera.x = 0;
+			camera.y = 0;
+			inventories[INV_HOTBAR].yPos = 3;
+		}
+		else if (player.status == PAUSE) player.status = PLAYING;
+		i++;
+	}
+	i++;
+	while (buff[i] != ' ') {
+		player.energy = player.energy * 10 + buff[i] - 48;
+		i++;
+	}
+	i++;
 	int time = 0;
-	while (buff[i] != ' ') {
-		xPos = xPos * 10 + buff[i] - 48; //cargar player
-		i++;
-	}
-	i++;
-	while (buff[i] != ' ') {
-		yPos = yPos * 10 + buff[i] - 48;
-		i++;
-	}
-	i++;
-	player.status = buff[i] - 48;
-	if (player.status == PAUSE_HOME) {
-		player.status = HOME;
-		camera.x = 0;
-		camera.y = 0;
-		inventories[INV_HOTBAR].yPos = 3;
-	}
-	else if (player.status == PAUSE) player.status = PLAYING;
-	i++;
-	i++;
-	while (buff[i] != ' ') {
-		energy = energy * 10 + buff[i] - 48;
-		i++;
-	}
-	i++;
 	while (buff[i] != '\n') {
 		time = time * 10 + buff[i] - 48;
 		i++;
 	}
-	player.x = xPos;
-	player.y = yPos;
-	player.energy = energy;
 	setDayTime(time);
 	fgets(buff, 256, fp);
 	i = 0;
@@ -184,13 +183,12 @@ void load() {
 			fgets(buff, 256, fp);
 		}
 	}
-	if (player.load == 1) { //cargar items droppeados && cargar plantado && cargar quest
+	if (player.load == 1) { //cargar items droppeados && cargar plantado
 		for (i = 0; i < 512; i++) {
 			droppedItems[i].ID = 0;
 			droppedItems[i].quantity = 0;
 			droppedItems[i].xPos = 0;
 			droppedItems[i].yPos = 0;
-			droppedItems[i].status = 0;
 		}
 		fgets(buff, 512, fp);
 		i = 0;
@@ -200,12 +198,12 @@ void load() {
 			while (buff[i] != '\n' && buff[i] != '\0') { //cargar items droppeados
 				while (buff[i] != ' ') {
 					droppedItems[j].ID = droppedItems[j].ID * 10 + buff[i] - 48;
+					droppedItems[j].name = itemPresets[droppedItems[j].ID].name;
+					droppedItems[j].seed = itemPresets[droppedItems[j].ID].seed;
+					droppedItems[j].sheetPosX = itemPresets[droppedItems[j].ID].sheetPosX;
+					droppedItems[j].sheetPosY = itemPresets[droppedItems[j].ID].sheetPosY;
 					i++;
 				}
-				droppedItems[j].name = itemPresets[droppedItems[j].ID].name;
-				droppedItems[j].seed = itemPresets[droppedItems[j].ID].seed;
-				droppedItems[j].sheetPosX = itemPresets[droppedItems[j].ID].sheetPosX;
-				droppedItems[j].sheetPosY = itemPresets[droppedItems[j].ID].sheetPosY;
 				i++;
 				while (buff[i] != ' ') {
 					droppedItems[j].quantity = droppedItems[j].quantity * 10 + buff[i] - 48;
@@ -217,13 +215,8 @@ void load() {
 					i++;
 				}
 				i++;
-				while (buff[i] != ' ') {
-					droppedItems[j].yPos = droppedItems[j].yPos * 10 + buff[i] - 48;
-					i++;
-				}
-				i++;
 				while (buff[i] != ' ' && buff[i] != '\0' && buff[i] != '\n') {
-					droppedItems[j].status = droppedItems[j].status * 10 + buff[i] - 48;
+					droppedItems[j].yPos = droppedItems[j].yPos * 10 + buff[i] - 48;
 					i++;
 				}
 				j++;
@@ -331,5 +324,8 @@ void load() {
 
 		setCurrentQuest(quest);
 	}
+
+
+
 	fclose(fp);
 }

@@ -66,7 +66,6 @@ void dropHoveringItem() {
 		droppedItems[droppedLength] = hoveringItem;
 		droppedItems[droppedLength].xPos = player.x;
 		droppedItems[droppedLength].yPos = player.y;
-		droppedItems[droppedLength].status = player.status;
 		droppedLength++;
 		hoveringItem.ID = 0;
 	}
@@ -78,7 +77,6 @@ void dropItem(int tile, int item, int ammount) {
 	droppedItems[droppedLength].xPos = tiles[tile].x * 64;
 	droppedItems[droppedLength].yPos = tiles[tile].y * 64;
 	droppedItems[droppedLength].quantity = ammount;
-	droppedItems[droppedLength].status = player.status;
 	droppedLength++;
 	return;
 }
@@ -86,7 +84,7 @@ void dropItem(int tile, int item, int ammount) {
 int pickUpItems() {
 	int picked = 0;
 	for (int i = 0; i < droppedLength; i++) {
-		if (checkInRange(droppedItems[i].xPos - player.x - player.w / 2, droppedItems[i].yPos - player.y - player.h / 2, playerPickRange) && player.status == droppedItems[i].status) {
+		if (checkInRange(droppedItems[i].xPos - player.x - player.w / 2, droppedItems[i].yPos - player.y - player.h / 2, playerPickRange)) {
 			if (!insertItem(INV_HOTBAR, droppedItems[i], droppedItems[i].quantity, -1)) {
 				if (insertItem(INV_PLAYER, droppedItems[i], droppedItems[i].quantity, -1)) {
 					sweepFloor(i);

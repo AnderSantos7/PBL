@@ -55,7 +55,6 @@ void completeQuest() {
 
 void acceptReward() {
 	if (currentQuest.complete) {
-		unlockShopItem(currentQuest.ID);
 		giveReward();
 		getNextQuest();
 	}
@@ -288,6 +287,7 @@ void showQuestMenu() {
 		SDL_FreeSurface(s);
 		SDL_DestroyTexture(t);
 		TTF_CloseFont(font);
+
 		
 		SDL_Rect iClip = { itemPresets[currentQuest.requiredItem].sheetPosX, itemPresets[currentQuest.requiredItem].sheetPosY, 64, 64 };
 		if (currentQuest.action == ARAR) {
@@ -297,10 +297,6 @@ void showQuestMenu() {
 			int item = seedToItem(currentQuest.requiredItem) + 1;
 			iClip.x = itemPresets[item].sheetPosX;
 			iClip.y = itemPresets[item].sheetPosY;
-		}
-		if (currentQuest.action == WATER && currentQuest.requiredItem == 0) {
-			iClip.x = itemPresets[2].sheetPosX;
-			iClip.y = itemPresets[2].sheetPosY;
 		}
 		aplikatuSurface(x - 20, y - 84, 64, 64, textures[itemsSurface], &iClip);
 
@@ -315,33 +311,6 @@ void showQuestMenu() {
 			SDL_Rect box = {r.x + boxSize * i, y - 64, boxSize, 32};
 			SDL_RenderDrawRect(renderer, &box);
 		}
-		font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 14);
-
-		strcpy(str, dic_Quests[7]);
-		strcat(str, ":");
-
-		s = TTF_RenderText_Solid(font, str, color);
-		t = SDL_CreateTextureFromSurface(renderer, s);
-		SDL_QueryTexture(t, NULL, NULL, &w, &h);
-		int xOffsetReward = 144;
-		aplikatuSurface(xOffsetReward, y + 16, w, h, t, NULL);
-		SDL_FreeSurface(s);
-		SDL_DestroyTexture(t);
-
-		SDL_Rect rClip = { itemPresets[currentQuest.rewardItem].sheetPosX, itemPresets[currentQuest.rewardItem].sheetPosY, 64, 64 };
-		xOffsetReward += w + 4;
-		aplikatuSurface(xOffsetReward, y - 8, 64, 64, textures[itemsSurface], &rClip);
-		xOffsetReward += 48;
-		
-		SDL_itoa(currentQuest.rewardAmmount, tmp, 10);
-		s = TTF_RenderText_Solid(font, tmp, color);
-		t = SDL_CreateTextureFromSurface(renderer, s);
-		SDL_QueryTexture(t, NULL, NULL, &w, &h);
-		aplikatuSurface(xOffsetReward, y + 32, w, h, t, NULL);
-
-		SDL_FreeSurface(s);
-		SDL_DestroyTexture(t);
-		TTF_CloseFont(font);
 
 	}
 	return;
@@ -377,7 +346,7 @@ struct Quest generateRandomQuest() {
 	quest.requiredAmmount = rand() % maxRequired + 1;
 
 	quest.rewardItem = 16;
-	quest.rewardAmmount = rand() % ((currentQuest.requiredAmmount / 2) + 1);
+	quest.rewardAmmount = rand() % maxRequired + 1;
 	quest.complete = 0;
 	quest.completion = 0;
 	return quest;

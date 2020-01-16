@@ -19,7 +19,6 @@ struct Item {
 	int seed;
 	int xPos;
 	int yPos;
-	int status;
 };
 
 extern struct Item itemPresets[];
@@ -42,7 +41,7 @@ struct Inventory {
 };
 
 extern struct Inventory inventories[];
-enum INVENTORIES { INV_HOTBAR, INV_PLAYER, INV_CHEST, INV_SHOP };
+enum INVENTORIES { INV_HOTBAR, INV_PLAYER, INV_CHEST };
 enum LANGUAGES { EUS, ESP, ENG };
 struct posCoord {
 	int x;
