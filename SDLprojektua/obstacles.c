@@ -8,7 +8,7 @@ struct Obstacle obstaclesOutside[] = {
 	{1, 896, 864, 100, 34 } , //Pozo
 	{0, 0, 0, 256, 192}, //Casa
 	{1, 836, 132, 60, 62}, //Cartel
-	{1, 0, 385, 320, 380}, //Vaca	
+	{1, 500, 132, 120, 0} //Shop
 };
 
 struct Obstacle obstaclesInside[] = {

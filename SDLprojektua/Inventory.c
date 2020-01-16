@@ -30,7 +30,7 @@ int showingItem;
 
 int getHoveringInv() {
 	int hovering = -1, i = 0;
-	while (hovering < 0 && i < 3) {
+	while (hovering < 0 && i < 4) {
 		if (inventories[i].open) {
 			if (mousePos.x > inventories[i].xPos
 				&& mousePos.x < inventories[i].xPos + inventories[i].cols * inventories[i].slotSize
@@ -67,9 +67,8 @@ int checkHover() {
 }
 
 void marraztuInvTag(int inv) {
-	char str[128], qty[128];
-	if (!getQuestMenuState() && inventories[inv].open && showingItem > -1 && inventories[inv].items[showingItem].ID != 0) {
-
+	if (!getQuestMenuState() && inventories[inv].open && showingItem > -1 && inventories[inv].items[showingItem].ID != 0 && inv != 3) {
+		char str[128], qty[128];
 		TTF_Font* font;
 		font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 16);
 		SDL_Color color = { 255, 255, 255 };
@@ -93,6 +92,9 @@ void marraztuInvTag(int inv) {
 		SDL_FreeSurface(s);	
 		SDL_DestroyTexture(t);
 		TTF_CloseFont(font);
+	}
+	else if (inv == 3 && inventories[inv].open && showingItem > -1 && inventories[inv].items[showingItem].ID != 0) {
+		showPrice(showingItem);
 	}
 }
 
@@ -218,6 +220,9 @@ void showInv(int inv) {
 			clip.w = 64;
 			clip.h = 64;
 			aplikatuSurface(inventories[inv].xPos + inventories[inv].slotSize * player.hotbarSlot, inventories[inv].yPos, 64, 64, textures[HUDSurface], &clip);
+		}
+		else if (inv == INV_SHOP && getHoveringInv == INV_SHOP) {
+			showPrice(showingItem);
 		}
 		showStackSize(inv);
 	}
