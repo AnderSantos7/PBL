@@ -37,11 +37,11 @@ void harvest(int tile) {
 }
 
 void water(int tile) {
+	if(!tiles[tile].plant.water) checkQuestCompletion(WATER, tiles[tile].plant.seed, 1);
 	tiles[tile].plant.water = 1;
 	tiles[tile].plant.lastWater = 0;
 	restaEnergy();
 
-	checkQuestCompletion(WATER, tiles[tile].plant.seed, 1);
 	return;
 }
 
@@ -122,6 +122,10 @@ void marraztuTiles() {
 }
 
 void updateTiles(double deltaTime) {
+	if (player.sleeping)
+	{
+		deltaTime = 250 - deltaTime + 100;
+	}
 	for (int i = 0; i < 49; i++) {
 		if (tiles[plantable_ID[i]].plant.arado) {
 			updatePlants(i, deltaTime * 10);

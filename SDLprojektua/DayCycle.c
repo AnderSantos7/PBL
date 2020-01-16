@@ -11,9 +11,7 @@
 double dayTime = 0;
 void updateDay(double deltaTime) {
 	dayTime += deltaTime;
-	if (dayTime >= 250) {
-		sleep();
-	}
+	if (dayTime >= 250) dayTime = 0;
 
 	return;
 }
@@ -49,7 +47,6 @@ void drawClock() {
 }
 
 void resetDay() {
-	updateTiles(250 - dayTime + 100);
 	dayTime = 0;
 	return;
 }

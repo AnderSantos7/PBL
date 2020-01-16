@@ -34,7 +34,7 @@ int main_menu = 1, language = EUS;
 
 struct Player player;
 SDL_Rect camera;
-struct Inventory inventories[3] = { {
+struct Inventory inventories[4] = { {
 	1, 35, 413, 1, 9, 64, 0, 0, 3
 	},
 	{
@@ -44,7 +44,7 @@ struct Inventory inventories[3] = { {
 	0, 35, 241,3, 9, 64, 0, 221, 20
 	},
 	{
-	0, 35, 241, 3, 9, 64, 0, 221, 20
+	0, 35, 20, 1, 9, 64, 0, 221, 20
 	}
 };
 
@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
 			if (!main_menu)
 			{
 				Mix_Music* music = Mix_LoadMUS("assets/sounds/china.wav");
-				Mix_PlayMusic(music, 1);
+				//Mix_PlayMusic(music, 1);
 			}
 		}
 		
@@ -90,7 +90,6 @@ int main(int argc, char* argv[]) {
 			case PLAYING:
 				update(deltaTime);
 				marraztu();
-				
 				SDL_RenderPresent(renderer);
 				break;
 			case HOME:
@@ -110,20 +109,16 @@ int main(int argc, char* argv[]) {
 
 				if(player.sleeping==0)drawPlayer();
 				else paintSleep();
-				drawClock();
 				for (int i = 0; i < 3; i++) showInv(i);
 				marraztuInvTag(getHoveringInv());
-				if (hoveringItem.ID != 0)marraztuHoveringItem();
+				if (hoveringItem.ID != 0) marraztuHoveringItem();
 				SDL_RenderPresent(renderer);	
+				reset();
 				break;
 			case PAUSE:
 			case PAUSE_HOME:
 				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[pauseSurface], NULL);
 				SDL_RenderPresent(renderer);
-				break;
-			case COLLOCATING:
-				player.timer += deltaTime;
-				reset();
 				break;
 			}
 		}
@@ -169,7 +164,7 @@ int init() {
 		printf("SDL_mixer ez da hasieratu. SDL_mixer Error: %s\n", Mix_GetError());
 		success = 0;
 	}
-	srand((int)time(0));
+	srand(time(0));
 	return success;
 }
 
@@ -227,12 +222,17 @@ void marraztu() {
 	SDL_Rect clip = { 0, 126, 60, 61 };
 	if (player.y > 64 - 5) {
 		aplikatuSurface(13 * TILE_SIZE - camera.x, 2 * TILE_SIZE - camera.y + 1, 60, 61, textures[obstacleSurface], &clip);
+		drawShop();
 		drawPlayer();
 	}
 	else {
 		drawPlayer();
+		drawShop();
 		aplikatuSurface(13 * TILE_SIZE - camera.x, 2 * TILE_SIZE - camera.y + 1, 60, 61, textures[obstacleSurface], &clip);
 	}
+	SDL_Rect root = { 500 - camera.x, 50 - camera.y, 80, 80 };
+	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+	SDL_RenderFillRect(renderer, &root);
 	marraztuDroppedItems(1);
 	//Fence
 	clip.y = 186;
@@ -252,7 +252,7 @@ void marraztu() {
 	drawDayFilter();
 	marraztuEnergy();
 	drawClock();
-	for (int i = 0; i < 2; i++) showInv(i);
+	for (int i = 0; i < 4; i++) showInv(i);
 	marraztuInvTag(getHoveringInv());
 	if (hoveringItem.ID != 0) marraztuHoveringItem();
 	if(!getQuestMenuState())showCurrentQuest();
