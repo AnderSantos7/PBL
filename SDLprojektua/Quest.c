@@ -271,7 +271,7 @@ void showQuestMenu() {
 
 		}
 		else {
-			strcpy(str, "Edozein");
+			strcpy(str, dic_Quests[9]);
 		}
 		strcat(str, " ");
 		SDL_itoa(currentQuest.completion, tmp, 10);
@@ -299,8 +299,8 @@ void showQuestMenu() {
 			iClip.y = itemPresets[item].sheetPosY;
 		}
 		if (currentQuest.action == WATER && currentQuest.requiredItem == 0) {
-			iClip.x = itemPresets[2].sheetPosX;
-			iClip.y = itemPresets[2].sheetPosY;
+			iClip.x = itemPresets[3].sheetPosX;
+			iClip.y = itemPresets[3].sheetPosY;
 		}
 		aplikatuSurface(x - 20, y - 84, 64, 64, textures[itemsSurface], &iClip);
 

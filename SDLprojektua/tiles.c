@@ -122,10 +122,6 @@ void marraztuTiles() {
 }
 
 void updateTiles(double deltaTime) {
-	if (player.sleeping)
-	{
-		deltaTime = 250 - deltaTime + 100;
-	}
 	for (int i = 0; i < 49; i++) {
 		if (tiles[plantable_ID[i]].plant.arado) {
 			updatePlants(i, deltaTime * 10);

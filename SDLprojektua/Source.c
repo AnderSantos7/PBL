@@ -44,7 +44,7 @@ struct Inventory inventories[4] = { {
 	0, 35, 241,3, 9, 64, 0, 221, 20
 	},
 	{
-	0, 35, 20, 1, 9, 64, 0, 221, 20
+	0, 35, 192, 1, 9, 64, 0, 221, 20
 	}
 };
 
@@ -109,6 +109,7 @@ int main(int argc, char* argv[]) {
 
 				if(player.sleeping==0)drawPlayer();
 				else paintSleep();
+				drawClock();
 				for (int i = 0; i < 3; i++) showInv(i);
 				marraztuInvTag(getHoveringInv());
 				if (hoveringItem.ID != 0) marraztuHoveringItem();
@@ -164,7 +165,7 @@ int init() {
 		printf("SDL_mixer ez da hasieratu. SDL_mixer Error: %s\n", Mix_GetError());
 		success = 0;
 	}
-	srand(time(0));
+	srand((int)time(0));
 	return success;
 }
 
@@ -230,9 +231,6 @@ void marraztu() {
 		drawShop();
 		aplikatuSurface(13 * TILE_SIZE - camera.x, 2 * TILE_SIZE - camera.y + 1, 60, 61, textures[obstacleSurface], &clip);
 	}
-	SDL_Rect root = { 500 - camera.x, 50 - camera.y, 80, 80 };
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-	SDL_RenderFillRect(renderer, &root);
 	marraztuDroppedItems(1);
 	//Fence
 	clip.y = 186;
