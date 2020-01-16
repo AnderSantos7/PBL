@@ -1,42 +1,4 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(438,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  DayCycle.c
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\DayCycle.c(23,39): warning C4244:  '-=': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\DayCycle.c(21,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\DayCycle.c(30,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-  InputHandler.c
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\DayCycle.c(39,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-  Inventory.c
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\InputHandler.c(340,12): warning C4013:  'arar' sin definir; se supone que extern devuelve como resultado int
-  Items.c
-  MediaHandler.c
-  Quest.c
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Inventory.c(124,19): warning C4101:  'inb': variable local sin referencia
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Quest.c(118,26): warning C4244:  'función': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Quest.c(124,60): warning C4244:  'función': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Quest.c(106,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Quest.c(106,1): warning C4244:  'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Quest.c(170,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Quest.c(202,43): warning C4244:  'función': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Quest.c(202,57): warning C4244:  'función': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Quest.c(285,39): warning C4244:  'función': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Quest.c(200,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-  SaveState.c
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Quest.c(201,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\SaveState.c(50,53): warning C4244:  '=': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\SaveState.c(51,43): warning C4244:  '=': conversión de 'double' a 'int'; posible pérdida de datos
-  Source.c
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\SaveState.c(17,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Source.c(85,4): warning C4550:  la expresión se evalúa como una función a la que le falta una lista de argumentos
-  camera.c
-  dataHandler.c
-  energy.c
-  menu.c
-  obstacles.c
-  player.c
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\Source.c(166,15): warning C4244:  'función': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-  sleep.c
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\player.c(44,22): warning C4305:  '=': truncamiento de 'double' a 'float'
-  tiles.c
-  Generando código...
-C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\sleep.c(39,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
-  SDLprojektua.vcxproj -> C:\Users\sanzd\Desktop\Mondra\Programazioa\PBL\POPBL\POPBL\SDLprojektua\-\SDLprojektua.exe
+  SHOP.C
+D:\Docs\Uni\PBL\PBL\SDLprojektua\SHOP.C(52,8): warning C4013:  'strcat' sin definir; se supone que extern devuelve como resultado int
+  SDLprojektua.vcxproj -> D:\Docs\Uni\PBL\PBL\SDLprojektua\-\SDLprojektua.exe

@@ -158,6 +158,12 @@ void keyHandlerDown(SDL_Event e) {
 				}
 				break;
 			case 3:
+				switch (inventories[INV_SHOP].open) {
+				case 0: inventories[INV_SHOP].open = 1; break;
+				case 1: inventories[INV_SHOP].open = 0; break;
+			}
+				break;
+			case 4:
 				if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 12 && checkHowManyOfItem(12)>=5)
 				{
 					removeCertainItem(12, 5);
@@ -169,6 +175,7 @@ void keyHandlerDown(SDL_Event e) {
 						}
 					}
 				}
+				break;
 			}
 		}
 		break;
@@ -283,23 +290,25 @@ int mouseHandlerDown(SDL_Event e) {
 			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 316 && mousePos.y < 375) {
 				zabalik = 0;
 			}
+		}else if(hoveringInv != -1 && checkHover(hoveringInv)){
+			if (inventories[INV_SHOP].open && hoveringInv == INV_SHOP) {
+				buyItem(showingItem);
+			}else if(!getQuestMenuState()){
+				if (hoveringItem.ID != 0) {
+					if (inventories[hoveringInv].items[showingItem].ID != hoveringItem.ID) {
+						struct Item tmpItem = hoveringItem;
+						hoveringItem = inventories[hoveringInv].items[showingItem];
+						inventories[hoveringInv].items[showingItem] = tmpItem;
+					}else {
+						inventories[hoveringInv].items[showingItem].quantity += hoveringItem.quantity;
+						hoveringItem.ID = 0;
+					}
+				}else {
+					hoveringItem = pickHovering();
+				}
+			}
 		}
-		else if (!getQuestMenuState() && hoveringInv != -1 && checkHover(hoveringInv)) {
-			if (hoveringItem.ID != 0) {
-				if (inventories[hoveringInv].items[showingItem].ID != hoveringItem.ID) {
-					struct Item tmpItem = hoveringItem;
-					hoveringItem = inventories[hoveringInv].items[showingItem];
-					inventories[hoveringInv].items[showingItem] = tmpItem;
-				}
-				else {
-					inventories[hoveringInv].items[showingItem].quantity += hoveringItem.quantity;
-					hoveringItem.ID = 0;
-				}
-			}
-			else {
-				hoveringItem = pickHovering();
-			}
-		}else{
+		else{
 			if (player.status == PLAYING) {
 				if (getQuestMenuState()) {
 					interactQuestMenu();
@@ -357,6 +366,9 @@ int mouseHandlerDown(SDL_Event e) {
 						dropHoveringItem();
 					}
 				}
+			}
+			else if (player.status == HOME) {
+				dropHoveringItem();
 			}
 		}
 		break;

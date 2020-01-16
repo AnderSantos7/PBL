@@ -166,7 +166,7 @@ void movePlayer(double deltaTime) {
 
 				if (player.y > 445 - 64 * 2 && player.x > 352 - 20 && player.x < 449 - 44) {
 					if (player.y > 480 - 64 * 2) {
-						player.status = COLLOCATING;
+						player.timer += deltaTime;
 						closeInvs();
 					}
 				}
@@ -248,7 +248,7 @@ void checkPosibleInteraction() {
 			}
 			i++;
 		}
-		if (player.canInteract == -1 && inventories[INV_SHOP].open) inventories[INV_SHOP].open = 0;
+		if (player.canInteract != 3 && inventories[INV_SHOP].open) inventories[INV_SHOP].open = 0;
 	case HOME:
 		while (player.canInteract  == -1 && i < 2) {
 			if (checkInRange(obstaclesInside[i].x + obstaclesInside[i].w / 2 - player.x, obstaclesInside[i].y + obstaclesInside[i].h / 2 - player.y, range)) {
