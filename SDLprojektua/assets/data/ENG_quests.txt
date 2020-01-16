@@ -7,3 +7,5 @@ Fertilize
 Complete
 Reward
 Current quest
+Any
+Mision complete!

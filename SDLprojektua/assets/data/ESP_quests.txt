@@ -7,3 +7,5 @@ Fertilizar
 Completar
 Recompensa
 Mision actual
+Cualquiera
+Mision cumplida!

@@ -249,6 +249,7 @@ void checkPosibleInteraction() {
 			i++;
 		}
 		if (player.canInteract != 3 && inventories[INV_SHOP].open) inventories[INV_SHOP].open = 0;
+		if (player.canInteract != 2 && getQuestMenuState()) setQuestMenuState(0);
 	case HOME:
 		while (player.canInteract  == -1 && i < 2) {
 			if (checkInRange(obstaclesInside[i].x + obstaclesInside[i].w / 2 - player.x, obstaclesInside[i].y + obstaclesInside[i].h / 2 - player.y, range)) {

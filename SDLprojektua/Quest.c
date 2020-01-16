@@ -134,7 +134,7 @@ void showCurrentQuest() {
 		if (currentQuest.action == PLANT || currentQuest.action == WATER || currentQuest.action == FERTILIZAR) {
 			strcat(str, itemPresets[seedToItem(currentQuest.requiredItem)].name);
 		}else if (currentQuest.requiredItem == 0) {
-			strcat(str, "Edozein");
+			strcat(str, dic_Quests[9]);
 		}else{
 			strcat(str, itemPresets[currentQuest.requiredItem].name);
 		}
@@ -159,16 +159,18 @@ void showCurrentQuest() {
 double animTime;
 void questCompleteAnim(double deltaTime) {
 	if (completeAnimation) {
-		char* str = "QUEST COMPLETE!";
+		char* str = dic_Quests[10];
 		TTF_Font* font;
-		font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 36);
+		int fontSize = 36;
+		if (language == EUS) fontSize = 28;
+		font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", fontSize);
 		SDL_Color color = { 255, 255, 255 };
 		SDL_Surface* s = TTF_RenderText_Solid(font, str, color);
 		SDL_Texture* t = SDL_CreateTextureFromSurface(renderer, s);
 		int w, h;
 		SDL_QueryTexture(t, NULL, NULL, &w, &h);
 		if (animTime < 1) {
-			int clipW = animTime * w / 1;
+			int clipW = animTime * w;
 			SDL_Rect clip = {0, 0, clipW, h};
 			aplikatuSurface(SCREEN_WIDTH / 2 - w / 2, 128, clipW, h, t, &clip);
 		}else if ((animTime <= 2 && animTime >= 1.5) || (animTime <= 3 && animTime >= 2.5)) {
@@ -271,7 +273,7 @@ void showQuestMenu() {
 
 		}
 		else {
-			strcpy(str, "Edozein");
+			strcpy(str, dic_Quests[9]);
 		}
 		strcat(str, " ");
 		SDL_itoa(currentQuest.completion, tmp, 10);
