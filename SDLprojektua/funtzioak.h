@@ -111,10 +111,4 @@ void sleep();
 void chronoSleep(double deltaTime);
 void paintSleep();
 
-//Shop
-void drawShop();
-void unlockShopItem(int ID);
-void buyItem(int pos);
-void showPrice(int item);
-
 #endif

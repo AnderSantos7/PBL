@@ -37,11 +37,11 @@ void harvest(int tile) {
 }
 
 void water(int tile) {
-	if(!tiles[tile].plant.water) checkQuestCompletion(WATER, tiles[tile].plant.seed, 1);
 	tiles[tile].plant.water = 1;
 	tiles[tile].plant.lastWater = 0;
 	restaEnergy();
 
+	checkQuestCompletion(WATER, tiles[tile].plant.seed, 1);
 	return;
 }
 
