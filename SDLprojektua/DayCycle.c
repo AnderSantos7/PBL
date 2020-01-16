@@ -11,7 +11,12 @@
 double dayTime = 0;
 void updateDay(double deltaTime) {
 	dayTime += deltaTime;
-	if (dayTime >= 250) dayTime = 0;
+	if (dayTime >= 250)
+	{
+		sleep();
+		dayTime = 0;
+	}
+		
 
 	return;
 }
