@@ -71,10 +71,10 @@ int keyDownA = 0;
 int keyDownS = 0;
 int keyDownD = 0;
 
-int closed = 0;
+
 
 void keyHandlerDown(SDL_Event e) {
-	int open = 0, i;
+	int open = 0, i, closed = 0;
 
 	switch (e.key.keysym.scancode) {
 		if (player.status == PLAYING || player.status == HOME) {
