@@ -122,13 +122,9 @@ void marraztuTiles() {
 }
 
 void updateTiles(double deltaTime) {
-	if (player.sleeping)
-	{
-		deltaTime = 250 - deltaTime + 100;
-	}
 	for (int i = 0; i < 49; i++) {
 		if (tiles[plantable_ID[i]].plant.arado) {
-			updatePlants(i, deltaTime * 10);
+			updatePlants(i, deltaTime);
 			updateWater(i, deltaTime);
 		}
 	}
@@ -138,8 +134,8 @@ void updateTiles(double deltaTime) {
 void updatePlants(int i, double deltaTime) {
 	if (tiles[plantable_ID[i]].plant.seed != NONE) {
 		tiles[plantable_ID[i]].plant.time += deltaTime;
-		if (tiles[plantable_ID[i]].plant.time > 50) {
-			if (tiles[plantable_ID[i]].plant.time > 100) {
+		if (tiles[plantable_ID[i]].plant.time > 150) {
+			if (tiles[plantable_ID[i]].plant.time > 450) {
 				tiles[plantable_ID[i]].plant.stage = 2;
 			}
 			else {
@@ -153,13 +149,13 @@ void updatePlants(int i, double deltaTime) {
 void updateWater(int i, double deltaTime) {
 	if (tiles[plantable_ID[i]].plant.water) {
 		tiles[plantable_ID[i]].plant.lastWater += deltaTime;
-		if (tiles[plantable_ID[i]].plant.lastWater > 50) {
+		if (tiles[plantable_ID[i]].plant.lastWater > 350) {
 			tiles[plantable_ID[i]].plant.water = 0;
 			tiles[plantable_ID[i]].plant.lastWater = 0;
 		}
 	}else if (!tiles[plantable_ID[i]].plant.water) {
 		tiles[plantable_ID[i]].plant.lastWater += deltaTime;
-		if (tiles[plantable_ID[i]].plant.lastWater >= 100) {
+		if (tiles[plantable_ID[i]].plant.lastWater >= 150) {
 			tiles[plantable_ID[i]].plant.time = 0;
 			tiles[plantable_ID[i]].plant.seed = NONE;
 			tiles[plantable_ID[i]].plant.arado = 0;

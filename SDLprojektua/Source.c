@@ -244,14 +244,14 @@ void marraztu() {
 	clip.y = 91;
 	clip.w = 49;
 	clip.h = 35;
-	aplikatuSurface(TILE_SIZE * 2 - camera.x, 13 * TILE_SIZE - camera.y, 49, 35, textures[obstacleSurface], &clip);
+	aplikatuSurface(TILE_SIZE * 1.9 - camera.x, 13.5 * TILE_SIZE - camera.y, 49, 35, textures[obstacleSurface], &clip);
 	drawDayFilter();
 	marraztuEnergy();
 	drawClock();
 	for (int i = 0; i < 4; i++) showInv(i);
 	marraztuInvTag(getHoveringInv());
 	if (hoveringItem.ID != 0) marraztuHoveringItem();
-	if(!getQuestMenuState())showCurrentQuest();
+	if(!getQuestMenuState()) showCurrentQuest();
 	showQuestMenu();
 	questCompleteAnim(deltaTime);
 	return;

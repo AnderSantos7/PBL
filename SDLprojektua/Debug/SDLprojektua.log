@@ -1,5 +1,47 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(438,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  DayCycle.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\DayCycle.c(24,39): warning C4244:  '-=': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\DayCycle.c(22,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\DayCycle.c(31,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+  InputHandler.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\DayCycle.c(40,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+  Inventory.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\InputHandler.c(361,12): warning C4013:  'arar' sin definir; se supone que extern devuelve como resultado int
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(126,19): warning C4101:  'inb': variable local sin referencia
+  Items.c
+  MediaHandler.c
+  Quest.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(224,57): warning C4047:  '==': 'int (__cdecl *)()' es distinto en los niveles de direccionamiento indirecto de 'int'
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(119,26): warning C4244:  'función': conversión de 'float' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(125,60): warning C4244:  'función': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(107,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(107,1): warning C4244:  'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(173,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(205,43): warning C4244:  'función': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(205,57): warning C4244:  'función': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(288,39): warning C4244:  'función': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(203,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+  SHOP.C
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Quest.c(204,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+  SaveState.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\SHOP.C(52,8): warning C4013:  'strcat' sin definir; se supone que extern devuelve como resultado int
+D:\Docs\Uni\PBL\PBL\SDLprojektua\SaveState.c(50,53): warning C4244:  '=': conversión de 'double' a 'int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\SaveState.c(51,43): warning C4244:  '=': conversión de 'double' a 'int'; posible pérdida de datos
   Source.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\SaveState.c(17,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
 D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(88,4): warning C4550:  la expresión se evalúa como una función a la que le falta una lista de argumentos
 D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(166,15): warning C4244:  'función': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(247,44): warning C4244:  'función': conversión de 'double' a 'int'; posible pérdida de datos
+  camera.c
+  dataHandler.c
+  energy.c
+  menu.c
+  obstacles.c
+  player.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Source.c(247,73): warning C4244:  'función': conversión de 'double' a 'int'; posible pérdida de datos
+  sleep.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\player.c(47,22): warning C4305:  '=': truncamiento de 'double' a 'float'
+  tiles.c
+  Generando código...
+D:\Docs\Uni\PBL\PBL\SDLprojektua\sleep.c(39,1): warning C4244:  'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
   SDLprojektua.vcxproj -> D:\Docs\Uni\PBL\PBL\SDLprojektua\-\SDLprojektua.exe
