@@ -103,7 +103,7 @@ void keyHandlerDown(SDL_Event e) {
 		player.movingUp = 0;
 		break;
 	case SDL_SCANCODE_ESCAPE:
-		for (i = 1; i < 3; i++) open += inventories[i].open;
+		for (i = 1; i < 4; i++) open += inventories[i].open;
 		if (open > 0) {
 			closeInvs();
 			closed = 1;
