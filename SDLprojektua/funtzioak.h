@@ -25,6 +25,7 @@ int inputMainMenu(SDL_Event e);
 void loadFiles();
 void playPickUpSFX();
 void playWellWaterSFX();
+void playMusic();
 
 //Data
 void startDic(int language);

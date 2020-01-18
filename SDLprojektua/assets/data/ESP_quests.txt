@@ -9,3 +9,4 @@ Recompensa
 Mision actual
 Cualquiera
 Mision cumplida!
+Comenzar

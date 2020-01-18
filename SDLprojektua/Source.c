@@ -56,10 +56,6 @@ int main(int argc, char* argv[]) {
 
 	if (zabalik) {
 		loadFiles();
-		
-		/*for (int i = 0; i < 49; i++) {
-			tiles[plantable_ID[i]].plant.arado = 1;
-		}*/
 	}
 	else {
 		printf("Ezin izan da hasieratu.");
@@ -74,14 +70,7 @@ int main(int argc, char* argv[]) {
 			}
 			menu(deltaTime);
 			SDL_RenderPresent(renderer);
-			if (!main_menu)
-			{
-				Mix_Music* music = Mix_LoadMUS("assets/sounds/china.wav");
-				//Mix_PlayMusic(music, 1);
-			}
-		}
-		
-		else {
+		}else {
 			while (SDL_PollEvent(&e) > 0 && e.type) {
 				zabalik = inputHandler(e);
 			}
@@ -193,10 +182,11 @@ void initGame() {
 	startPresests();
 	updateInv(INV_PLAYER);
 	updateInv(INV_CHEST);
-	getNextQuest();
 	//load();
 	return;
 }
+
+
 
 void update() {
 	updateDay(deltaTime);
@@ -211,6 +201,7 @@ void update() {
 	player.facingTile = getFacingTileId();
 	checkHover();
 	animatePlayer(deltaTime);
+	playMusic();
 	return;
 }
 

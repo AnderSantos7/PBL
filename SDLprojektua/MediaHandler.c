@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-//enum SURFACE { SURFACE_SCREEN, SURFACE_BACKGROUND, SURFACE_PLAYER, SURFACE_EXTRA, SURFACE_ITEMS, SURFACE_LAND};
 SDL_Texture* loadMedia(char* src);
 
 SDL_Texture* loadMedia(char* src) {
@@ -67,5 +66,15 @@ void playWellWaterSFX() {
 	Mix_Chunk* waterSFX = Mix_LoadWAV_RW(SDL_RWFromFile(src, "rb"), 1);
 	Mix_PlayChannelTimed(-1, waterSFX, 0, -1);
 	//Mix_FreeChunk(waterSFX);
+	return;
+}
+
+void playMusic() {
+	if (!Mix_PlayingMusic()) {
+		char* src[] = { "assets/sounds/Fondo1.wav", "assets/sounds/Fondo2.wav", "assets/sounds/Fondo3.wav", "assets/sounds/Fondo4.wav", "assets/sounds/Fondo5.wav", "assets/sounds/Fondo6.wav" };
+		int track = rand() % 6;
+		Mix_Music* music = Mix_LoadMUS(src[track]);
+		Mix_FadeInMusic(music, 1, 2000);
+	}
 	return;
 }

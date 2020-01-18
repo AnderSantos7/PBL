@@ -231,7 +231,7 @@ void showInv(int inv) {
 }
 
 void closeInvs() {
-	for (int i = 1; i < 3; i++) {
+	for (int i = 1; i < 5; i++) {
 		inventories[i].open = 0;
 	}
 	return;
