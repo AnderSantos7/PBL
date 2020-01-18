@@ -4,6 +4,8 @@
 #include "funtzioak.h"
 #include "objektuak.h"
 
+//Mapako oztopo eta interakzio eremuak
+
 struct Obstacle obstaclesOutside[] = {
 	{1, 896, 864, 100, 34 } , //Pozo
 	{0, 0, 0, 256, 192}, //Casa

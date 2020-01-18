@@ -22,7 +22,9 @@ const int TILE_SIZE = 64;
 const int GRID_SIZE = 16;
 const int LEVEL_SIZE = 1024; //GRID_SIZE * TILE_SIZE
 
+//Camino_ID = Mapako bide 'tile'-ak. Abiadura handiagoa ibiltzerakoan
 const int camino_ID[33] = { 50,54,55,56,57,58,59,60,61,62,63,66,70,82,83,84,85,86,102,118,134,150,166,182,198,214,215,216,217,218,219,220,221 };
+//plantable_ID = Landatu daiteken lursaila
 const int plantable_ID[49] = { 88,89,90,91,92,93,94,104,105,106,107,108,109,110,120,121,122,123,124,125,126,136,137,138,139,140,141,142,152,153,154,155,156,157,158,168,169,170,171,172,173,174,184,185,186,187,188,189,190 };
 
 
@@ -34,6 +36,16 @@ int main_menu = 1, language = EUS;
 
 struct Player player;
 SDL_Rect camera;
+int open;
+int xPos;
+int yPos;
+int rows;
+int cols;
+int slotSize;
+int sheetPosX;
+int sheetPosY;
+int headerSize;
+//Inbentarioen informazioa. {Zabalik, xPos, yPos, lerroak, zutabeak, hutsune tamaina, spritesheeteko x eta y posizioak eta goiko bordearen tamaina
 struct Inventory inventories[4] = { {
 	1, 35, 413, 1, 9, 64, 0, 0, 3
 	},
@@ -115,6 +127,7 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
+//Liburutegiak abiarazi eta pantaila & render-a sortu
 int init() {
 	int success = 1;
 	int imgFlags = IMG_INIT_PNG;
@@ -152,6 +165,7 @@ int init() {
 		printf("SDL_mixer ez da hasieratu. SDL_mixer Error: %s\n", Mix_GetError());
 		success = 0;
 	}
+	//rand() erabiltzeko ausazko seed berria sortu
 	srand(time(0));
 	return success;
 }

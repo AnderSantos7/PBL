@@ -4,6 +4,9 @@
 #include "funtzioak.h"
 #include "objektuak.h"
 #include <stdio.h>
+
+//Energia barra marrazteko funtzioa. 3 laukizuzen irudikatzen dira: fondoko apaingarria, erabilgarria den energia eta erabilitako energia.
+//Erabilitako energiaren h + erabilgarria den energiaren h = energia max
 void marraztuEnergy()
 {
 	if (player.energy <= 0)
@@ -22,20 +25,22 @@ void marraztuEnergy()
 	return;
 }
 
+//Akzio baten ondoren energia kentzeko funtzioa
 void restaEnergy()
 {
 	player.energy -= 5;
-	player.energy -= 2;
 	
 	return;
 }
 
+//Lo egin ondoren energia berrezartzeko funtzioa
 void resetEnergy()
 {
 	player.energy = 200;
 	return;
 }
 
+//Update egitean zenbat energia dagoen jakiteko funtzioa. 0 edo gutxiago bada jokalaria lokartzen da.
 void checkEnergy()
 {
 	if (player.energy <= 0)

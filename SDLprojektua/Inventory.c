@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 
+//Inbentarioko itemak irudikatu
 void marraztuInv(int inv) {
 	SDL_Rect clip;
 	clip.w = inventories[inv].slotSize;
@@ -21,13 +22,16 @@ void marraztuInv(int inv) {
 	}
 }
 
+//Inbentarioak hasieratzeko funtzioa. Debuggeatu eta gauzak probatzeko.
 void updateInv(int inv) {
 	int slots = inventories[inv].cols * inventories[inv].rows;
 	inventories[inv].items[0] = itemPresets[1];
 }
 
+//showingItem = ibentario bateko item baten gainean arratoia jarri ezkero, item honen inbentario array-ko posizioa.
 int showingItem;
 
+//Ea inbentario batean barruan dagoen arratoia
 int getHoveringInv() {
 	int hovering = -1, i = 0;
 	while (hovering < 0 && i < 4) {
@@ -44,6 +48,7 @@ int getHoveringInv() {
 	return hovering;
 }
 
+//showingItem eguneratzeko funtzioa
 int checkHover() {
 	int inv = getHoveringInv(), found = 0;
 	if (inv > -1) {
@@ -66,6 +71,7 @@ int checkHover() {
 	return found;
 }
 
+//showingItem ez bada -1, arratoia item baten gainean dago. Orduan objektuari buruzko informazioa erakusten da. (Izena eta kopurua)
 void marraztuInvTag(int inv) {
 	if (!getQuestMenuState() && inventories[inv].open && showingItem > -1 && inventories[inv].items[showingItem].ID != 0 && inv != 3) {
 		char str[128], qty[128];
@@ -98,8 +104,12 @@ void marraztuInvTag(int inv) {
 	}
 }
 
+//Item bat inbentario batean sartzeko funtzioa. Pos = -1 bada, lehenik eta behin ea mota bereko itemik dagoen begiratuko da. Egoten bada, batu egingo dira.
+//Ez badago halako itemik, hutsik dagoen lehen posizioan sartuko da.
+//Misioen sariak eman eta arratoiarekin arrastratutako item bat inbentarioan uzteko erabiltzen da.
 int insertItem(int inv, struct Item item, int quantity, int pos) {
 	int i = 0, found = 0, success = 0, slots = inventories[inv].cols * inventories[inv].rows;
+	//Mota berdineko itemik dagoen ala ez begiratu
 	while (i < slots && !found) {
 		if (inventories[inv].items[i].ID == item.ID) {
 			found = 1;
@@ -107,10 +117,12 @@ int insertItem(int inv, struct Item item, int quantity, int pos) {
 		}
 		i++;
 	}
+	//Egoten bada, stack kopuruak batu
 	if (found) {
 		inventories[inv].items[pos].quantity += quantity;
 		success = 1;
 	}
+	//Bestela utzik dagoen posizio batean sartu. Ez badago posiziorik libre, 0 itzuliko da. Itema inbentarioan sartu bada berriz, 1.
 	else {
 		i = 0;
 		while (i < slots && pos < 0) {
@@ -128,6 +140,7 @@ int insertItem(int inv, struct Item item, int quantity, int pos) {
 	return success;
 }
 
+//Posizio bateko item bat kendu eta itzuli. Arratoiarekin item bat hartzeko erabiltzen da.
 struct Item removeItemFromInv(int inv, int pos) {
 	struct Item item;
 	item = inventories[inv].items[pos];
@@ -135,6 +148,8 @@ struct Item removeItemFromInv(int inv, int pos) {
 	return item;
 }
 
+//Edozein inbentariotik arratoia item baten gainean jarri eta 1-9 teklak erabiliz item hori hotbarreko posizio horretara mugitu.
+//Posizio horretan itemik badago, item horrekin posizioak trukatuko ditu.
 void moveItemToHotbar(int slot) {
 	int inv = getHoveringInv();
 	if (showingItem != -1 && inventories[inv].items[showingItem].ID != 0) {
@@ -146,6 +161,7 @@ void moveItemToHotbar(int slot) {
 	return;
 }
 
+//Arratoiarekin erakusten den item-a hartu eta arrastratu.
 struct Item pickHovering() {
 	struct Item item = itemPresets[0];
 	int inv = getHoveringInv();
@@ -155,6 +171,7 @@ struct Item pickHovering() {
 	return item;
 }
 
+//Arratoiarekin arrastratzen den item-a pantailan irudikatu.
 void marraztuHoveringItem() {
 	SDL_Rect clip = { 0, 0, 64, 64 };
 	clip.x = hoveringItem.sheetPosX;
@@ -180,6 +197,7 @@ void marraztuHoveringItem() {
 	return;
 }
 
+//Inbentarioko item bakoitzaren kopurua pantailaratu.
 void showStackSize(int inv) {
 	int offset = 42;
 	char str[128];
@@ -204,6 +222,7 @@ void showStackSize(int inv) {
 	return;
 }
 
+//Inbentario bakoitzeko elementu desberdinak irudikatzeko erabiltzen diren funtzio desberdinak deitzeko funtzioa. Apaingarriak diren textura batzuk ere irudikatu.
 void showInv(int inv) {
 	if (inventories[inv].open) {
 		SDL_Rect clip;
@@ -230,6 +249,7 @@ void showInv(int inv) {
 	return;
 }
 
+//Inbentario guztiak ixteko funtzioa. Esc tekla sakatu edo etxean sartu / etxetik ateratzean erabiltzen da.
 void closeInvs() {
 	for (int i = 1; i < 5; i++) {
 		inventories[i].open = 0;
@@ -237,6 +257,7 @@ void closeInvs() {
 	return;
 }
 
+//Jokalariaren inbentarioan (inbentario + hotbar) item mota bateko zenbat dagoen kontatzen duen funtzioa.
 int checkHowManyOfItem(int item) {
 	int ammount = 0;
 	for (int i = 0; i < 2; i++) {
@@ -248,6 +269,8 @@ int checkHowManyOfItem(int item) {
 	return ammount;
 }
 
+//Jokalariaren inbentariotik (inbentario + hotbar) item mota baten kopuru zehatz bat kendu. Lehendabizi hotbarretik kentzen da, gero inbentariotik.
+//Item-a stack desberdinetan egonda ere kenduko da kopuru zuzena.
 int removeCertainItem(int item, int ammount) {
 	int success = 0;
 	int i = 0;

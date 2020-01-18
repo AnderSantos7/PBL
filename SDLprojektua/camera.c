@@ -4,11 +4,13 @@
 #include "objektuak.h"
 #include <stdio.h>
 
+//Cameraren ezaugarriak hasieratu
 SDL_Rect createCamera() {
 	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	return camera;
 }
 
+//Camera jokalarian zentratu. Mapako limiteetatik irten ez dadila zihurtatu.
 SDL_Rect centerCameraInPlayer(SDL_Rect camera) {
 	camera.x = (player.x + player.w / 2) - SCREEN_WIDTH / 2;
 	camera.y = (player.y + player.h / 2) - SCREEN_HEIGHT / 2;

@@ -6,10 +6,12 @@
 #include <stdio.h>
 #include <math.h>
 
+//Lurrean dauden itemak gordetzeko array-a
 struct Item droppedItems[128];
 int playerPickRange = 50;
 droppedLength = 0;
 
+//Lurrean dauden item-en array-a Y posizioaren arabera ordenatzeko. Horrela jokalariaren atzetik eta aurretik dauden item-ak bereizi daitezke.
 void ordenatuDroppedItems() {
 	for (int i = 0; i < droppedLength; i++) {
 		for (int j = i + 1; j < droppedLength; j++) {
@@ -24,7 +26,10 @@ void ordenatuDroppedItems() {
 	return;
 }
 
+
 int lastItemDrawn = 0;
+//Lurreko objektuak marrazteko funtzioa. Birritan deitzen da, behin jokalariaren gainetik dauden itemak marrazteko eta berriz jokalarian aurretik daudenentzat.
+//lastItemDrawn kontagailuak bi zatitan banatzen du array-a: jokalariaren gainetik daudenak eta azpitik daudenak.
 void marraztuDroppedItems(int ordena) { // ordena = 0 --> Player atzetik, ordena = 1 --> Player aurretik
 	if (ordena == 0) {
 		lastItemDrawn = 0;
@@ -50,6 +55,7 @@ void marraztuDroppedItems(int ordena) { // ordena = 0 --> Player atzetik, ordena
 	return;
 }
 
+//Lurrean dauden item-ak pantailaratzeko funtzioa.
 void showDroppedItem(int index) {
 	SDL_Rect clip;
 	clip.x = droppedItems[index].sheetPosX;
@@ -61,6 +67,7 @@ void showDroppedItem(int index) {
 	return;
 }
 
+//Arratoiko itema lurrera botatzeko funtzioa. Arratoitik ezabatu eta dropppedItems array-ra gehitzen da. droppedLength-ek array-aren tamaina gordetzen du.
 void dropHoveringItem() {
 	if (hoveringItem.ID != 0 && hoveringItem.quantity > 0) {
 		droppedItems[droppedLength] = hoveringItem;
@@ -73,6 +80,7 @@ void dropHoveringItem() {
 	return;
 }
 
+//Uzta biltzean, adibidez, erabiltzen den funtzioa tile zehatz batean x item bateko y kopuru botatzeko.
 void dropItem(int tile, int item, int ammount) {
 	droppedItems[droppedLength] = itemPresets[item];
 	droppedItems[droppedLength].xPos = tiles[tile].x * 64;
@@ -83,6 +91,7 @@ void dropItem(int tile, int item, int ammount) {
 	return;
 }
 
+//Jokalaria item batera gerturatzean item-a jasotzeko funtzioa.
 int pickUpItems() {
 	int picked = 0;
 	for (int i = 0; i < droppedLength; i++) {
@@ -102,6 +111,7 @@ int pickUpItems() {
 	return picked;
 }
 
+//droppedItems array-tik posizio zehatz bateko item-a ezabatu eta array-ko hutsune hori ezabatzeko funtzioa.
 void sweepFloor(int i) {
 	droppedLength--;
 	for (i; i < droppedLength; i++) {
@@ -110,6 +120,7 @@ void sweepFloor(int i) {
 	return;
 }
 
+//Hazi eta item ID sistemen arteko konbertsioa egiteko funtzioa.
 int seedToItem(int seed) {
 	int item = 0;
 	switch (seed) {
@@ -122,6 +133,8 @@ int seedToItem(int seed) {
 	case BERENJENA: item = 10;
 		break;
 	case TRIGO: item = 12;
+		break;
+	case OREGANO: item = 14;
 		break;
 	}
 	return item;

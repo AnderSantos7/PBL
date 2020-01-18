@@ -8,6 +8,7 @@
 
 SDL_Texture* loadMedia(char* src);
 
+//PNG fitxategi batetik surface bat sortu eta bertatik textura bat itzuli.
 SDL_Texture* loadMedia(char* src) {
 	SDL_Surface* s = NULL;
 	SDL_RWops* rwop;
@@ -22,6 +23,7 @@ SDL_Texture* loadMedia(char* src) {
 	return t;
 }
 
+//SDL_Rendercopy erabiltzeko funtzio ulergarria
 void aplikatuSurface(int x, int y, int w, int h, SDL_Texture* texture, SDL_Rect* clip) {
 	SDL_Rect offset;
 	offset.x = x;
@@ -33,6 +35,7 @@ void aplikatuSurface(int x, int y, int w, int h, SDL_Texture* texture, SDL_Rect*
 	return;
 }
 
+//textures array-a hasieratu irudiekin
 void loadFiles() {
 	textures[bgSurface] = loadMedia("assets/images/bg.png");
 	textures[playerSurface] = loadMedia("assets/images/player.png");
@@ -48,6 +51,7 @@ void loadFiles() {
 	return;
 }
 
+//Item bat lurretik hartzerakoan ausazko SFX bat jarri SDL_mixer erabiliz
 void playPickUpSFX() {
 	char* src = "assets/sounds/pickUpSFX0.wav";
 	int random = rand() % 3;
@@ -61,6 +65,7 @@ void playPickUpSFX() {
 	return;
 }
 
+//Putzutik ura hartzean SFX bat jarri SDL_mixer erabiliz
 void playWellWaterSFX() {
 	char* src = "assets/sounds/wellWaterSFX.wav";
 	Mix_Chunk* waterSFX = Mix_LoadWAV_RW(SDL_RWFromFile(src, "rb"), 1);
@@ -69,6 +74,7 @@ void playWellWaterSFX() {
 	return;
 }
 
+//SDL_mixer erabiliz ausazko abesti bat jarri jadanik musikarik ez badago. Fade in efektua du hasieran.
 void playMusic() {
 	if (!Mix_PlayingMusic()) {
 		char* src[] = { "assets/sounds/Fondo1.wav", "assets/sounds/Fondo2.wav", "assets/sounds/Fondo3.wav", "assets/sounds/Fondo4.wav", "assets/sounds/Fondo5.wav", "assets/sounds/Fondo6.wav" };

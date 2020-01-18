@@ -51,7 +51,7 @@ struct posCoord {
 
 extern struct posCoord mousePos;
 
-enum Seed { NONE, CALABAZA, TOMATE, PIMIENTO, BERENJENA, TRIGO };
+enum Seed { NONE, CALABAZA, TOMATE, PIMIENTO, BERENJENA, TRIGO, OREGANO };
 
 struct Plant {
 	int seed;

@@ -8,15 +8,17 @@
 #include <time.h>
 
 double tiempof = 0;
+//Hasierako menua erakutzi eta honekin interaktuatzeko funtzioa.
 void menu(double deltaTime)
 {
+	//Aplikazioaren hasieran 'MORHACKER' logoa erakutsi
 	if (tiempof < 2) {
 		tiempof += deltaTime;
 		SDL_Rect firma = { 0,0,SCREEN_WIDTH, SCREEN_HEIGHT };
 		aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[firmaSurface], &firma);
 
 	} else{
-
+		//Firmaren ondoren menua marraztu
 		SDL_Rect background = { 0,0,SCREEN_WIDTH - 2, SCREEN_HEIGHT };
 		aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[menuSurface], &background);
 
@@ -38,6 +40,7 @@ void menu(double deltaTime)
 	return;
 }
 
+//Pantailako karratu zehatz batean arratoia dagoen ala ez itzultzen duen funtzioa.
 int checkIfClicking(SDL_Rect* button) {
 	int success = 0;
 	if (mousePos.x > button->x&&

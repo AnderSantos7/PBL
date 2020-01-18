@@ -4,6 +4,7 @@
 #include "objektuak.h"
 #include <stdio.h>
 
+//Jokalari struct-a hasieratu
 struct Player createPlayer() {
 	struct Player player;
 	player.x = 0;
@@ -30,13 +31,16 @@ struct Player createPlayer() {
 	return player;
 }
 
+//Jokalaria mugitzeko funtzioa. Mugimenduaren ondoren hitboxak aztertzen dira, eta beharrezkoa izanez gero, posizoa aldatzen da.
 void movePlayer(double deltaTime) {
 	float multiplier = 1;
 	int bidean = 0, i = 0;
 	if (player.sleeping == 0)
 	{
 		player.tile = getTileFromPos(player.x + player.w / 2, player.y + 2 * TILE_SIZE);
+		//Etxetik kanpoko mugimendua
 		if (player.status == PLAYING) {
+			//Bide motako tile batean dagoen begiratu. Hala bada, jokalariaren abiadura * 1.2 izango da.
 			while (!bidean && i < 33) {
 				if (tiles[camino_ID[i]].x * TILE_SIZE < player.x + player.w - 20 &&
 					tiles[camino_ID[i]].x * TILE_SIZE + TILE_SIZE > player.x + 20 &&
@@ -113,7 +117,7 @@ void movePlayer(double deltaTime) {
 				}
 			}
 		}
-		//DENTRO DE CASA
+		//Etxe barruko mugimendua
 		else if (player.status == HOME) {
 			if (player.movingRight) {
 				player.x += (int)(player.speed * deltaTime * multiplier);
@@ -180,6 +184,9 @@ void movePlayer(double deltaTime) {
 }
 
 double animationTime = 0;
+//Baserritarraren ibiltzeko animaziorako funtzioa. Denboraren arabera aldatzen da frame-a.
+//Jokalariaren spritesheetean lerro bakoitzeko noraznko bat. Goitik behera: Beherantz, gorantz, eskuin eta ezker.
+//Noranzko bakoitzak 3 frame ditu eta erdikoa birritan errepikatzen da.
 void animatePlayer(double deltaTime) {
 	if (player.sleeping == 0)
 	{
@@ -208,6 +215,7 @@ void animatePlayer(double deltaTime) {
 	return;
 }
 
+//Jokalaria bere posizoan marrazteko funtzioa. Gainera, interakzioa posible bada, 'Q' markagailua ere marrazten da.
 void drawPlayer() {
 	aplikatuSurface(player.x - camera.x, player.y - camera.y, player.w, player.h, textures[playerSurface], &player.clip);
 	if (player.canInteract != -1) {
@@ -231,20 +239,21 @@ void drawPlayer() {
 	return;
 }
 
+//Puntu bat zirkunferentzia baten barruan dagoen kalkulatzeko funtzioa. Interakzio-eremuak eta lurreko item-ak hartzeko eremua kalkulatzeko.
 int checkInRange(int x, int y, int range) {
 	double p = (pow(((double)x), 2) / pow(range, 2)) + (pow((double)y, 2) / pow(range, 2));
 	return (p <= 1);
 }
 
+//Jokalaria interakzio eremu batean dagoen ala ez begiratzeko.
 void checkPosibleInteraction() {
-	int i = 0, finished = 0, range = 150;
+	int i = 0, range = 150;
 	player.canInteract = -1;
 	switch(player.status) {
 	case PLAYING:
 		while (player.canInteract == -1 && i < 5) {
 			if (checkInRange(obstaclesOutside[i].x + obstaclesOutside[i].w / 2 - player.x - player.w / 2, obstaclesOutside[i].y + obstaclesOutside[i].h / 2 - player.y - player.h, range)) {
 				player.canInteract = i;
-				finished = 1;
 			}
 			i++;
 		}
@@ -257,7 +266,6 @@ void checkPosibleInteraction() {
 		while (player.canInteract  == -1 && i < 2) {
 			if (checkInRange(obstaclesInside[i].x + obstaclesInside[i].w / 2 - player.x, obstaclesInside[i].y + obstaclesInside[i].h / 2 - player.y, range)) {
 				player.canInteract = i;
-				finished = 1;
 			}
 			i++;
 		}
