@@ -54,7 +54,7 @@ void arar(int tile) {
 }
 
 void fertilize(int tile) {
-	tiles[tile].plant.time += 100;
+	tiles[tile].plant.time += 450;
 
 	checkQuestCompletion(FERTILIZAR, tiles[tile].plant.seed, 1);
 	return;
@@ -149,13 +149,13 @@ void updatePlants(int i, double deltaTime) {
 void updateWater(int i, double deltaTime) {
 	if (tiles[plantable_ID[i]].plant.water) {
 		tiles[plantable_ID[i]].plant.lastWater += deltaTime;
-		if (tiles[plantable_ID[i]].plant.lastWater > 350) {
+		if (tiles[plantable_ID[i]].plant.lastWater > 250) {
 			tiles[plantable_ID[i]].plant.water = 0;
 			tiles[plantable_ID[i]].plant.lastWater = 0;
 		}
 	}else if (!tiles[plantable_ID[i]].plant.water) {
 		tiles[plantable_ID[i]].plant.lastWater += deltaTime;
-		if (tiles[plantable_ID[i]].plant.lastWater >= 150) {
+		if (tiles[plantable_ID[i]].plant.lastWater >= 350) {
 			tiles[plantable_ID[i]].plant.time = 0;
 			tiles[plantable_ID[i]].plant.seed = NONE;
 			tiles[plantable_ID[i]].plant.arado = 0;

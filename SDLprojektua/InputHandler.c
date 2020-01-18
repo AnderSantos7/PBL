@@ -159,8 +159,14 @@ void keyHandlerDown(SDL_Event e) {
 				break;
 			case 3:
 				switch (inventories[INV_SHOP].open) {
-				case 0: inventories[INV_SHOP].open = 1; break;
-				case 1: inventories[INV_SHOP].open = 0; break;
+				case 0:
+					inventories[INV_SHOP].open = 1;
+					inventories[INV_PLAYER].open = 1;
+					break;
+				case 1:
+					inventories[INV_SHOP].open = 0;
+					inventories[INV_PLAYER].open = 0;
+					break;
 			}
 				break;
 			case 4:

@@ -86,9 +86,9 @@ void marraztuInvTag(int inv) {
 		SDL_Rect clip = {201, 477, 200, 50};
 		int posX = mousePos.x, posY = mousePos.y;
 		if (mousePos.x + w + 40 >= SCREEN_WIDTH) posX = mousePos.x - w -20;
-		if (mousePos.y + h + 40 >= SCREEN_WIDTH) posY = mousePos.y - h - 20;
+		if (mousePos.y + h + 40 >= SCREEN_HEIGHT) posY = mousePos.y - h - 20;
 		aplikatuSurface(posX + offSet - 10, posY + offSet - 10, w + 20, h + 20, textures[HUDSurface], &clip);
-		aplikatuSurface(posX + offSet, mousePos.y + offSet, w, h, t, NULL);
+		aplikatuSurface(posX + offSet, posY + offSet, w, h, t, NULL);
 		SDL_FreeSurface(s);	
 		SDL_DestroyTexture(t);
 		TTF_CloseFont(font);
@@ -120,6 +120,7 @@ int insertItem(int inv, struct Item item, int quantity, int pos) {
 		}
 		if (i != slots) {
 			inventories[inv].items[pos] = item;
+			inventories[inv].items[pos].quantity = quantity;
 			success = 1;
 		}
 	}

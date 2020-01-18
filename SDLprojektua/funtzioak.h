@@ -103,6 +103,7 @@ struct Quest getCurrentQuest();
 void setCurrentQuest(struct Quest quest);
 void showQuestMenu();
 void interactQuestMenu();
+void upgradeQuests();
 int getQuestMenuState();
 void setQuestMenuState(int state);
 

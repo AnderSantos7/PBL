@@ -12,6 +12,7 @@ Aubergine
 Aubergine seeds
 Wheat
 Wheat seeds
-x
-x seeds
+"Oregano"
+"Oregano" seeds
 Fertilizer
+Coin

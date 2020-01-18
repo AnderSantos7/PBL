@@ -330,6 +330,8 @@ void load() {
 		}
 
 		setCurrentQuest(quest);
+		unlockShopItem(quest.ID);
 	}
 	fclose(fp);
+	
 }

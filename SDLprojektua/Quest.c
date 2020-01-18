@@ -133,13 +133,14 @@ void showCurrentQuest() {
 	if (currentQuest.requiredItem != 0) {
 		if (currentQuest.action == PLANT || currentQuest.action == WATER || currentQuest.action == FERTILIZAR) {
 			strcat(str, itemPresets[seedToItem(currentQuest.requiredItem)].name);
-		}else if (currentQuest.requiredItem == 0) {
-			strcat(str, dic_Quests[9]);
 		}else{
 			strcat(str, itemPresets[currentQuest.requiredItem].name);
 		}
-		strcat(str, " ");
 	}
+	else {
+		strcat(str, dic_Quests[9]);
+	}
+	strcat(str, " ");
 	SDL_itoa(currentQuest.completion, tmp, 10);
 	strcat(str, tmp);
 	strcat(str, "/");
@@ -331,18 +332,24 @@ void showQuestMenu() {
 		SDL_DestroyTexture(t);
 
 		SDL_Rect rClip = { itemPresets[currentQuest.rewardItem].sheetPosX, itemPresets[currentQuest.rewardItem].sheetPosY, 64, 64 };
+		if (currentQuest.rewardAmmount == 0) {
+			rClip.x = 448; rClip.y = 0;
+		}
 		xOffsetReward += w + 4;
 		aplikatuSurface(xOffsetReward, y - 8, 64, 64, textures[itemsSurface], &rClip);
 		xOffsetReward += 48;
 		
-		SDL_itoa(currentQuest.rewardAmmount, tmp, 10);
-		s = TTF_RenderText_Solid(font, tmp, color);
-		t = SDL_CreateTextureFromSurface(renderer, s);
-		SDL_QueryTexture(t, NULL, NULL, &w, &h);
-		aplikatuSurface(xOffsetReward, y + 32, w, h, t, NULL);
+		if (currentQuest.rewardAmmount > 0) {
+			SDL_itoa(currentQuest.rewardAmmount, tmp, 10);
+			s = TTF_RenderText_Solid(font, tmp, color);
+			t = SDL_CreateTextureFromSurface(renderer, s);
+			SDL_QueryTexture(t, NULL, NULL, &w, &h);
+			aplikatuSurface(xOffsetReward, y + 32, w, h, t, NULL);
 
-		SDL_FreeSurface(s);
-		SDL_DestroyTexture(t);
+			SDL_FreeSurface(s);
+			SDL_DestroyTexture(t);
+		}
+
 		TTF_CloseFont(font);
 
 	}
@@ -357,9 +364,11 @@ void interactQuestMenu() {
 	return;
 }
 
+int upgraded = 0;
 struct Quest generateRandomQuest() {
 	struct Quest quest;
-	int seedKopurua = 5;
+	int seedKopurua = 4;
+	if (upgraded) seedKopurua = 5;
 	int maxRequired = 20;
 
 	quest.ID = currentQuest.ID + 1;
@@ -378,11 +387,19 @@ struct Quest generateRandomQuest() {
 
 	quest.requiredAmmount = rand() % maxRequired + 1;
 
-	quest.rewardItem = 16;
-	quest.rewardAmmount = rand() % ((currentQuest.requiredAmmount / 2) + 1);
+	quest.rewardItem = 17;
+	int maxReward = quest.requiredAmmount / 2 + 1;
+	quest.rewardAmmount = 0;
+	while(quest.rewardAmmount < quest.requiredAmmount / 4) quest.rewardAmmount = rand() % maxReward;
+	if (quest.rewardAmmount == 0) quest.rewardAmmount = 1;
 	quest.complete = 0;
 	quest.completion = 0;
 	return quest;
+}
+
+void upgradeQuests() {
+	upgraded = 1;
+	return;
 }
 
 struct Quest getCurrentQuest() {

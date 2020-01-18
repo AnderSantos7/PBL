@@ -12,6 +12,7 @@
 {"ID":11;"name_str":11;"sheetPosX":448;"sheetPosY":64;"seed":4;},
 {"ID":12;"name_str":12;"sheetPosX":512;"sheetPosY":64;"seed":0;},
 {"ID":13;"name_str":13;"sheetPosX":576;"sheetPosY":64;"seed":5;},
-{"ID":14;"name_str":14;"sheetPosX":640;"sheetPosY":64;"seed":0;},
-{"ID":15;"name_str":15;"sheetPosX":704;"sheetPosY":64;"seed":6;},
-{"ID":16;"name_str":16;"sheetPosX":0;"sheetPosY":128;"seed":0;},//fertilizer
+{"ID":14;"name_str":14;"sheetPosX":512;"sheetPosY":0;"seed":0;},
+{"ID":15;"name_str":15;"sheetPosX":576;"sheetPosY":0;"seed":6;},
+{"ID":16;"name_str":16;"sheetPosX":320;"sheetPosY":0;"seed":0;},
+{"ID":17;"name_str":17;"sheetPosX":384;"sheetPosY":0;"seed":0;},

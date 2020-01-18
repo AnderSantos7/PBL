@@ -12,6 +12,7 @@ Berenjena
 Semillas de berenjena
 Trigo
 Semillas de trigo
-x
-Semillas de x
+"Oregano"
+Semillas de "oregano"
 Fertilizante
+Moneda

@@ -1,4 +1,8 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(438,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  InputHandler.c
-D:\Docs\Uni\PBL\PBL\SDLprojektua\InputHandler.c(361,12): warning C4013:  'arar' sin definir; se supone que extern devuelve como resultado int
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(445,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  Inventory.c
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(127,19): warning C4101: 'inb': variable local sin referencia
+D:\Docs\Uni\PBL\PBL\SDLprojektua\Inventory.c(225,57): warning C4047: '==': 'int (__cdecl *)()' es distinto en los niveles de direccionamiento indirecto de 'int'
+  SHOP.C
+D:\Docs\Uni\PBL\PBL\SDLprojektua\SHOP.C(58,8): warning C4013: 'strcat' sin definir; se supone que extern devuelve como resultado int
+  Generando código...
   SDLprojektua.vcxproj -> D:\Docs\Uni\PBL\PBL\SDLprojektua\-\SDLprojektua.exe
