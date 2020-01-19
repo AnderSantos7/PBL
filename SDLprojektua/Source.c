@@ -81,10 +81,6 @@ int main(int argc, char* argv[]) {
 				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[loadSurface], NULL);
 			}
 			SDL_RenderPresent(renderer);
-			if (!main_menu){ //Musika hastea
-				Mix_Music* music = Mix_LoadMUS("assets/sounds/china.wav");
-				Mix_PlayMusic(music, 1);
-			}
 		}
 		else {
 			while (SDL_PollEvent(&e) > 0 && e.type) {
@@ -229,6 +225,7 @@ void update() {
 	player.facingTile = getFacingTileId();
 	checkHover();
 	animatePlayer(deltaTime);
+	playMusic();
 	return;
 }
 
