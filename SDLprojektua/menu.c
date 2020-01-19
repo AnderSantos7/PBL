@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"
@@ -6,6 +7,10 @@
 #include "objektuak.h"
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
+
+void idatzimenu();
+void readmenu(int botoia, char* str);
 
 double tiempof = 0;
 //Hasierako menua erakutzi eta honekin interaktuatzeko funtzioa.
@@ -36,6 +41,8 @@ void menu(double deltaTime)
 			clip.y = 114 + 48 * i;
 			aplikatuSurface(150 + 128 * i, 432, 64, 48, textures[menuSurface], &clip);
 		}
+		//Hizkuntzaren arabera, menuan agertzen diren hitzak idatzi
+		idatzimenu();
 	}
 	return;
 }
@@ -50,4 +57,56 @@ int checkIfClicking(SDL_Rect* button) {
 		success = 1;
 	}
 	return success;
+}
+
+void idatzimenu() {
+	char str[128];
+	TTF_Font* font;
+	SDL_Color color = { 255, 255, 255 };
+	SDL_Surface* s;
+	SDL_Texture* t;
+	int w, h, i;
+
+	//Menuko hiru botoietan idatzi
+	for (i = 1; i < 4; i++) {
+		readmenu(i, str);
+		if (i == 1) { //Jolastea
+			font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 20);
+		}
+		else { //Partida kargatzea eta kontrolak ikustea
+			font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 13);
+		}
+		s = TTF_RenderText_Solid(font, str, color);
+		t = SDL_CreateTextureFromSurface(renderer, s);
+
+		SDL_QueryTexture(t, NULL, NULL, &w, &h);
+
+		if (i == 1) aplikatuSurface(SCREEN_WIDTH / 2 - w / 2, 230 - h / 2, w, h, t, NULL);
+		else aplikatuSurface(SCREEN_WIDTH / 2 - w / 2, 295 + 60 * (i - 2) - h / 2, w, h, t, NULL);
+		SDL_FreeSurface(s);
+		SDL_DestroyTexture(t);
+		TTF_CloseFont(font);
+	}
+
+}
+
+//Textu dokumentu batetik irakurtzea botoietan jarri behar dena
+void readmenu(int botoia, char* str) {
+	FILE* fp;
+	char buff[64] = { 0 };
+	char* src = "assets/data/EUS_menus.txt";
+	if (language == ENG) src = "assets/data/ENG_menus.txt";
+	else if (language == ESP) src = "assets/data/ESP_menus.txt";;
+	fp = fopen(src, "r");
+	for (int j = 0; j < botoia; j++) {
+		fgets(buff, 64, fp);
+	}
+	int i = 0;
+	while (buff[i] != '\n' && buff[i] != '\0') {
+		str[i] = buff[i];
+		i++;
+	}
+	
+	str[i] = '\0';
+	fclose(fp);
 }

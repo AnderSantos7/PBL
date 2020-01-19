@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"
@@ -7,12 +8,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
-int prices[] = { 1, 2, 3, 4, 5, 6, 5 };
+int prices[] = {1,2,3,4,5,6,5};
 int currency[] = { 4, 4, 6, 8, 10 };
 void drawShop() {
-	SDL_Rect seller = { 121, 0, 48,48 };
-	aplikatuSurface(500 - camera.x, 50 - camera.y, 80, 80, textures[obstacleSurface], &seller);
+	SDL_Rect seller = { 121, 0, 48, 48 };
+	aplikatuSurface(500 - camera.x, 35 - camera.y, 80, 80, textures[obstacleSurface], &seller);
 	return;
 }
 
@@ -39,7 +41,7 @@ void buyItem(int pos) {
 			removeCertainItem(currencyToPay, prices[pos]);
 			prices[pos]++;
 			if (!insertItem(INV_HOTBAR, inventories[INV_SHOP].items[pos], 1, -1)) {
-				if (!insertItem(INV_HOTBAR, inventories[INV_SHOP].items[pos], 1, -1)){
+				if (!insertItem(INV_HOTBAR, inventories[INV_SHOP].items[pos], 1, -1)) {
 					dropItem(player.facingTile, inventories[INV_SHOP].items[pos].ID, 1);
 				}
 			}
@@ -50,7 +52,7 @@ void buyItem(int pos) {
 }
 
 void showPrice(int item) {
-	char str[128] = { 'x', '\0' }, qty[128];
+	char str[128] = {'x', '\0'}, qty[128];
 	TTF_Font* font;
 	font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 24);
 	SDL_Color color = { 255, 255, 255 };
@@ -62,12 +64,6 @@ void showPrice(int item) {
 	int offSet = 16;
 	SDL_QueryTexture(t, NULL, NULL, &w, &h);
 	SDL_Rect clip = { itemPresets[currency[item]].sheetPosX, itemPresets[currency[item]].sheetPosY, 64, 64 };
-
-	if (payCoins) {
-		clip.x = itemPresets[17].sheetPosX;
-		clip.y = itemPresets[17].sheetPosY;
-	}
-
 	int posX = mousePos.x, posY = mousePos.y;
 	if (mousePos.x + w + 40 >= SCREEN_WIDTH) posX = mousePos.x - w - 84;
 	if (mousePos.y + h + 40 >= SCREEN_WIDTH) posY = mousePos.y - h - 84;

@@ -26,7 +26,6 @@ void ordenatuDroppedItems() {
 	return;
 }
 
-
 int lastItemDrawn = 0;
 //Lurreko objektuak marrazteko funtzioa. Birritan deitzen da, behin jokalariaren gainetik dauden itemak marrazteko eta berriz jokalarian aurretik daudenentzat.
 //lastItemDrawn kontagailuak bi zatitan banatzen du array-a: jokalariaren gainetik daudenak eta azpitik daudenak.
@@ -36,7 +35,7 @@ void marraztuDroppedItems(int ordena) { // ordena = 0 --> Player atzetik, ordena
 		int i = 0, finished = 0;
 		while (i < droppedLength && !finished) {
 			if (droppedItems[i].yPos + 64 < player.y + player.h) {
-				showDroppedItem(i);
+				if(player.status == droppedItems[i].status) showDroppedItem(i);
 			}
 			else {
 				finished = 1;
@@ -49,7 +48,7 @@ void marraztuDroppedItems(int ordena) { // ordena = 0 --> Player atzetik, ordena
 		int i = lastItemDrawn;
 		if (droppedItems[i].yPos + 64 < player.y + player.h) i++;
 		for (i; i < droppedLength; i++) {
-			showDroppedItem(i);
+			if (player.status == droppedItems[i].status) showDroppedItem(i);
 		}
 	}
 	return;
@@ -133,8 +132,6 @@ int seedToItem(int seed) {
 	case BERENJENA: item = 10;
 		break;
 	case TRIGO: item = 12;
-		break;
-	case OREGANO: item = 14;
 		break;
 	}
 	return item;

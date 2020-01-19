@@ -54,7 +54,7 @@ int checkHover() {
 	if (inv > -1) {
 		int slots = inventories[inv].cols * inventories[inv].rows, i = 0;
 		while (!found && i < slots) {
-			if (mousePos.x > i% inventories[inv].cols* inventories[inv].slotSize + inventories[inv].xPos
+			if (mousePos.x > i % inventories[inv].cols * inventories[inv].slotSize + inventories[inv].xPos
 				&& mousePos.x < (i % inventories[inv].cols + 1) * inventories[inv].slotSize + inventories[inv].xPos
 				&& mousePos.y > i / inventories[inv].cols * inventories[inv].slotSize + inventories[inv].yPos
 				&& mousePos.y < (i / inventories[inv].cols + 1) * inventories[inv].slotSize + inventories[inv].yPos) {
@@ -89,13 +89,13 @@ void marraztuInvTag(int inv) {
 		int w, h;
 		int offSet = 16;
 		SDL_QueryTexture(t, NULL, NULL, &w, &h);
-		SDL_Rect clip = {201, 477, 200, 50};
+		SDL_Rect clip = { 201, 477, 200, 50 };
 		int posX = mousePos.x, posY = mousePos.y;
-		if (mousePos.x + w + 40 >= SCREEN_WIDTH) posX = mousePos.x - w -20;
+		if (mousePos.x + w + 40 >= SCREEN_WIDTH) posX = mousePos.x - w - 20;
 		if (mousePos.y + h + 40 >= SCREEN_HEIGHT) posY = mousePos.y - h - 20;
 		aplikatuSurface(posX + offSet - 10, posY + offSet - 10, w + 20, h + 20, textures[HUDSurface], &clip);
 		aplikatuSurface(posX + offSet, posY + offSet, w, h, t, NULL);
-		SDL_FreeSurface(s);	
+		SDL_FreeSurface(s);
 		SDL_DestroyTexture(t);
 		TTF_CloseFont(font);
 	}
@@ -128,7 +128,8 @@ int insertItem(int inv, struct Item item, int quantity, int pos) {
 		while (i < slots && pos < 0) {
 			if (inventories[inv].items[i].ID == 0) {
 				pos = i;
-			}else i++;
+			}
+			else i++;
 		}
 		if (i != slots) {
 			inventories[inv].items[pos] = item;
@@ -136,7 +137,7 @@ int insertItem(int inv, struct Item item, int quantity, int pos) {
 			success = 1;
 		}
 	}
-	struct Inventory inb = inventories[inv];
+	//struct Inventory inb = inventories[inv];
 	return success;
 }
 
@@ -286,7 +287,8 @@ int removeCertainItem(int item, int ammount) {
 					toBeRemoved -= removedAmmount;
 					inventories[i].items[j].quantity -= removedAmmount;
 					if (inventories[i].items[j].quantity < 1) inventories[i].items[j] = itemPresets[0];
-				}else {
+				}
+				else {
 					removedAmmount = inventories[i].items[j].quantity;
 					toBeRemoved -= removedAmmount;
 					inventories[i].items[j] = itemPresets[0];

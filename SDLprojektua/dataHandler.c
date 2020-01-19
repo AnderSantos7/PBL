@@ -19,6 +19,7 @@ struct JSON_Items {
 	int sheetPosY;
 	int seed;
 };
+
 //JSON fitxategitik ateratako misioen informazioa gordetzeko struct-a
 struct JSON_Quests {
 	int ID;
@@ -33,7 +34,7 @@ struct JSON_Quests {
 char dic_Items[128][128], dic_Quests[128][128];
 struct Item itemPresets[128];
 
-//dic_Items eta dic_Quests 'hiztegiak' hasieratu. Horretarako aukeratutako hizkuntzare arabera fitxategi desberdinak irakurtzen dira.
+//dic_Items eta dic_Quests 'hiztegiak' hasieratu. Horretarako aukeratutako hizkuntzaren arabera fitxategi desberdinak irakurtzen dira.
 void startDic(int language) {
 	char* src[] = { "assets/data/EUS_items.txt", "assets/data/ESP_items.txt", "assets/data/ENG_items.txt" };
 	FILE* fp;
@@ -44,7 +45,7 @@ void startDic(int language) {
 	while (feof(fp) == 0) {
 		fgets(buff, 128, fp);
 		//Buffer-etik lerroa jauzia ezabatu
-		strtok(buff, "\n");
+		char* basura = strtok(buff, "\n");
 		//Buffer-eko informazioa hiztegian gorde
 		strcpy(dic_Items[i], buff);
 		i++;
@@ -57,7 +58,8 @@ void startDic(int language) {
 	i = 0;
 	while (feof(fp) == 0) {
 		fgets(buff, 256, fp);
-		strtok(buff, "\n");
+		char* basura = strtok(buff, "\n");
+
 		strcpy(dic_Quests[i], buff);
 		i++;
 	}
@@ -67,7 +69,7 @@ void startDic(int language) {
 
 //JSON fitxategitik ateratako informazioa struct-etik itemPresets array-ra gorde. Array hau item 'hiztegi' edo bilduma bezala erabiltzen da.
 void startPresests() {
-	for (int i = 0; i < 18; i++) {
+	for (int i = 0; i < 20; i++) {
 		struct JSON_Items itemData = parseItem(i);
 		itemPresets[i].ID = itemData.ID;
 		itemPresets[i].name = dic_Items[itemData.name_str];

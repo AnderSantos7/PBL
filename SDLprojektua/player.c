@@ -48,7 +48,7 @@ void movePlayer(double deltaTime) {
 					tiles[camino_ID[i]].y * TILE_SIZE + TILE_SIZE > player.y + 2 * TILE_SIZE)
 				{
 					bidean = 1;
-					multiplier = 1.2;
+					multiplier = (float)1.2;
 				}
 				i++;
 			}
@@ -58,10 +58,6 @@ void movePlayer(double deltaTime) {
 				if (player.x > LEVEL_SIZE - player.w) {
 					player.x = LEVEL_SIZE - player.w;
 				}
-				if (player.y < 70 && player.x > 440 && player.x < 580)
-				{
-					player.x = 440;
-				}
 			}
 			if (player.movingLeft) {
 				player.x -= (int)(player.speed * multiplier * deltaTime);
@@ -69,15 +65,11 @@ void movePlayer(double deltaTime) {
 					player.x = 0;
 				}
 
-				if (player.y > 6 * 64 - 8 && player.x < 3 * 64 + 32) {
+				if (player.y > 7 * 64 - 15 && player.x < 3 * 64 + 32) {
 					player.x = 3 * 64 + 32;
 				}
 				else if (player.y < 64 && player.x < 4 * 64) {
 					player.x = 4 * 64;
-				}
-				if (player.y < 70 && player.x > 440 && player.x < 580)
-				{
-					player.x =580;
 				}
 			}
 			if (player.movingUp) {
@@ -99,18 +91,14 @@ void movePlayer(double deltaTime) {
 						player.x = 375;
 					}
 				}
-				if (player.y < 70 && player.x > 440 && player.x < 580)
-				{
-					player.y = 70;
-				}
 			}
 			if (player.movingDown) {
 				player.y += (int)(player.speed * multiplier * deltaTime);
 				if (player.y > LEVEL_SIZE - player.h) {
 					player.y = LEVEL_SIZE - player.h;
 				}
-				if (player.y > 6 * 64 - 8 && player.x < 3 * 64 + 32 && player.x >= 0) {
-					player.y = 6 * 64 - 8;
+				if (player.y > 7 * 64 - 15 && player.x < 3 * 64 + 32 && player.x >= 0) {
+					player.y = 7 * 64 - 15;
 				}
 				else if (player.y < 64 && player.y > 64 - 13 && player.x > 12 * 64 && player.x < 14 * 64) {
 					player.y = 64 - 13;
