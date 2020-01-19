@@ -13,6 +13,7 @@ void giveReward();
 void getNextQuest();
 void completeQuest();
 struct Quest generateRandomQuest();
+void showQuestDialog();
 
 int completeAnimation = 0;
 void giveReward() {
@@ -332,7 +333,7 @@ void showQuestMenu() {
 			s = TTF_RenderText_Solid(font, str, color);
 			t = SDL_CreateTextureFromSurface(renderer, s);
 			SDL_QueryTexture(t, NULL, NULL, &w, &h);
-			int xOffsetReward = 144;
+			int xOffsetReward = 100;
 			aplikatuSurface(xOffsetReward, y + 16, w, h, t, NULL);
 			SDL_FreeSurface(s);
 			SDL_DestroyTexture(t);
@@ -355,8 +356,8 @@ void showQuestMenu() {
 				SDL_FreeSurface(s);
 				SDL_DestroyTexture(t);
 			}
-
 			TTF_CloseFont(font);
+			showQuestDialog();
 		}else {
 		TTF_Font* font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 18);
 		SDL_Color color = { 255, 255, 255 };
@@ -379,8 +380,34 @@ void showQuestMenu() {
 		TTF_CloseFont(font);
 		SDL_DestroyTexture(t);
 		SDL_FreeSurface(s);
-		}		
+		}
 	}
+	return;
+}
+
+void showQuestDialog() {
+	TTF_Font* font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 9);
+	SDL_Color color = { 255, 255, 255 };
+	char str[256];
+	if (currentQuest.ID < 15) strcpy(str, dic_Quests[currentQuest.dialog_str + 12]);
+	else strcpy(str, dic_Quests[27]);
+	int i = 0;
+	char* rest = str;
+	char* token;
+	while (token = strtok_s(rest, "*", &rest)) {
+		SDL_Surface* s = TTF_RenderText_Solid(font, token, color);
+		SDL_Texture* t = SDL_CreateTextureFromSurface(renderer, s);
+		int w, h;
+		SDL_QueryTexture(t, NULL, NULL, &w, &h);
+		int xPos = 80 + 20;
+		int yPos = 115 + 10 + h * i * 2;
+		aplikatuSurface(xPos, yPos, w, h, t, NULL);
+		token = strtok(str, "*");
+		SDL_FreeSurface(s);
+		SDL_DestroyTexture(t);
+		i++;
+	}
+	TTF_CloseFont(font);
 	return;
 }
 

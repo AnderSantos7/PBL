@@ -38,7 +38,7 @@ void startDic(int language) {
 	char* src[] = { "assets/data/EUS_items.txt", "assets/data/ESP_items.txt", "assets/data/ENG_items.txt" };
 	FILE* fp;
 	fp = fopen(src[language], "r");
-	char buff[128];
+	char buff[256];
 	int i = 0;
 	//While-aren iterazio bakoitzeko txt fitxategiaren hurrengo lerroa irakurri.
 	while (feof(fp) == 0) {
@@ -56,7 +56,7 @@ void startDic(int language) {
 	fp = fopen(src2[language], "r");
 	i = 0;
 	while (feof(fp) == 0) {
-		fgets(buff, 128, fp);
+		fgets(buff, 256, fp);
 		strtok(buff, "\n");
 		strcpy(dic_Quests[i], buff);
 		i++;
