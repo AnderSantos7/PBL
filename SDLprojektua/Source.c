@@ -9,7 +9,6 @@
 #include <time.h>
 
 struct posCoord getTilePosFromId(int ID);
-void marraztu();
 int init();
 void close();
 void update();
@@ -36,15 +35,7 @@ int main_menu = 1, language = EUS;
 
 struct Player player;
 SDL_Rect camera;
-int open;
-int xPos;
-int yPos;
-int rows;
-int cols;
-int slotSize;
-int sheetPosX;
-int sheetPosY;
-int headerSize;
+
 //Inbentarioen informazioa. {Zabalik, xPos, yPos, lerroak, zutabeak, hutsune tamaina, spritesheeteko x eta y posizioak eta goiko bordearen tamaina
 struct Inventory inventories[4] = { {
 	1, 35, 413, 1, 9, 64, 0, 0, 3
@@ -56,12 +47,13 @@ struct Inventory inventories[4] = { {
 	0, 35, 241,3, 9, 64, 0, 221, 20
 	},
 	{
-	0, 35, 192, 1, 9, 64, 0, 221, 20
+	0, 35, 20, 1, 9, 64, 0, 221, 20
 	}
 };
 
 SDL_Window* win = NULL;
 SDL_Renderer* renderer = NULL;
+double kargatu = 0;
 
 int main(int argc, char* argv[]) {
 	int zabalik = init();
@@ -80,13 +72,24 @@ int main(int argc, char* argv[]) {
 			while (SDL_PollEvent(&e) > 0 && e.type) {
 				zabalik = inputMainMenu(e);
 			}
-			menu(deltaTime);
+			//Ez denez beharrezkoa menua behin eta berriz marraztea, ahalik eta gutxien marrazten da eta horrela errendimendua hobetzen da 
+			if (kargatu < 2.3) {
+				menu(deltaTime);
+				kargatu += deltaTime;
+			}
+			if (player.status == LOAD) {
+				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[loadSurface], NULL);
+			}
 			SDL_RenderPresent(renderer);
-		}else {
+			if (!main_menu){ //Musika hastea
+				Mix_Music* music = Mix_LoadMUS("assets/sounds/china.wav");
+				Mix_PlayMusic(music, 1);
+			}
+		}
+		else {
 			while (SDL_PollEvent(&e) > 0 && e.type) {
 				zabalik = inputHandler(e);
 			}
-			SDL_RenderPresent;
 			switch (player.status) {
 			case PLAYING:
 				update(deltaTime);
@@ -101,6 +104,7 @@ int main(int argc, char* argv[]) {
 				clip.w = 55;
 				clip.h = 90;
 				aplikatuSurface(390, 70, 55, 90, textures[obstacleSurface], &clip);
+				marraztuDroppedItems(0);
 				if (player.sleeping)
 				{
 					SDL_Rect klap = { 0, 0, 64, 64 };
@@ -109,9 +113,11 @@ int main(int argc, char* argv[]) {
 				checkPosibleInteraction();
 				if(player.sleeping == 0) drawPlayer();
 				else paintSleep();
+				marraztuDroppedItems(1);
 				for (int i = 0; i < 3; i++) showInv(i);
 				marraztuInvTag(getHoveringInv());
 				if (hoveringItem.ID != 0) marraztuHoveringItem();
+				drawClock();
 				SDL_RenderPresent(renderer);	
 				reset();
 				break;
@@ -120,6 +126,15 @@ int main(int argc, char* argv[]) {
 				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[pauseSurface], NULL);
 				SDL_RenderPresent(renderer);
 				break;
+			case SAVE:
+			case SAVE_HOME:
+				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[saveSurface], NULL);
+				SDL_RenderPresent(renderer);
+				break;
+			case LOAD:
+			case LOAD_HOME:
+				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[loadSurface], NULL);
+				SDL_RenderPresent(renderer);
 			}
 		}
 	}
@@ -166,10 +181,11 @@ int init() {
 		success = 0;
 	}
 	//rand() erabiltzeko ausazko seed berria sortu
-	srand(time(0));
+	srand((int)time(0));
 	return success;
 }
 
+//Jokua itxi
 void close() {
 	for (int i = 0; i < 16; i++) SDL_DestroyTexture(textures[i]);
 
@@ -181,6 +197,7 @@ void close() {
 	SDL_Quit();
 }
 
+//Jokuaren beharrezko datu eta struct-ak hasieratu
 void initGame() {
 	for (int i = 0; i < 256; i++) {
 		tiles[i].ID = i;
@@ -190,18 +207,15 @@ void initGame() {
 		tiles[i].plant.arado = 0;
 	}
 
-	player = createPlayer();
 	camera = createCamera();
 	startDic(language);
-	startPresests();
 	updateInv(INV_PLAYER);
 	updateInv(INV_CHEST);
-	//load();
+	getNextQuest();
 	return;
 }
 
-
-
+//Mapa osoa eta datu guztiak aktualizatzea
 void update() {
 	updateDay(deltaTime);
 	updateTiles(deltaTime);
@@ -215,60 +229,18 @@ void update() {
 	player.facingTile = getFacingTileId();
 	checkHover();
 	animatePlayer(deltaTime);
-	playMusic();
 	return;
 }
 
-void marraztu() {
-	aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[bgSurface], &camera);
-	marraztuTiles();
-	marraztuDroppedItems(0);
-	SDL_Rect clip = { 0, 126, 60, 61 };
-	if (player.y > 64 - 5) {
-		aplikatuSurface(13 * TILE_SIZE - camera.x, 2 * TILE_SIZE - camera.y + 1, 60, 61, textures[obstacleSurface], &clip);
-		drawShop();
-		drawPlayer();
-	}
-	else {
-		drawPlayer();
-		drawShop();
-		aplikatuSurface(13 * TILE_SIZE - camera.x, 2 * TILE_SIZE - camera.y + 1, 60, 61, textures[obstacleSurface], &clip);
-	}
-	marraztuDroppedItems(1);
-	//Fence
-	clip.y = 186;
-	clip.w = 172;
-	clip.h = 402;
-	aplikatuSurface(0 - camera.x, 8 * TILE_SIZE - camera.y, 243, 574, textures[obstacleSurface], &clip);
-	//Cow
-	clip.y = 0;
-	clip.w = 121;
-	clip.h = 90;
-	aplikatuSurface(TILE_SIZE - camera.x, 9 * TILE_SIZE - camera.y, 121, 90, textures[obstacleSurface], &clip);
-	//Pig
-	clip.y = 91;
-	clip.w = 49;
-	clip.h = 35;
-	aplikatuSurface(TILE_SIZE * 1.9 - camera.x, 13.5 * TILE_SIZE - camera.y, 49, 35, textures[obstacleSurface], &clip);
-	drawDayFilter();
-	marraztuEnergy();
-	drawClock();
-	for (int i = 0; i < 4; i++) showInv(i);
-	marraztuInvTag(getHoveringInv());
-	if (hoveringItem.ID != 0) marraztuHoveringItem();
-	if(!getQuestMenuState()) showCurrentQuest();
-	showQuestMenu();
-	questCompleteAnim(deltaTime);
-	return;
-}
-
+//Frame batetik bestera pasatzen den denbora kalkulatzea
 void getDeltaTime() {
 	start = end;
 	end = clock();
-	deltaTime = (double)(end - start) / CLOCKS_PER_SEC;
+	deltaTime = ((double)end - start) / CLOCKS_PER_SEC;
 	return;
 }
 
+//Etxetik ateratzeko animazioa
 void reset() {
 	if (player.timer > 0.5) {
 		player.x = 2 * TILE_SIZE;

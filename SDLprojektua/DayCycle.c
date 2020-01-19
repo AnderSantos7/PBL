@@ -21,16 +21,16 @@ void updateDay(double deltaTime) {
 //Eguneko orduaren arabera transparentziadun koloretako karratuak marraztu pantailan. Hasieran gorria eta gero gorritasuna gutxitzen da eta iluntzen hasten da.
 void drawDayFilter() {
 	if (dayTime >= 150) {
-		int alpha = (dayTime - 150) / 100 * 128;
+		int alpha = (int)(dayTime - 150) / 100 * 128;
 		if (dayTime >= 200) {
-			alpha -= (dayTime - 200) / 50 * 128;
+			alpha -= (int)(dayTime - 200) / 50 * 128;
 		}
 		SDL_SetRenderDrawColor(renderer, 255, 63, 0, alpha);
 		SDL_RenderFillRect(renderer, NULL);
 	}
 
 	if (dayTime >= 200) {
-		int alpha = (dayTime - 200) / 50 * 192;
+		int alpha = (int)(dayTime - 200) / 50 * 192;
 		SDL_SetRenderDrawColor(renderer, 0, 0, 32, alpha);
 		SDL_RenderFillRect(renderer, NULL);
 	}
@@ -42,7 +42,7 @@ void drawDayFilter() {
 void drawClock() {
 	int xOffset = 16;
 	//Eguneko momentuaren arabera handitzen da maskararen x balioa.
-	SDL_Rect clip = {dayTime * 2, 436, 200, 40};
+	SDL_Rect clip = { (int)(dayTime * 2), 436, 200, 40 };
 	aplikatuSurface(SCREEN_WIDTH - 200 - xOffset, 16, clip.w, clip.h, textures[HUDSurface], &clip);
 	clip.x = 0;
 	clip.y = 476;

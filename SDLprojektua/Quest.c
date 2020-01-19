@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-struct Quest currentQuest = {-1, 0, 0, 0, 0, 0};
+struct Quest currentQuest = { -1, 0, 0, 0, 0, 0 };
 
 void giveReward();
 void getNextQuest();
@@ -30,14 +30,15 @@ void getNextQuest() {
 	int lastQuest = 14;
 	if (currentQuest.ID >= lastQuest) {
 		currentQuest = generateRandomQuest();
-	}else{
+	}
+	else {
 		currentQuest = getQuest(currentQuest.ID + 1);
 	}
 	return;
 }
 
 void checkQuestCompletion(int action, int item, int ammount) {
-	 if (!currentQuest.complete && action == currentQuest.action && (item == currentQuest.requiredItem || currentQuest.requiredItem == 0))
+	if (!currentQuest.complete && action == currentQuest.action && (item == currentQuest.requiredItem || currentQuest.requiredItem == 0))
 	{
 		currentQuest.completion += ammount;
 		if (currentQuest.completion >= currentQuest.requiredAmmount) {
@@ -105,7 +106,7 @@ void showCurrentQuest() {
 		SDL_Rect r = { xOffset, h + yOffset, w, 2 };
 		SDL_RenderFillRect(renderer, &r);
 		float percentil = currentQuest.completion / (float)currentQuest.requiredAmmount;
-		SDL_Rect percent = { xOffset + 8, 2.5 * h + yOffset, percentil * w / 2, 8 };
+		SDL_Rect percent = { (int)(xOffset + 8, 2.5 * h + yOffset), (int)(percentil * w / 2), 8 };
 		SDL_RenderFillRect(renderer, &percent);
 		percent.w = w / 2;
 		SDL_RenderDrawRect(renderer, &percent);
@@ -117,13 +118,13 @@ void showCurrentQuest() {
 		SDL_DestroyTexture(t);
 
 		font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 12);
-		SDL_itoa(percentil * 100, tmp, 10);
+		SDL_itoa((int)percentil * 100, tmp, 10);
 		strcat(tmp, "%");
 		if (font != NULL) s = TTF_RenderText_Solid(font, tmp, color);
 		t = SDL_CreateTextureFromSurface(renderer, s);
 		int wBar = w / 2;
 		SDL_QueryTexture(t, NULL, NULL, &w, &h);
-		aplikatuSurface(xOffset + wBar + 16, 2.5 * h + yOffset + 8, w, h, t, NULL);
+		aplikatuSurface((int)(xOffset + wBar + 16), (int)(2.5 * h + yOffset + 8), w, h, t, NULL);
 
 		SDL_FreeSurface(s);
 		SDL_DestroyTexture(t);
@@ -174,12 +175,14 @@ void questCompleteAnim(double deltaTime) {
 		int w, h;
 		SDL_QueryTexture(t, NULL, NULL, &w, &h);
 		if (animTime < 1) {
-			int clipW = animTime * w;
-			SDL_Rect clip = {0, 0, clipW, h};
+			int clipW = (int)(animTime * w);
+			SDL_Rect clip = { 0, 0, clipW, h };
 			aplikatuSurface(SCREEN_WIDTH / 2 - w / 2, 128, clipW, h, t, &clip);
-		}else if ((animTime <= 2 && animTime >= 1.5) || (animTime <= 3 && animTime >= 2.5)) {
+		}
+		else if ((animTime <= 2 && animTime >= 1.5) || (animTime <= 3 && animTime >= 2.5)) {
 			aplikatuSurface(SCREEN_WIDTH / 2 - w / 2, 128, w, h, t, NULL);
-		}else if((animTime > 2 && animTime < 2.5) || animTime > 3){
+		}
+		else if ((animTime > 2 && animTime < 2.5) || animTime > 3) {
 			completeAnimation = 0;
 			animTime = 0;
 		}
@@ -204,9 +207,9 @@ int getQuestMenuState() {
 void showQuestMenu() {
 	if (questMenuOpen) {
 		SDL_Rect clip = { 0, 533, 320, 180 };
-		int xPos = (SCREEN_WIDTH - clip.w * 1.5) / 2;
-		int yPos = (SCREEN_HEIGHT - clip.h * 1.5) / 2;
-		aplikatuSurface(xPos, yPos, clip.w * 1.5, clip.h * 1.5, textures[HUDSurface], &clip);
+		int xPos = (int)(SCREEN_WIDTH - clip.w * 1.5) / 2;
+		int yPos = (int)(SCREEN_HEIGHT - clip.h * 1.5) / 2;
+		aplikatuSurface(xPos, yPos, (int)(clip.w * 1.5), (int)(clip.h * 1.5), textures[HUDSurface], &clip);
 		if (currentQuest.ID >= 0) {
 			int xOffset = 250;
 			int yOffset = 190;
@@ -291,7 +294,7 @@ void showQuestMenu() {
 			s = TTF_RenderText_Solid(font, str, color);
 			t = SDL_CreateTextureFromSurface(renderer, s);
 			SDL_QueryTexture(t, NULL, NULL, &w, &h);
-			aplikatuSurface(x, y - 160 + h * 1.5, w, h, t, NULL);
+			aplikatuSurface(x, (int)(y - 160 + h * 1.5), w, h, t, NULL);
 
 			SDL_FreeSurface(s);
 			SDL_DestroyTexture(t);
@@ -357,29 +360,30 @@ void showQuestMenu() {
 			}
 
 			TTF_CloseFont(font);
-		}else {
-		TTF_Font* font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 18);
-		SDL_Color color = { 255, 255, 255 };
-		SDL_Surface* s = TTF_RenderText_Solid(font, dic_Quests[11], color);
-		SDL_Texture* t = SDL_CreateTextureFromSurface(renderer, s);
-		int w, h;
-		SDL_QueryTexture(t, NULL, NULL, &w, &h);
-		SDL_Rect button = { (SCREEN_WIDTH - 190) / 2, (SCREEN_HEIGHT - 60) / 2, 190, 60};
-		SDL_Rect clip = { 0, 533, 320, 180 };
-
-		aplikatuSurface(button.x, button.y, button.w, button.h, textures[HUDSurface], &clip);
-
-		if (checkIfClicking(&button)) {
-			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 16);
-			SDL_RenderFillRect(renderer, &button);
 		}
-		
-		aplikatuSurface((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, t, NULL);
+		else {
+			TTF_Font* font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 18);
+			SDL_Color color = { 255, 255, 255 };
+			SDL_Surface* s = TTF_RenderText_Solid(font, dic_Quests[11], color);
+			SDL_Texture* t = SDL_CreateTextureFromSurface(renderer, s);
+			int w, h;
+			SDL_QueryTexture(t, NULL, NULL, &w, &h);
+			SDL_Rect button = { (SCREEN_WIDTH - 190) / 2, (SCREEN_HEIGHT - 60) / 2, 190, 60 };
+			SDL_Rect clip = { 0, 533, 320, 180 };
 
-		TTF_CloseFont(font);
-		SDL_DestroyTexture(t);
-		SDL_FreeSurface(s);
-		}		
+			aplikatuSurface(button.x, button.y, button.w, button.h, textures[HUDSurface], &clip);
+
+			if (checkIfClicking(&button)) {
+				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 16);
+				SDL_RenderFillRect(renderer, &button);
+			}
+
+			aplikatuSurface((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, t, NULL);
+
+			TTF_CloseFont(font);
+			SDL_DestroyTexture(t);
+			SDL_FreeSurface(s);
+		}
 	}
 	return;
 }
@@ -388,7 +392,8 @@ void interactQuestMenu() {
 	if (currentQuest.ID < 0) {
 		SDL_Rect button = { (SCREEN_WIDTH - 190) / 2, (SCREEN_HEIGHT - 60) / 2, 190, 60 };
 		if (checkIfClicking(&button)) getNextQuest();
-	}else {
+	}
+	else {
 		SDL_Rect button = { 334, 299, 190, 40 };
 		if (checkIfClicking(&button)) {
 			if (!deliverQuest()) acceptReward();
@@ -411,11 +416,11 @@ struct Quest generateRandomQuest() {
 	if (quest.action == PLANT || quest.action == WATER || quest.action == FERTILIZAR) {
 		quest.requiredItem = rand() % seedKopurua + 1;
 	}
-	else if(quest.action == ARAR){
+	else if (quest.action == ARAR) {
 		quest.requiredItem = 0;
 	}
 	else {
-		int harvest[] = { 4, 6, 8, 10, 12, 14};	
+		int harvest[] = { 4, 6, 8, 10, 12, 14 };
 		quest.requiredItem = harvest[rand() % (seedKopurua + 1)];
 	}
 
@@ -424,7 +429,7 @@ struct Quest generateRandomQuest() {
 	quest.rewardItem = 17;
 	int maxReward = quest.requiredAmmount / 2 + 1;
 	quest.rewardAmmount = 0;
-	while(quest.rewardAmmount < quest.requiredAmmount / 4) quest.rewardAmmount = rand() % maxReward;
+	while (quest.rewardAmmount < quest.requiredAmmount / 4) quest.rewardAmmount = rand() % maxReward;
 	if (quest.rewardAmmount == 0) quest.rewardAmmount = 1;
 	quest.complete = 0;
 	quest.completion = 0;

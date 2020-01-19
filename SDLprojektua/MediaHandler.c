@@ -35,7 +35,7 @@ void aplikatuSurface(int x, int y, int w, int h, SDL_Texture* texture, SDL_Rect*
 	return;
 }
 
-//textures array-a hasieratu irudiekin
+//Erabiliko diren irudi guztiak kargatu
 void loadFiles() {
 	textures[bgSurface] = loadMedia("assets/images/bg.png");
 	textures[playerSurface] = loadMedia("assets/images/player.png");
@@ -47,7 +47,9 @@ void loadFiles() {
 	textures[HUDSurface] = loadMedia("assets/images/HUD.png");
 	textures[firmaSurface] = loadMedia("assets/images/FIRMA.png");
 	textures[menuSurface] = loadMedia("assets/images/ANCIENTGARDEN.png");
-	
+	textures[saveSurface] = loadMedia("assets/images/save.png");
+	textures[loadSurface] = loadMedia("assets/images/load.png");
+	startPresests();
 	return;
 }
 
@@ -82,5 +84,48 @@ void playMusic() {
 		Mix_Music* music = Mix_LoadMUS(src[track]);
 		Mix_FadeInMusic(music, 1, 2000);
 	}
+	return;
+}
+
+void marraztu() {
+	aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[bgSurface], &camera);
+	marraztuTiles();
+	marraztuDroppedItems(0);
+	SDL_Rect clip = { 0, 126, 60, 61 };
+	drawShop();
+	if (player.y > 64 - 5) {
+		aplikatuSurface(13 * TILE_SIZE - camera.x, 2 * TILE_SIZE - camera.y + 1, 60, 61, textures[obstacleSurface], &clip);
+		drawPlayer();
+	}
+	else {
+		drawPlayer();
+		aplikatuSurface(13 * TILE_SIZE - camera.x, 2 * TILE_SIZE - camera.y + 1, 60, 61, textures[obstacleSurface], &clip);
+	}
+
+	marraztuDroppedItems(1);
+	//Fence
+	clip.y = 186;
+	clip.w = 172;
+	clip.h = 402;
+	aplikatuSurface(0 - camera.x, 8 * TILE_SIZE - camera.y, 243, 574, textures[obstacleSurface], &clip);
+	//Cow
+	clip.y = 0;
+	clip.w = 121;
+	clip.h = 90;
+	aplikatuSurface(TILE_SIZE - camera.x, 9 * TILE_SIZE - camera.y, 121, 90, textures[obstacleSurface], &clip);
+	//Pig
+	clip.y = 91;
+	clip.w = 49;
+	clip.h = 35;
+	aplikatuSurface(TILE_SIZE * 2 - camera.x, 13 * TILE_SIZE - camera.y, 49, 35, textures[obstacleSurface], &clip);
+	drawDayFilter();
+	marraztuEnergy();
+	drawClock();
+	for (int i = 0; i < 4; i++) showInv(i);
+	marraztuInvTag(getHoveringInv());
+	if (hoveringItem.ID != 0) marraztuHoveringItem();
+	if (!getQuestMenuState())showCurrentQuest();
+	showQuestMenu();
+	questCompleteAnim(deltaTime);
 	return;
 }

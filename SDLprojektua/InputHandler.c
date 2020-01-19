@@ -46,21 +46,41 @@ int inputMainMenu(SDL_Event e) {
 			int hovering = 0, i = 0, start = 0;
 
 			//Menuko botoiak klikatzen diren behatu
-			if (mousePos.x > 259 && mousePos.x < 379 && mousePos.y > 331 && mousePos.y < 383) zabalik = 0;
-
-			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 200 && mousePos.y < 261 && !start) {
+			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 200 && mousePos.y < 261 && !start && player.status != LOAD) {
 				start = 1;
 				main_menu = 0;
+				load(0);
 			}
-			//Hizkuntza banderetan klik egiten den begiratu
+			else if (mousePos.x > 259 && mousePos.x < 259 + 120 && mousePos.y > 271 + 60 && mousePos.y < 271 + 112 && !start &&  player.status != LOAD) {
+				player.status = LOAD;
+			}
+			else if (player.status == LOAD) {
+				if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 183 && mousePos.y < 245 && !start) {
+					start = 1;
+					main_menu = 0;
+					player = createPlayer();
+					load(1);
+				}
+				else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 250 && mousePos.y < 312 && !start) {
+					start = 1;
+					main_menu = 0;
+					player = createPlayer();
+					load(2);
+				}
+				else if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 331 && mousePos.y < 360) {
+					player.status = -1;
+					menu(deltaTime);
+				}
+			}
 			while (!hovering && i < 3) {
 				if (mousePos.x > 150 + 128 * i && mousePos.x < 214 + 128 * i && mousePos.y > 432 && mousePos.y < 480) {
 					language = i;
 					hovering = 1;
+					menu(deltaTime);
 				}
 				i++;
 			}
-			
+
 			if (start) initGame();
 		}
 		break;
@@ -75,33 +95,35 @@ int keyDownA = 0;
 int keyDownS = 0;
 int keyDownD = 0;
 
-
 //Tekla ebentuak aztertu
 void keyHandlerDown(SDL_Event e) {
 	int open = 0, i, closed = 0;
 
 	switch (e.key.keysym.scancode) {
 		if (player.status == PLAYING || player.status == HOME) {
-		//Mugimendu teklak aztertu
 	case SDL_SCANCODE_A:
+	case SDL_SCANCODE_LEFT:
 		keyDownA = 1;
 		player.facingDirection = DIR_LEFT;
 		player.movingLeft = 1;
 		player.movingRight = 0;
 		break;
 	case SDL_SCANCODE_D:
+	case SDL_SCANCODE_RIGHT:
 		keyDownD = 1;
 		player.facingDirection = DIR_RIGHT;
 		player.movingRight = 1;
 		player.movingLeft = 0;
 		break;
 	case SDL_SCANCODE_W:
+	case SDL_SCANCODE_UP:
 		keyDownW = 1;
 		player.facingDirection = DIR_UP;
 		player.movingUp = 1;
 		player.movingDown = 0;
 		break;
 	case SDL_SCANCODE_S:
+	case SDL_SCANCODE_DOWN:
 		keyDownS = 1;
 		player.facingDirection = DIR_DOWN;
 		player.movingDown = 1;
@@ -126,23 +148,17 @@ void keyHandlerDown(SDL_Event e) {
 	case SDL_SCANCODE_P:
 		pause();
 		break;
-	case SDL_SCANCODE_L:
-		player.load = 1;
-		load();
-		break;
 	case SDL_SCANCODE_C:
 		getNextQuest();
 		break;
-		//Interakzioak aztertu
 	case SDL_SCANCODE_Q:
 		if (player.status == HOME) {
 			switch(player.canInteract) {
-			case -1: break;
-			case 0: //Ohean lo egin
+			case 0: 
 				sleep();
-				break;
+				break; //cama
 
-			case 1: //Kutxa zabaldu / itxi
+			case 1:
 				switch (inventories[INV_CHEST].open) {
 				case 0: inventories[INV_CHEST].open = 1; break;
 				case 1: inventories[INV_CHEST].open = 0; break;
@@ -168,14 +184,8 @@ void keyHandlerDown(SDL_Event e) {
 				break;
 			case 3: //Kutxa zabaldu / itxi
 				switch (inventories[INV_SHOP].open) {
-				case 0:
-					inventories[INV_SHOP].open = 1;
-					inventories[INV_PLAYER].open = 1;
-					break;
-				case 1:
-					inventories[INV_SHOP].open = 0;
-					inventories[INV_PLAYER].open = 0;
-					break;
+				case 0: inventories[INV_SHOP].open = 1; break;
+				case 1: inventories[INV_SHOP].open = 0; break;
 			}
 				break;
 			case 4: //Behiari garia eman ongarria lortzeko
@@ -245,26 +255,29 @@ void keyHandlerDown(SDL_Event e) {
 	}
 	return;
 }
-
 //Teklak askatzean gertatutako ebentoak aztertu / Jokalariaren mugimendua eta norantza zuzenak direla zihurtatzeko
 void keyHandlerUp(SDL_Event e) {
 	switch (e.key.keysym.scancode) {
 	case SDL_SCANCODE_W:
+	case SDL_SCANCODE_UP:
 		keyDownW = 0;
 		player.movingUp = 0;
 		updateFacingDir();
 		break;
 	case SDL_SCANCODE_A:
+	case SDL_SCANCODE_LEFT:
 		keyDownA = 0;
 		player.movingLeft = 0;
 		updateFacingDir();
 		break;
 	case SDL_SCANCODE_S:
+	case SDL_SCANCODE_DOWN:
 		keyDownS = 0;
 		player.movingDown = 0;
 		updateFacingDir();
 		break;
 	case SDL_SCANCODE_D:
+	case SDL_SCANCODE_RIGHT:
 		keyDownD = 0;
 		player.movingRight = 0;
 		updateFacingDir();
@@ -303,15 +316,49 @@ int mouseHandlerDown(SDL_Event e) {
 	case SDL_BUTTON_LEFT:
 		//Ze inbentariotan dagoen sagua begiratu
 		hoveringInv = getHoveringInv();
+		//Pause menuko botoiak behatu
 		if (player.status == PAUSE || player.status == PAUSE_HOME) {
-			//Pause menuko botoiak behatu
 			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 183 && mousePos.y < 245) {
-				save();
+				marraztu();
+				if(player.status == PAUSE) player.status = SAVE;
+				else if (player.status == PAUSE_HOME) player.status = SAVE_HOME;
 			}
 			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 316 && mousePos.y < 375) {
+				marraztu();
+				if (player.status == PAUSE) player.status = LOAD;
+				else if (player.status == PAUSE_HOME) player.status = LOAD_HOME;
+			}
+			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 382 && mousePos.y < 444) {
 				zabalik = 0;
 			}
-		}else if(hoveringInv != -1 && checkHover(hoveringInv)){
+		}
+		else if (player.status == SAVE || player.status == SAVE_HOME) {
+			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 183 && mousePos.y < 245) {
+				save(1);
+			}
+			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 250 && mousePos.y < 312) {
+				save(2);
+			}
+			else if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 331 && mousePos.y < 360) {
+				marraztu();
+				if(player.status == SAVE) player.status = PAUSE;
+				else if (player.status == SAVE_HOME) player.status = PAUSE_HOME;
+			}
+		}
+		else if (player.status == LOAD || player.status == LOAD_HOME) {
+			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 183 && mousePos.y < 245) {
+				load(1);
+			}
+			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 250 && mousePos.y < 312) {
+				load(2);
+			}
+			else if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 331 && mousePos.y < 360) {
+				marraztu();
+				if (player.status == LOAD) player.status = PAUSE;
+				else if (player.status == LOAD_HOME) player.status = PAUSE_HOME;
+			}
+		}
+		else if (hoveringInv != -1 && checkHover(hoveringInv)) {
 			//Dendan badago, erosi
 			if (inventories[INV_SHOP].open && hoveringInv == INV_SHOP) {
 				buyItem(showingItem);
@@ -334,12 +381,13 @@ int mouseHandlerDown(SDL_Event e) {
 				}
 			}
 		}
-		else{
+		else {
 			if (player.status == PLAYING) {
 				if (getQuestMenuState()) {
 					//Misioen karteleko menuarekin interakzioa
 					interactQuestMenu();
-				}else {
+				}
+				else {
 					int i = 0, soil = 0;
 					//Jokalaria landatu daitekeen lursail parean dagoen begiratu
 					while (i < 49 && !soil) {
@@ -430,12 +478,12 @@ void hotbarScroll(SDL_Event e) {
 
 //Pausa menuan sartu eta bertatik irtetzeko
 void pause() {
-	if (player.status == PLAYING) {
-		player.status = PAUSE;
-	}
-	else if (player.status == HOME) {
-		player.status = PAUSE_HOME;
-	}
+	if (player.status == PLAYING) player.status = PAUSE;
+	else if (player.status == HOME)	player.status = PAUSE_HOME;
 	else if (player.status == PAUSE) player.status = PLAYING;
 	else if (player.status == PAUSE_HOME) player.status = HOME;
+	else if (player.status == SAVE) player.status = PLAYING;
+	else if (player.status == SAVE_HOME) player.status = HOME;
+	else if (player.status == LOAD) player.status = PLAYING;
+	else if (player.status == LOAD_HOME) player.status = HOME;
 }

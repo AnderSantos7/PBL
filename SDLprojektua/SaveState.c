@@ -11,11 +11,12 @@
 FILE* fp;
 struct Item droppedItems[512];
 
-void save() {
+void save(int slot) {
 	int i = 0;
 	int j = 0;
-	int day = getDayTime();
-	fp = fopen("assets/data/GUARDADO.txt", "w");
+	int day = (int)getDayTime();
+	if(slot == 1) fp = fopen("assets/data/GUARDADO.txt", "w");
+	else if (slot == 2) fp = fopen("assets/data/GUARDADO2.txt", "w");
 	fprintf(fp, "%i %i %i %i %i\n", player.x, player.y, player.status, player.energy, day); //datos player
 	for (i = 0; i < 9; i++) {
 		fprintf(fp, "%i %i", inventories[0].items[i].ID, inventories[0].items[i].quantity); //datos hotbar
@@ -47,8 +48,8 @@ void save() {
 	int lastWater;
 	int time;
 	for (i = 0; i < 49; i++) {
-		lastWater = tiles[plantable_ID[i]].plant.lastWater;
-		time = tiles[plantable_ID[i]].plant.time;
+		lastWater = (int)tiles[plantable_ID[i]].plant.lastWater;
+		time = (int)tiles[plantable_ID[i]].plant.time;
 		fprintf(fp, "%i %i %i %i %i", tiles[plantable_ID[i]].plant.arado, tiles[plantable_ID[i]].plant.water, lastWater, tiles[plantable_ID[i]].plant.seed, time); //datos plantado
 		if (i != 6 && i != 13 && i != 20 && i != 27 && i != 34 && i != 41 && i != 48) fprintf(fp, " ");
 		else if (i == 6 || i == 13 || i == 20 || i == 27 || i == 34 || i == 41) fprintf(fp, "\n");
@@ -61,12 +62,16 @@ void save() {
 	fclose(fp);
 }
 
-void load() {
+void load(int which) {
+	if(which == 0) 	player = createPlayer();
 	int i = 0;
 	char buff[512];
 	char* src = "assets/data/GUARDADO_DEFAULT.txt";
-	if (player.load == 1) {
+	if (which == 1) {
 		src = "assets/data/GUARDADO.txt";
+	}
+	else if (which == 2) {
+		src = "assets/data/GUARDADO2.txt";
 	}
 	fp = fopen(src, "r");
 	fgets(buff, 256, fp);
@@ -84,14 +89,22 @@ void load() {
 		i++;
 	}
 	i++;
-	player.status = buff[i] - 48;
-	if (player.status == PAUSE_HOME) {
-		player.status = HOME;
-		camera.x = 0;
-		camera.y = 0;
-		inventories[INV_HOTBAR].yPos = 3;
+	if (which ==1 || which == 2) {
+		player.status = buff[i] - 48;
+		if (player.status == SAVE_HOME) {
+			player.status = HOME;
+			camera.x = 0;
+			camera.y = 0;
+			inventories[INV_HOTBAR].yPos = 3;
+			inventories[INV_PLAYER].yPos = 90;
+		}
+		else if (player.status == SAVE) {
+			player.status = PLAYING;
+			inventories[INV_HOTBAR].yPos = SCREEN_HEIGHT - 3 - 64;
+			inventories[INV_PLAYER].yPos = SCREEN_HEIGHT - 64 * 3 - 9;
+		}
 	}
-	else if (player.status == PAUSE) player.status = PLAYING;
+		
 	i++;
 	i++;
 	while (buff[i] != ' ') {
@@ -184,13 +197,17 @@ void load() {
 			fgets(buff, 256, fp);
 		}
 	}
-	if (player.load == 1) { //cargar items droppeados && cargar plantado && cargar quest
+	if (which == 1 || which == 2) { //cargar items droppeados && cargar plantado && cargar quest
 		for (i = 0; i < 512; i++) {
 			droppedItems[i].ID = 0;
 			droppedItems[i].quantity = 0;
 			droppedItems[i].xPos = 0;
 			droppedItems[i].yPos = 0;
 			droppedItems[i].status = 0;
+			droppedItems[i].name = 0;
+			droppedItems[i].seed = 0;
+			droppedItems[i].sheetPosX = 0;
+			droppedItems[i].sheetPosY = 0;
 		}
 		fgets(buff, 512, fp);
 		i = 0;
@@ -330,8 +347,6 @@ void load() {
 		}
 
 		setCurrentQuest(quest);
-		unlockShopItem(quest.ID);
 	}
 	fclose(fp);
-	
 }

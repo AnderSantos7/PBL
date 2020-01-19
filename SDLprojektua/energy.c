@@ -29,6 +29,7 @@ void marraztuEnergy()
 void restaEnergy()
 {
 	player.energy -= 5;
+	player.energy -= 2;
 	
 	return;
 }

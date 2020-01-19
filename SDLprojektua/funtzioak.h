@@ -26,6 +26,7 @@ void loadFiles();
 void playPickUpSFX();
 void playWellWaterSFX();
 void playMusic();
+void marraztu();
 
 //Data
 void startDic(int language);
@@ -42,6 +43,7 @@ void water(int tile);
 void fertilize(int tile);
 void marraztuTiles();
 void updateTiles(double deltaTime);
+void arar(int tile);
 
 //Inventory
 void marraztuInv(int inv);
@@ -71,8 +73,8 @@ void sweepFloor(int i);
 int seedToItem(int seed);
 
 //Guardar partida
-void load();
-void save();
+void load(int which);
+void save(int slot);
 
 //Menu
 void menu(double deltaTime);
