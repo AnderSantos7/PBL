@@ -87,7 +87,6 @@ void playMusic() {
 	return;
 }
 
-//Jokoko elementuak marrazteko funtzioa.
 void marraztu() {
 	aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[bgSurface], &camera);
 	marraztuTiles();

@@ -19,7 +19,6 @@ void drawShop() {
 }
 
 int payCoins = 0;
-//Bukatutako misioaren arabera desblokeatuko dira dendariaren haziak. 25. misioa egin ostean azken hazia desblokeatu eta dendako prezioa txanponetara bihurtuko da.
 void unlockShopItem(int ID) {
 	if (ID >= 1) inventories[INV_SHOP].items[0] = itemPresets[5];
 	if (ID >= 4) inventories[INV_SHOP].items[1] = itemPresets[7];
@@ -33,7 +32,6 @@ void unlockShopItem(int ID) {
 	return;
 }
 
-//Dendako itemean klik egitean item hori ordaintzeko beste daukan begiratu. Hala bada, hazia inbentarioan sartu eta kobratu.
 void buyItem(int pos) {
 	if (pos <= 5) {
 		int currencyToPay = currency[pos];
@@ -53,7 +51,6 @@ void buyItem(int pos) {
 	return;
 }
 
-//Sagua dendako item baten gainean jartzean honen prezioa erakusten duen etiketa irudikatzeko.
 void showPrice(int item) {
 	char str[128] = {'x', '\0'}, qty[128];
 	TTF_Font* font;
