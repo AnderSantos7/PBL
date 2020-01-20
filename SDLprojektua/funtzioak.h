@@ -22,6 +22,7 @@ int inputHandler(SDL_Event e);
 int inputMainMenu(SDL_Event e);
 
 //Media
+SDL_Texture* loadMedia(char* src);
 void loadFiles();
 void playPickUpSFX();
 void playWellWaterSFX();
@@ -75,6 +76,7 @@ int seedToItem(int seed);
 //Guardar partida
 void load(int which);
 void save(int slot);
+void drawInstructions();
 
 //Menu
 void menu(double deltaTime);

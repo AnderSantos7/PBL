@@ -9,7 +9,7 @@ extern SDL_Renderer* renderer;
 SDL_Texture* textures[18];
 enum textures { bgSurface, playerSurface, itemsSurface, plantsSurface, pauseSurface, HUDSurface, homeSurface, obstacleSurface, firmaSurface, menuSurface, saveSurface, loadSurface };
 
-extern int main_menu, language;
+extern int main_menu, language, instructions;
 
 struct Item {
 	int ID;

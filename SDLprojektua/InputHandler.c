@@ -44,41 +44,52 @@ int inputMainMenu(SDL_Event e) {
 	case SDL_MOUSEBUTTONDOWN:
 		if (e.button.button == SDL_BUTTON_LEFT) {
 			int hovering = 0, i = 0, start = 0;
-
-			//Menuko botoiak klikatzen diren behatu
-			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 200 && mousePos.y < 261 && !start && player.status != LOAD) {
-				start = 1;
-				main_menu = 0;
-				load(0);
-			}
-			else if (mousePos.x > 259 && mousePos.x < 259 + 120 && mousePos.y > 271 + 60 && mousePos.y < 271 + 112 && !start &&  player.status != LOAD) {
-				player.status = LOAD;
-			}
-			else if (player.status == LOAD) {
-				if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 183 && mousePos.y < 245 && !start) {
+			//Pause menuko botoiak behatu
+			if (!instructions) {
+				//Menuko botoiak klikatzen diren behatu
+				if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 200 && mousePos.y < 261 && !start && player.status != LOAD) {
 					start = 1;
 					main_menu = 0;
-					player = createPlayer();
-					load(1);
+					load(0);
 				}
-				else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 250 && mousePos.y < 312 && !start) {
-					start = 1;
-					main_menu = 0;
-					player = createPlayer();
-					load(2);
+				if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 271 && mousePos.y < 323) {
+					instructions++;
 				}
-				else if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 331 && mousePos.y < 360) {
-					player.status = -1;
-					menu(deltaTime);
+				else if (mousePos.x > 259 && mousePos.x < 259 + 120 && mousePos.y > 271 + 60 && mousePos.y < 271 + 112 && !start && player.status != LOAD) {
+					player.status = LOAD;
+				}
+				else if (player.status == LOAD) {
+					if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 183 && mousePos.y < 245 && !start) {
+						start = 1;
+						main_menu = 0;
+						player = createPlayer();
+						load(1);
+					}
+					else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 250 && mousePos.y < 312 && !start) {
+						start = 1;
+						main_menu = 0;
+						player = createPlayer();
+						load(2);
+					}
+					else if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 331 && mousePos.y < 360) {
+						player.status = -1;
+						menu(deltaTime);
+					}
+				
+				}
+				while (!hovering && i < 3) {
+					if (mousePos.x > 150 + 128 * i && mousePos.x < 214 + 128 * i && mousePos.y > 432 && mousePos.y < 480) {
+						language = i;
+						hovering = 1;
+						menu(deltaTime);
+					}
+					i++;
 				}
 			}
-			while (!hovering && i < 3) {
-				if (mousePos.x > 150 + 128 * i && mousePos.x < 214 + 128 * i && mousePos.y > 432 && mousePos.y < 480) {
-					language = i;
-					hovering = 1;
-					menu(deltaTime);
+			else if (instructions) {
+				if (mousePos.x > 0 && mousePos.x < 640 && mousePos.y > 0 && mousePos.y < 480) {
+					instructions++;
 				}
-				i++;
 			}
 
 			if (start) initGame();
@@ -316,7 +327,6 @@ int mouseHandlerDown(SDL_Event e) {
 	case SDL_BUTTON_LEFT:
 		//Ze inbentariotan dagoen sagua begiratu
 		hoveringInv = getHoveringInv();
-		//Pause menuko botoiak behatu
 		if (player.status == PAUSE || player.status == PAUSE_HOME) {
 			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 183 && mousePos.y < 245) {
 				marraztu();
@@ -487,3 +497,4 @@ void pause() {
 	else if (player.status == LOAD) player.status = PLAYING;
 	else if (player.status == LOAD_HOME) player.status = HOME;
 }
+

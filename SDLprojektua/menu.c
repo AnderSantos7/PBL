@@ -13,6 +13,7 @@ void idatzimenu();
 void readmenu(int botoia, char* str);
 
 double tiempof = 0;
+instructions = 0, anterior = 0;
 //Hasierako menua erakutzi eta honekin interaktuatzeko funtzioa.
 void menu(double deltaTime)
 {
@@ -22,28 +23,32 @@ void menu(double deltaTime)
 		SDL_Rect firma = { 0,0,SCREEN_WIDTH, SCREEN_HEIGHT };
 		aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[firmaSurface], &firma);
 
-	} else{
-		//Firmaren ondoren menua marraztu
-		SDL_Rect background = { 0,0,SCREEN_WIDTH - 2, SCREEN_HEIGHT };
-		aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[menuSurface], &background);
+	}else if (instructions > anterior){
+			drawInstructions();
+			anterior++;
+	}else if (instructions > 5 || instructions == 0) {
+			anterior = 0;
+			SDL_Rect background = { 0,0,SCREEN_WIDTH - 2, SCREEN_HEIGHT };
+			aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[menuSurface], &background);
 
-		SDL_Rect button = { 638,0,160,61 };
-		aplikatuSurface(239, 200, 160, 61, textures[menuSurface], &button);
+			SDL_Rect button = { 638,0,160,61 };
+			aplikatuSurface(239, 200, 160, 61, textures[menuSurface], &button);
 
-		for (int i = 0; i < 2; i++)
-		{
-			SDL_Rect button2 = { 638,62,120,52 };
-			aplikatuSurface(259, 271 + 60 * i, 120, 52, textures[menuSurface], &button2);
-		}
+			for (int i = 0; i < 2; i++)
+			{
+				SDL_Rect button2 = { 638,62,120,52 };
+				aplikatuSurface(259, 271 + 60 * i, 120, 52, textures[menuSurface], &button2);
+			}
 
-		SDL_Rect clip = { 638, 114, 64, 48 };
-		for (int i = 0; i < 3; i++) {
-			clip.y = 114 + 48 * i;
-			aplikatuSurface(150 + 128 * i, 432, 64, 48, textures[menuSurface], &clip);
-		}
-		//Hizkuntzaren arabera, menuan agertzen diren hitzak idatzi
-		idatzimenu();
+			SDL_Rect clip = { 638, 114, 64, 48 };
+			for (int i = 0; i < 3; i++) {
+				clip.y = 114 + 48 * i;
+				aplikatuSurface(150 + 128 * i, 432, 64, 48, textures[menuSurface], &clip);
+			}
+			idatzimenu();
+
 	}
+
 	return;
 }
 
@@ -57,6 +62,32 @@ int checkIfClicking(SDL_Rect* button) {
 		success = 1;
 	}
 	return success;
+}
+SDL_Texture* inst = NULL;
+int longitud = 0;
+int altura = 0;
+int currentLang = -1;
+void drawInstructions() {
+	SDL_Rect clip = { 0 + 544 * longitud, 0 + 308 * altura, 544, 308 };
+	if (currentLang != language){
+		currentLang = language;
+		SDL_FreeSurface(inst);
+		char* src[3] = { "assets/images/INSTRUKZIOAK.png", "assets/images/INSTRUCCIONES.png", "assets/images/INSTRUCTIONS.png" };
+		inst = loadMedia(src[currentLang]);
+	}
+	aplikatuSurface(50, 100, 544, 308, inst, &clip);
+	longitud++;
+
+	if (longitud > 2 && altura == 0) {
+		longitud = 0;
+		altura = 1;
+	}
+	if (altura >= 1 && longitud > 2) {
+		instructions = 0;
+		longitud = 0;
+		altura = 0;
+	}
+	return;
 }
 
 void idatzimenu() {

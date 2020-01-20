@@ -73,10 +73,10 @@ int main(int argc, char* argv[]) {
 				zabalik = inputMainMenu(e);
 			}
 			//Ez denez beharrezkoa menua behin eta berriz marraztea, ahalik eta gutxien marrazten da eta horrela errendimendua hobetzen da 
-			if (kargatu < 2.3) {
+			//if (kargatu < 2.3) {
 				menu(deltaTime);
 				kargatu += deltaTime;
-			}
+			//}
 			if (player.status == LOAD) {
 				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[loadSurface], NULL);
 			}
