@@ -87,7 +87,7 @@ void idatzimenu() {
 		SDL_DestroyTexture(t);
 		TTF_CloseFont(font);
 	}
-
+	return;
 }
 
 //Textu dokumentu batetik irakurtzea botoietan jarri behar dena
@@ -109,4 +109,5 @@ void readmenu(int botoia, char* str) {
 	
 	str[i] = '\0';
 	fclose(fp);
+	return;
 }
