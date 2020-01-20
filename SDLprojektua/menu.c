@@ -90,6 +90,7 @@ void drawInstructions() {
 	return;
 }
 
+//Botoietan agertzen dena idatzi
 void idatzimenu() {
 	char str[128];
 	TTF_Font* font;
@@ -104,8 +105,11 @@ void idatzimenu() {
 		if (i == 1) { //Jolastea
 			font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 20);
 		}
-		else { //Partida kargatzea eta kontrolak ikustea
-			font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 13);
+		else { //Kontrolak ikustea eta partida kargatzea
+			if ((language == EUS || language == ESP) && i == 3) {
+				font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 9);
+			}
+			else font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 13);
 		}
 		s = TTF_RenderText_Solid(font, str, color);
 		t = SDL_CreateTextureFromSurface(renderer, s);

@@ -52,7 +52,7 @@ int inputMainMenu(SDL_Event e) {
 					main_menu = 0;
 					load(0);
 				}
-				if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 271 && mousePos.y < 323) {
+				if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 271 && mousePos.y < 323 && player.status != LOAD) {
 					instructions++;
 				}
 				else if (mousePos.x > 259 && mousePos.x < 259 + 120 && mousePos.y > 271 + 60 && mousePos.y < 271 + 112 && !start && player.status != LOAD) {
@@ -82,6 +82,24 @@ int inputMainMenu(SDL_Event e) {
 						language = i;
 						hovering = 1;
 						menu(deltaTime);
+						SDL_FreeSurface (textures[saveSurface]);
+						SDL_FreeSurface(textures[loadSurface]);
+						SDL_FreeSurface(textures[pauseSurface]);
+						if (language == ESP) {
+							textures[saveSurface] = textures[saveSurfaceESP];
+							textures[loadSurface] = textures[loadSurfaceESP];
+							textures[pauseSurface] = textures[pauseSurfaceESP];
+						}
+						else if (language == ENG) {
+							textures[saveSurface] = textures[saveSurfaceENG];
+							textures[loadSurface] = textures[loadSurfaceENG];
+							textures[pauseSurface] = textures[pauseSurfaceENG];
+						}
+						else if (language == EUS) {
+							textures[saveSurface] = textures[saveSurfaceEUS];
+							textures[loadSurface] = textures[loadSurfaceEUS];
+							textures[pauseSurface] = textures[pauseSurfaceEUS];
+						}
 					}
 					i++;
 				}
@@ -329,16 +347,18 @@ int mouseHandlerDown(SDL_Event e) {
 		hoveringInv = getHoveringInv();
 		if (player.status == PAUSE || player.status == PAUSE_HOME) {
 			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 183 && mousePos.y < 245) {
-				marraztu();
 				if(player.status == PAUSE) player.status = SAVE;
 				else if (player.status == PAUSE_HOME) player.status = SAVE_HOME;
 			}
-			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 316 && mousePos.y < 375) {
-				marraztu();
+		/*	else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 250 && mousePos.y < 312) {
+				instructions++;
+				player.status = CONTROLS;
+			}*/
+			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 250 && mousePos.y < 312) {
 				if (player.status == PAUSE) player.status = LOAD;
 				else if (player.status == PAUSE_HOME) player.status = LOAD_HOME;
 			}
-			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 382 && mousePos.y < 444) {
+			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 316 && mousePos.y < 375) {
 				zabalik = 0;
 			}
 		}
@@ -350,7 +370,6 @@ int mouseHandlerDown(SDL_Event e) {
 				save(2);
 			}
 			else if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 331 && mousePos.y < 360) {
-				marraztu();
 				if(player.status == SAVE) player.status = PAUSE;
 				else if (player.status == SAVE_HOME) player.status = PAUSE_HOME;
 			}
@@ -363,7 +382,6 @@ int mouseHandlerDown(SDL_Event e) {
 				load(2);
 			}
 			else if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 331 && mousePos.y < 360) {
-				marraztu();
 				if (player.status == LOAD) player.status = PAUSE;
 				else if (player.status == LOAD_HOME) player.status = PAUSE_HOME;
 			}

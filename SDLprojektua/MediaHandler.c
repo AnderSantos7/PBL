@@ -41,14 +41,26 @@ void loadFiles() {
 	textures[playerSurface] = loadMedia("assets/images/player.png");
 	textures[itemsSurface] = loadMedia("assets/images/items.png");
 	textures[plantsSurface] = loadMedia("assets/images/sprite.png");
-	textures[pauseSurface] = loadMedia("assets/images/pause.png");
+	textures[pauseSurface] = loadMedia("assets/images/pauseEUS.png");
 	textures[homeSurface] = loadMedia("assets/images/home.png");
 	textures[obstacleSurface] = loadMedia("assets/images/obstacles.png");
 	textures[HUDSurface] = loadMedia("assets/images/HUD.png");
 	textures[firmaSurface] = loadMedia("assets/images/FIRMA.png");
 	textures[menuSurface] = loadMedia("assets/images/ANCIENTGARDEN.png");
-	textures[saveSurface] = loadMedia("assets/images/save.png");
-	textures[loadSurface] = loadMedia("assets/images/load.png");
+	textures[saveSurface] = loadMedia("assets/images/saveEUS.png");
+	textures[loadSurface] = loadMedia("assets/images/loadEUS.png");
+
+	textures[saveSurfaceESP] = loadMedia("assets/images/saveESP.png");
+	textures[loadSurfaceESP] = loadMedia("assets/images/loadESP.png");
+	textures[pauseSurfaceESP] = loadMedia("assets/images/pauseESP.png");
+	textures[saveSurfaceENG] = loadMedia("assets/images/save.png");
+	textures[loadSurfaceENG] = loadMedia("assets/images/load.png");
+	textures[pauseSurfaceENG] = loadMedia("assets/images/pause.png");
+	textures[saveSurfaceEUS] = loadMedia("assets/images/saveEUS.png");
+	textures[loadSurfaceEUS] = loadMedia("assets/images/loadEEUS.png");
+	textures[pauseSurfaceEUS] = loadMedia("assets/images/pauseEUS.png");
+
+
 	startPresests();
 	return;
 }
