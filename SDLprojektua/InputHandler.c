@@ -52,7 +52,7 @@ int inputMainMenu(SDL_Event e) {
 					main_menu = 0;
 					load(0);
 				}
-				if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 271 && mousePos.y < 323) {
+				if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 271 && mousePos.y < 323 && player.status != LOAD) {
 					instructions++;
 				}
 				else if (mousePos.x > 259 && mousePos.x < 259 + 120 && mousePos.y > 271 + 60 && mousePos.y < 271 + 112 && !start && player.status != LOAD) {
@@ -75,13 +75,31 @@ int inputMainMenu(SDL_Event e) {
 						player.status = -1;
 						menu(deltaTime);
 					}
-				
+
 				}
 				while (!hovering && i < 3) {
 					if (mousePos.x > 150 + 128 * i && mousePos.x < 214 + 128 * i && mousePos.y > 432 && mousePos.y < 480) {
 						language = i;
 						hovering = 1;
 						menu(deltaTime);
+						SDL_FreeSurface(textures[saveSurface]);
+						SDL_FreeSurface(textures[loadSurface]);
+						SDL_FreeSurface(textures[pauseSurface]);
+						if (language == ESP) {
+							textures[saveSurface] = textures[saveSurfaceESP];
+							textures[loadSurface] = textures[loadSurfaceESP];
+							textures[pauseSurface] = textures[pauseSurfaceESP];
+						}
+						else if (language == ENG) {
+							textures[saveSurface] = textures[saveSurfaceENG];
+							textures[loadSurface] = textures[loadSurfaceENG];
+							textures[pauseSurface] = textures[pauseSurfaceENG];
+						}
+						else if (language == EUS) {
+							textures[saveSurface] = textures[saveSurfaceEUS];
+							textures[loadSurface] = textures[loadSurfaceEUS];
+							textures[pauseSurface] = textures[pauseSurfaceEUS];
+						}
 					}
 					i++;
 				}
@@ -151,7 +169,7 @@ void keyHandlerDown(SDL_Event e) {
 			setQuestMenuState(0);
 			closed = 1;
 		}
-		if(!closed){
+		if (!closed) {
 			pause();
 		}
 		break;
@@ -164,8 +182,8 @@ void keyHandlerDown(SDL_Event e) {
 		break;
 	case SDL_SCANCODE_Q:
 		if (player.status == HOME) {
-			switch(player.canInteract) {
-			case 0: 
+			switch (player.canInteract) {
+			case 0:
 				sleep();
 				break; //cama
 
@@ -176,7 +194,8 @@ void keyHandlerDown(SDL_Event e) {
 				}
 				break;
 			}
-		}else if (player.status == PLAYING) {
+		}
+		else if (player.status == PLAYING) {
 			switch (player.canInteract) {
 			case -1: break;
 			case 0: //Putzutik ura hartu hotbarrean kuboa aukeratuta badago
@@ -189,7 +208,8 @@ void keyHandlerDown(SDL_Event e) {
 			case 2: //Misio kartela zabaldu / itxi
 				if (!getQuestMenuState()) {
 					setQuestMenuState(1);
-				}else {
+				}
+				else {
 					setQuestMenuState(0);
 				}
 				break;
@@ -197,10 +217,10 @@ void keyHandlerDown(SDL_Event e) {
 				switch (inventories[INV_SHOP].open) {
 				case 0: inventories[INV_SHOP].open = 1; break;
 				case 1: inventories[INV_SHOP].open = 0; break;
-			}
+				}
 				break;
 			case 4: //Behiari garia eman ongarria lortzeko
-				if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 12 && checkHowManyOfItem(12)>=5)
+				if (inventories[INV_HOTBAR].items[player.hotbarSlot].ID == 12 && checkHowManyOfItem(12) >= 5)
 				{
 					removeCertainItem(12, 5);
 					if (!insertItem(INV_HOTBAR, itemPresets[16], 1, -1))
@@ -329,14 +349,18 @@ int mouseHandlerDown(SDL_Event e) {
 		hoveringInv = getHoveringInv();
 		if (player.status == PAUSE || player.status == PAUSE_HOME) {
 			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 183 && mousePos.y < 245) {
-				if(player.status == PAUSE) player.status = SAVE;
+				if (player.status == PAUSE) player.status = SAVE;
 				else if (player.status == PAUSE_HOME) player.status = SAVE_HOME;
 			}
-			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 316 && mousePos.y < 375) {
+			/*	else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 250 && mousePos.y < 312) {
+					instructions++;
+					player.status = CONTROLS;
+				}*/
+			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 250 && mousePos.y < 312) {
 				if (player.status == PAUSE) player.status = LOAD;
 				else if (player.status == PAUSE_HOME) player.status = LOAD_HOME;
 			}
-			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 382 && mousePos.y < 444) {
+			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 316 && mousePos.y < 375) {
 				zabalik = 0;
 			}
 		}
@@ -348,7 +372,7 @@ int mouseHandlerDown(SDL_Event e) {
 				save(2);
 			}
 			else if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 331 && mousePos.y < 360) {
-				if(player.status == SAVE) player.status = PAUSE;
+				if (player.status == SAVE) player.status = PAUSE;
 				else if (player.status == SAVE_HOME) player.status = PAUSE_HOME;
 			}
 		}
@@ -360,7 +384,6 @@ int mouseHandlerDown(SDL_Event e) {
 				load(2);
 			}
 			else if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 331 && mousePos.y < 360) {
-				marraztu();
 				if (player.status == LOAD) player.status = PAUSE;
 				else if (player.status == LOAD_HOME) player.status = PAUSE_HOME;
 			}
@@ -369,7 +392,8 @@ int mouseHandlerDown(SDL_Event e) {
 			//Dendan badago, erosi
 			if (inventories[INV_SHOP].open && hoveringInv == INV_SHOP) {
 				buyItem(showingItem);
-			}else if(!getQuestMenuState()){
+			}
+			else if (!getQuestMenuState()) {
 				//Arratoiareki objektua arrastratzen ari bada: 
 				if (hoveringItem.ID != 0) {
 					//Inbentarioko hutsunean utzi eta hutsune hartan objekturik bazegoen, hartu.
@@ -377,12 +401,14 @@ int mouseHandlerDown(SDL_Event e) {
 						struct Item tmpItem = hoveringItem;
 						hoveringItem = inventories[hoveringInv].items[showingItem];
 						inventories[hoveringInv].items[showingItem] = tmpItem;
-					}else {
+					}
+					else {
 						//Item mota bera bada, bi 'stack'-ak batu
 						inventories[hoveringInv].items[showingItem].quantity += hoveringItem.quantity;
 						hoveringItem.ID = 0;
 					}
-				}else {
+				}
+				else {
 					//Ez badago item-ik saguan, hutsuneko item-a hartu.
 					hoveringItem = pickHovering();
 				}
@@ -494,4 +520,3 @@ void pause() {
 	else if (player.status == LOAD) player.status = PLAYING;
 	else if (player.status == LOAD_HOME) player.status = HOME;
 }
-

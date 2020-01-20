@@ -6,8 +6,8 @@ extern double deltaTime;
 
 extern SDL_Window* win;
 extern SDL_Renderer* renderer;
-SDL_Texture* textures[18];
-enum textures { bgSurface, playerSurface, itemsSurface, plantsSurface, pauseSurface, HUDSurface, homeSurface, obstacleSurface, firmaSurface, menuSurface, saveSurface, loadSurface };
+SDL_Texture* textures[27];
+enum textures { bgSurface, playerSurface, itemsSurface, plantsSurface, pauseSurface, HUDSurface, homeSurface, obstacleSurface, firmaSurface, menuSurface, saveSurface, loadSurface, saveSurfaceESP, loadSurfaceESP, pauseSurfaceESP, saveSurfaceENG, loadSurfaceENG, pauseSurfaceENG, saveSurfaceEUS, loadSurfaceEUS, pauseSurfaceEUS};
 
 extern int main_menu, language, instructions;
 
@@ -127,5 +127,5 @@ extern struct Obstacle obstaclesInside[];
 
 extern SDL_Rect camera;
 enum facingDirection { DIR_DOWN, DIR_UP, DIR_LEFT, DIR_RIGHT };
-enum status { PLAYING, HOME, PAUSE, PAUSE_HOME, SLEEPING, SAVE, SAVE_HOME, LOAD, LOAD_HOME };
+enum status { PLAYING, HOME, PAUSE, PAUSE_HOME, SLEEPING, SAVE, SAVE_HOME, LOAD, LOAD_HOME};
 #endif

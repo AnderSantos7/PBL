@@ -25,7 +25,7 @@ void marraztuInv(int inv) {
 //Inbentarioak hasieratzeko funtzioa. Debuggeatu eta gauzak probatzeko.
 void updateInv(int inv) {
 	int slots = inventories[inv].cols * inventories[inv].rows;
-	inventories[inv].items[0] = itemPresets[1];
+	inventories[inv].items[0] = itemPresets[0];
 }
 
 //showingItem = ibentario bateko item baten gainean arratoia jarri ezkero, item honen inbentario array-ko posizioa.

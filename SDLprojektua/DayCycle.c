@@ -43,12 +43,22 @@ void drawClock() {
 	int xOffset = 16;
 	//Eguneko momentuaren arabera handitzen da maskararen x balioa.
 	SDL_Rect clip = { (int)(dayTime * 2), 436, 200, 40 };
-	aplikatuSurface(SCREEN_WIDTH - 200 - xOffset, 16, clip.w, clip.h, textures[HUDSurface], &clip);
-	clip.x = 0;
-	clip.y = 476;
-	clip.w = 200;
-	clip.h = 57;
-	aplikatuSurface(SCREEN_WIDTH - 200 - xOffset, 11, clip.w, clip.h, textures[HUDSurface], &clip);
+	if (player.status == PLAYING) {
+		aplikatuSurface(SCREEN_WIDTH - 200 - xOffset, 16, clip.w, clip.h, textures[HUDSurface], &clip);
+		clip.x = 0;
+		clip.y = 476;
+		clip.w = 200;
+		clip.h = 57;
+		aplikatuSurface(SCREEN_WIDTH - 200 - xOffset, 11, clip.w, clip.h, textures[HUDSurface], &clip);
+	}
+	else if (player.status == HOME) {
+		aplikatuSurface(xOffset,  SCREEN_HEIGHT - 6 - 57, clip.w, clip.h, textures[HUDSurface], &clip);
+		clip.x = 0;
+		clip.y = 476;
+		clip.w = 200;
+		clip.h = 57;
+		aplikatuSurface(xOffset, SCREEN_HEIGHT - 11 - 57, clip.w, clip.h, textures[HUDSurface], &clip);
+	}
 	return;
 }
 

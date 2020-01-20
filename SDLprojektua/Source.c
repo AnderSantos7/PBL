@@ -47,13 +47,12 @@ struct Inventory inventories[4] = { {
 	0, 35, 241,3, 9, 64, 0, 221, 20
 	},
 	{
-	0, 35, 20, 1, 9, 64, 0, 221, 20
+	0, 35, 192, 1, 9, 64, 0, 222, 16
 	}
 };
 
 SDL_Window* win = NULL;
 SDL_Renderer* renderer = NULL;
-double kargatu = 0;
 
 int main(int argc, char* argv[]) {
 	int zabalik = init();
@@ -73,11 +72,10 @@ int main(int argc, char* argv[]) {
 				zabalik = inputMainMenu(e);
 			}
 			//Ez denez beharrezkoa menua behin eta berriz marraztea, ahalik eta gutxien marrazten da eta horrela errendimendua hobetzen da 
-			//if (kargatu < 2.3) {
+			if(player.status != LOAD){
 				menu(deltaTime);
-				kargatu += deltaTime;
-			//}
-			if (player.status == LOAD) {
+			}
+			else if (player.status == LOAD) {
 				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[loadSurface], NULL);
 			}
 			SDL_RenderPresent(renderer);
@@ -131,6 +129,7 @@ int main(int argc, char* argv[]) {
 			case LOAD_HOME:
 				aplikatuSurface(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, textures[loadSurface], NULL);
 				SDL_RenderPresent(renderer);
+				break;
 			}
 		}
 	}
@@ -205,8 +204,8 @@ void initGame() {
 
 	camera = createCamera();
 	startDic(language);
-	updateInv(INV_PLAYER);
-	updateInv(INV_CHEST);
+	/*updateInv(INV_PLAYER);
+	updateInv(INV_CHEST);*/
 	getNextQuest();
 	return;
 }
