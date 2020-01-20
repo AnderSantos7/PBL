@@ -8,64 +8,82 @@
 #include <stdio.h>
 #include <time.h>
 
+//Textu motako dokumentua irakurtzeko bariablea sortzea
 FILE* fp;
 struct Item droppedItems[512];
 
+//Jokuan dagoen informazio guztia .txt formatuko dokumentu batean gordetzea
 void save(int slot) {
 	int i = 0;
 	int j = 0;
 	int day = (int)getDayTime();
+
+	//Bi partida gordetzeko ahalmena dago. Aukeratutakoaren arabera, dokumentu ezberdin bat irekiko du.
 	if(slot == 1) fp = fopen("assets/data/GUARDADO.txt", "w");
 	else if (slot == 2) fp = fopen("assets/data/GUARDADO2.txt", "w");
-	fprintf(fp, "%i %i %i %i %i\n", player.x, player.y, player.status, player.energy, day); //datos player
+
+	//Datu guztiak gordetzea
+	//Player-aren datuak
+	fprintf(fp, "%i %i %i %i %i\n", player.x, player.y, player.status, player.energy, day);
+
+	//Hotbar-aren datuak
 	for (i = 0; i < 9; i++) {
-		fprintf(fp, "%i %i", inventories[0].items[i].ID, inventories[0].items[i].quantity); //datos hotbar
+		fprintf(fp, "%i %i", inventories[0].items[i].ID, inventories[0].items[i].quantity);
 		if (i != 8) fprintf(fp, " ");
 	}
 	fprintf(fp, "\n");
 
+	//Inbentarioaren datuak
 	for (i = 0; i < 18; i++) {
-		fprintf(fp, "%i %i", inventories[1].items[i].ID, inventories[1].items[i].quantity); //datos inventario
+		fprintf(fp, "%i %i", inventories[1].items[i].ID, inventories[1].items[i].quantity);
 		if (i != 8 && i != 17) fprintf(fp, " ");
 		else if (i == 8) fprintf(fp, "\n");
 	}
 	fprintf(fp, "\n");
 
+	//Kutxaren datuak
 	for (i = 0; i < 27; i++) {
-		fprintf(fp, "%i %i", inventories[2].items[i].ID, inventories[2].items[i].quantity); //datos cofre
+		fprintf(fp, "%i %i", inventories[2].items[i].ID, inventories[2].items[i].quantity);
 		if (i != 8 && i != 17 && i != 26) fprintf(fp, " ");
 		else if (i == 8 || i == 17) fprintf(fp, "\n");
 	}
 	fprintf(fp, "\n");
 
+	//Lurrean dauden objetuen datuak
 	fprintf(fp, "%i ", droppedLength);
 	for (i = 0; i < droppedLength; i++) {
-		fprintf(fp, "%i %i %i %i %i", droppedItems[i].ID, droppedItems[i].quantity, droppedItems[i].xPos, droppedItems[i].yPos, droppedItems[i].status); //datos drop
+		fprintf(fp, "%i %i %i %i %i", droppedItems[i].ID, droppedItems[i].quantity, droppedItems[i].xPos, droppedItems[i].yPos, droppedItems[i].status);
 		if (i != droppedLength - 1) fprintf(fp, " ");
 	}
 	fprintf(fp, "\n");
 
 	int lastWater;
 	int time;
+	//Landa eremuaren datuak
 	for (i = 0; i < 49; i++) {
 		lastWater = (int)tiles[plantable_ID[i]].plant.lastWater;
 		time = (int)tiles[plantable_ID[i]].plant.time;
-		fprintf(fp, "%i %i %i %i %i", tiles[plantable_ID[i]].plant.arado, tiles[plantable_ID[i]].plant.water, lastWater, tiles[plantable_ID[i]].plant.seed, time); //datos plantado
+		fprintf(fp, "%i %i %i %i %i", tiles[plantable_ID[i]].plant.arado, tiles[plantable_ID[i]].plant.water, lastWater, tiles[plantable_ID[i]].plant.seed, time);
 		if (i != 6 && i != 13 && i != 20 && i != 27 && i != 34 && i != 41 && i != 48) fprintf(fp, " ");
 		else if (i == 6 || i == 13 || i == 20 || i == 27 || i == 34 || i == 41) fprintf(fp, "\n");
 	}
 	fprintf(fp, "\n");
 
+	//sturct bat sortzea, zein momentuko betebeharraren datu berdinak izango dituen
 	struct Quest quest = getCurrentQuest();
+	//Momentuan dagoen betebeharraren datuak
 	fprintf(fp, "%i %i %i %i %i %i %i %i %i", quest.ID, quest.action, quest.complete, quest.completion, quest.dialog_str, quest.requiredAmmount, quest.requiredItem, quest.rewardAmmount, quest.rewardItem);
 
 	fclose(fp);
 }
 
+//Textu motako dokumentua ireki eta irakurtzen da. Ondoren datu hauek jokuan sartzen dira, utzi den puntutik jarraitzeko
 void load(int which) {
+	//Ez bada partidarik kargatzen, jokalaria hasieratu
 	if(which == 0) 	player = createPlayer();
 	int i = 0;
 	char buff[512];
+	//Aukeratutakoaren arabera, dokumentu ezberdinak irakurtzea
 	char* src = "assets/data/GUARDADO_DEFAULT.txt";
 	if (which == 1) {
 		src = "assets/data/GUARDADO.txt";
@@ -74,13 +92,15 @@ void load(int which) {
 		src = "assets/data/GUARDADO2.txt";
 	}
 	fp = fopen(src, "r");
+
+	//Jokalariaren informazioa irakurtzea
 	fgets(buff, 256, fp);
 	int xPos = 0;
 	int yPos = 0;
 	int energy = 0;
 	int time = 0;
 	while (buff[i] != ' ') {
-		xPos = xPos * 10 + buff[i] - 48; //cargar player
+		xPos = xPos * 10 + buff[i] - 48;
 		i++;
 	}
 	i++;
@@ -104,7 +124,6 @@ void load(int which) {
 			inventories[INV_PLAYER].yPos = SCREEN_HEIGHT - 64 * 3 - 9;
 		}
 	}
-		
 	i++;
 	i++;
 	while (buff[i] != ' ') {
@@ -120,10 +139,12 @@ void load(int which) {
 	player.y = yPos;
 	player.energy = energy;
 	setDayTime(time);
+
+	//Hotbar-aren informazioa irakurtzea
 	fgets(buff, 256, fp);
 	i = 0;
 	int j;
-	for (j = 0; j < 9; j++) { //cargar hotbar
+	for (j = 0; j < 9; j++) {
 		inventories[0].items[j].ID = 0;
 		while (buff[i] != ' ') {
 			inventories[0].items[j].ID = inventories[0].items[j].ID * 10 + buff[i] - 48;
@@ -144,9 +165,11 @@ void load(int which) {
 		}
 		i++;
 	}
+
+	//Inbentarioaren informazioa irakurtzea
 	fgets(buff, 256, fp);
 	i = 0;
-	for (j = 0; j < 18; j++) { //cargar inventario
+	for (j = 0; j < 18; j++) {
 		inventories[1].items[j].ID = 0;
 		while (buff[i] != ' ') {
 			inventories[1].items[j].ID = inventories[1].items[j].ID * 10 + buff[i] - 48;
@@ -171,9 +194,11 @@ void load(int which) {
 			fgets(buff, 256, fp);
 		}
 	}
+
+	//Kutxaren informazioa kargatzea
 	fgets(buff, 256, fp);
 	i = 0;
-	for (j = 0; j < 27; j++) { //cargar cofre
+	for (j = 0; j < 27; j++) {
 		inventories[2].items[j].ID = 0;
 		while (buff[i] != ' ') {
 			inventories[2].items[j].ID = inventories[2].items[j].ID * 10 + buff[i] - 48;
@@ -197,7 +222,9 @@ void load(int which) {
 			fgets(buff, 256, fp);
 		}
 	}
-	if (which == 1 || which == 2) { //cargar items droppeados && cargar plantado && cargar quest
+	//Partida hasieratik kargatzean ez da irakurtzen, balore guztiak '0' direkalo
+	if (which == 1 || which == 2) {
+		//Lurrean dauden objetuen array-a garbitzea, berriak kargatu ahal izateko
 		for (i = 0; i < 512; i++) {
 			droppedItems[i].ID = 0;
 			droppedItems[i].quantity = 0;
@@ -212,9 +239,11 @@ void load(int which) {
 		fgets(buff, 512, fp);
 		i = 0;
 		j = 0;
+		//Lurreko objetuen kopurua 0 baino gehiago bada lurrean dauden objetuak kargatzen dira
 		if (buff[i] > 0) {
 			i += 2;
-			while (buff[i] != '\n' && buff[i] != '\0') { //cargar items droppeados
+			//Lurrean dauden objetuak kargatzea
+			while (buff[i] != '\n' && buff[i] != '\0') {
 				while (buff[i] != ' ') {
 					droppedItems[j].ID = droppedItems[j].ID * 10 + buff[i] - 48;
 					i++;
@@ -248,8 +277,8 @@ void load(int which) {
 				if (buff[i] == ' ') i++;
 			}
 		}
-
-		for (j = 0; j < 49; j++) { //cargar tiles
+		//Landa eremua kargatzea
+		for (j = 0; j < 49; j++) {
 			if (j % 7 == 0) {
 				i = 0;
 				fgets(buff, 216, fp);
@@ -286,7 +315,7 @@ void load(int which) {
 			}
 			i++;
 		}
-
+		//struct bat sortzea ondoren datu horiek momentuko betebeharrera pasatzeko
 		fgets(buff, 216, fp);
 		struct Quest quest;
 		i = 0;
@@ -299,6 +328,7 @@ void load(int which) {
 		quest.requiredItem = 0;
 		quest.rewardAmmount = 0;
 		quest.rewardItem = 0;
+		//Betebeharraren datuak irakurtzea
 		while (buff[i] != ' ') {
 			quest.ID = quest.ID * 10 + buff[i] - 48;
 			i++;
