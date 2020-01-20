@@ -10,7 +10,6 @@ int i = 0;
 void updatePlants(int i, double deltaTime);
 void updateWater(int i, double deltaTime);
 
-//Jokalariaren pareko lur-eremuan hazi bat landatu.
 void landatu(int seed) {
 	if (tiles[player.facingTile].plant.arado && tiles[player.facingDirection].plant.seed == NONE) {
 		tiles[player.facingTile].plant.seed = seed;
@@ -21,7 +20,6 @@ void landatu(int seed) {
 	return;
 }
 
-//Guztiz hazi den landare bat bildu eta landarearen datuak erreseteatu.
 void harvest(int tile) {
 	if (tiles[tile].plant.seed != 0 && tiles[tile].plant.stage == 2) {
 		int seedAmmount = 0, harvest = 0, seed = 0;
@@ -38,7 +36,6 @@ void harvest(int tile) {
 	}
 }
 
-//Jokalariaren pareko landarea ureztatu.
 void water(int tile) {
 	if(!tiles[tile].plant.water) checkQuestCompletion(WATER, tiles[tile].plant.seed, 1);
 	tiles[tile].plant.water = 1;
@@ -48,7 +45,6 @@ void water(int tile) {
 	return;
 }
 
-//Jokalariaren pareko lur-eremua goldatu
 void arar(int tile) {
 	tiles[tile].plant.arado = 1;
 	restaEnergy();
@@ -57,7 +53,6 @@ void arar(int tile) {
 	return;
 }
 
-//Jokalariaren pareko landarea ongarritu
 void fertilize(int tile) {
 	tiles[tile].plant.time += 450;
 
@@ -65,7 +60,6 @@ void fertilize(int tile) {
 	return;
 }
 
-//Jokalaria zein 'tile'-en parean dagoen kalkulatzeko.
 int getFacingTileId() {
 	int ID = player.tile;
 	switch (player.facingDirection) {
@@ -85,7 +79,6 @@ int getFacingTileId() {
 	return ID;
 }
 
-//ID zenbaki batekin tile baten kuadrikulako X eta Y posizioak kalkulatu
 struct posCoord getTilePosFromId(int ID) {
 	struct posCoord pos;
 	pos.x = ID % GRID_SIZE;
@@ -93,14 +86,12 @@ struct posCoord getTilePosFromId(int ID) {
 	return pos;
 }
 
-//X eta Y posizio batekin tile baten ID-a kalkulatu. Aurreko funtzioaren alderantzizkoa.
 int getTileFromPos(int x, int y) {
 	int ID = 0;
 	ID = (y / 64) * 16 + (x / 64);
 	return ID;
 }
 
-//Landatu daiteken eremuan dauden elementuak marraztu.
 void marraztuTiles() {
 	int i = 0;
 	SDL_Rect pos;
@@ -130,7 +121,6 @@ void marraztuTiles() {
 	}
 }
 
-//Landatu daitezken 'tile'-ak aktualizatu. Landareak hazi eta lehortu.
 void updateTiles(double deltaTime) {
 	for (int i = 0; i < 49; i++) {
 		if (tiles[plantable_ID[i]].plant.arado) {
@@ -141,7 +131,6 @@ void updateTiles(double deltaTime) {
 	return;
 }
 
-//Landarearen 'stage'-a eguneratzeko funtzioa. Denboraren arabera 'stage' desberdina izango du. Bigarrenean guztiz hazita egongo da.
 void updatePlants(int i, double deltaTime) {
 	if (tiles[plantable_ID[i]].plant.seed != NONE) {
 		tiles[plantable_ID[i]].plant.time += deltaTime;
@@ -157,7 +146,6 @@ void updatePlants(int i, double deltaTime) {
 	return;
 }
 
-//Lursail 'tile' baten lehortasuna eguneratu. Ureztatuta badago, denborarekin lehortu egingo da. Lehortuta badago, denborarekin goldatuta egoteari utziko dio.
 void updateWater(int i, double deltaTime) {
 	if (tiles[plantable_ID[i]].plant.water) {
 		tiles[plantable_ID[i]].plant.lastWater += deltaTime;

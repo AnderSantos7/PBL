@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <string.h>
 
-//Jokalaria lokartzeko funtzioa. Etxera eraman eta pantailaren animazio beltza hasten da.
 void sleep()
 {
 	player.sleeping = 1;
@@ -22,7 +21,6 @@ void sleep()
 }
 
 double chronometro = 0;
-//Lo egiten zenbat denbora egon behar den kontrolatzen duen funtzioa. Bukatutakoan jokalaria esnatu eta energia berrezarriko zaio.
 void chronoSleep(double deltaTime)
 {
 	chronometro += deltaTime;
@@ -36,7 +34,6 @@ void chronoSleep(double deltaTime)
 	return;
 }
 
-//Lo egitean agertzen den filtro beltza marrazten duen funtzioa. Iluntzean bezala, errektangelu bat margotzen da alfa balio aldakorrarekin.
 void paintSleep()
 {
 	int alpha = (int)(chronometro / 5 * 255);

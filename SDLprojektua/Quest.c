@@ -7,7 +7,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-//Momentu oroko misioari buruzko informazioa
 struct Quest currentQuest = {-1, 0, 0, 0, 0, 0};
 
 void giveReward();
@@ -17,17 +16,17 @@ struct Quest generateRandomQuest();
 void showQuestDialog();
 
 int completeAnimation = 0;
-//Misioa bukatzean saria jokalariaren inbentarion sartu edo lurrera botatzeko
 void giveReward() {
 	if (!insertItem(0, itemPresets[currentQuest.rewardItem], currentQuest.rewardAmmount, -1)) {
 		if (!insertItem(1, itemPresets[currentQuest.rewardItem], currentQuest.rewardAmmount, -1)) {
 			dropItem(player.facingTile, currentQuest.rewardItem, currentQuest.rewardAmmount);
 		}
 	}
+	SDL_SetRenderDrawColor(renderer, 128, 255, 0, 255);
+	SDL_RenderFillRect(renderer, NULL);
 	return;
 }
 
-//Hurrengo misioa lortzeko funtzioa. Hasierako misioak dokumentutik irakurtzen dira, hauek bukatutakoan ausazkoak sortzen dira.
 void getNextQuest() {
 	int lastQuest = 14;
 	if (currentQuest.ID >= lastQuest) {
@@ -38,8 +37,6 @@ void getNextQuest() {
 	return;
 }
 
-//Akzio bat egitean misioaren akzioarekin bat datorren konprobatu. Horrela bada misioaren kontagailura gehitzen da.
-//Misioak eskatutako akzio kopurua burutzean, misioa bukatzen da.
 void checkQuestCompletion(int action, int item, int ammount) {
 	 if (!currentQuest.complete && action == currentQuest.action && (item == currentQuest.requiredItem || currentQuest.requiredItem == 0))
 	{
@@ -51,14 +48,12 @@ void checkQuestCompletion(int action, int item, int ammount) {
 	return;
 }
 
-//Misioa bukatzean animazioa deitzen da.
 void completeQuest() {
 	currentQuest.complete = 1;
 	completeAnimation = 1;
 	return;
 }
 
-//Misioa bukatu eta menuan 'bukatu' botoia sakatzean saria jokalaria ematen zaio, hurrengo misioa hartzen da eta dendariak ea hazirik desblokeatzen duen konprobatu
 void acceptReward() {
 	if (currentQuest.complete) {
 		unlockShopItem(currentQuest.ID);
@@ -68,8 +63,6 @@ void acceptReward() {
 	return;
 }
 
-//'Entrega' motako misioak egiteko funtzioa. Lehenik inbentarioan eskatzen den motako zenbat item daukan kontatzen du. Misioa bukatzeko adina badu, beharrezkoa dena kenduko zaio.
-//Ez badu nahikoa, duena hartuko da eta misioaren kontagailuari gehituko zaio. Hurrengoan aurretik entregatutako kopurua kontuan izango da.
 int deliverQuest() {
 	int success = 0;
 	if (currentQuest.action == ENTREGA && !currentQuest.complete) {
@@ -94,7 +87,6 @@ int deliverQuest() {
 	return success;
 }
 
-//Momentuan abian den betebeharraren informazioa pantailan ezkerrean goiko ertzean pantailaratzen da.
 void showCurrentQuest() {
 	if (currentQuest.ID >= 0) {
 		int xOffset = 16, yOffset = 16;
@@ -170,8 +162,6 @@ void showCurrentQuest() {
 }
 
 double animTime;
-//Misioa bukatzean 'Mision Complete!' animazioa. Hasieran maskara erabiltzen da textua zatika bistaratzeko. Ondoren ez da irudikatzen eta ondoren berriz marrazten da
-//'Sweep' eta 'flash' erako efektuak lortzeko.
 void questCompleteAnim(double deltaTime) {
 	if (completeAnimation) {
 		char* str = dic_Quests[10];
@@ -203,19 +193,15 @@ void questCompleteAnim(double deltaTime) {
 }
 
 int questMenuOpen = 0;
-//Misioen menua zabaldu eta ixteko 'setter'-a
 void setQuestMenuState(int state) {
 	questMenuOpen = state;
 	return;
 }
 
-//Misioen menua zabalik dagoen ikusteko 'getter'-a
 int getQuestMenuState() {
 	return questMenuOpen;
 }
 
-//Misioen menua marrazteko funtzio laburra. Hasieran 'hasi' botoia soilik marrazten da. Misioekin hastean berriz: dialogoa, saria eta behar eta egin diren akzio kopurua.
-//'Bukatu' edo 'Entregatu' botoia ere marrazten da.
 void showQuestMenu() {
 	if (questMenuOpen) {
 		SDL_Rect clip = { 0, 533, 320, 180 };
@@ -399,7 +385,6 @@ void showQuestMenu() {
 	return;
 }
 
-//Misioen dialogoa irudikatzeko funtzioa. TXT fitxategitik dialogoa hartu eta asteriskoak '*' lerroak bereizten dituzte.
 void showQuestDialog() {
 	TTF_Font* font = TTF_OpenFont("assets/fonts/y.n.w.u.a.y.ttf", 9);
 	SDL_Color color = { 255, 255, 255 };
@@ -426,7 +411,6 @@ void showQuestDialog() {
 	return;
 }
 
-//Misioen menuko botoiekin interaktuatzeko.
 void interactQuestMenu() {
 	if (currentQuest.ID < 0) {
 		SDL_Rect button = { (SCREEN_WIDTH - 190) / 2, (SCREEN_HEIGHT - 60) / 2, 190, 60 };
@@ -442,9 +426,6 @@ void interactQuestMenu() {
 }
 
 int upgraded = 0;
-//Misio infinitu desberdin sortzeko funtzioa. Ausazko akzio eta kopuru bat aukeratzen da (max 20). Akzioaren arabera item batzuetatik aukeratzen da bat
-//(landatu, ureztatu eta ongarritzeko --> haziak || uzta bildu eta entregatzeko --> barazkiak). Saria beti txanpona izango da.
-//Sari kopuruaren minimoa beharrezko akzio kopuruaren 1/4 eta 1/2 artekoa da. Minimoa beti 1 izanda.
 struct Quest generateRandomQuest() {
 	struct Quest quest;
 	int seedKopurua = 4;
@@ -477,18 +458,15 @@ struct Quest generateRandomQuest() {
 	return quest;
 }
 
-//Azkeneko landarearen hazia erostean misio gehiago desblokeatzen dira.
 void upgradeQuests() {
 	upgraded = 1;
 	return;
 }
 
-//Momentuko misioa lortzeko 'getter'-a
 struct Quest getCurrentQuest() {
 	return currentQuest;
 }
 
-//Misioa ezartzeko 'setter'-a
 void setCurrentQuest(struct Quest quest) {
 	currentQuest = quest;
 	return;
