@@ -1,0 +1,28 @@
+Bildu
+Landatatu
+Ureztatu
+Entregatu
+Goldatu
+Ongarritu
+Bukatu
+Saria
+Betebeharra
+Edozein
+Betebeharra bukatuta!
+Hasi
+Landareak landatzeko, lurra*goldatu beharra dago.*Horretarako aitzurra*aukeratu eta landatzeko*eremuan zaudela, klik egin.
+Behin lurra goldatuta,*kalabaza haziak hartu*eta goldatutako eremuan*klik egin landatzeko.
+Landareak lehortu ez*daitezen ureztatu egin*behar dira. Horetarako*kuboa hautatuta duzula*putzura gerturatu eta Q*tekla sakatu.
+Landareak hazteko denbora*luzea behar izaten da.*Ongarria erabili prozesua*bizkortzeko.
+Behin kalabaza hazitakoan*klik egin uzta biltzeko.*Lurreko objektuak hartzeko*beraien gana hurbildu.
+Hainbat landare daude,*aurreko betebeharra*betetzean lortutakoak tomate*haziak dira.*Landatu itzazu.
+Itxaron tomateak hazi*arte eta uzta bildu.
+Oraingoan piper haziak*landatu hitzazu. Ezkerraldean*duzun dendaria bisitatu*dezakezu hazi gehiago erosteko.
+Bildu itzazu piperrak*eta beheko botoia erabili*produktuak entregatzeko.*Objektu hauek inbentariotik*hartuko zaizkizu.
+Betebehar batzuek ez*dute landaketa zehatzik*egiteko eskatzen. Beraz*landatu itzazu hazi*desberdinak.
+Batu itzazu landatutako*berenejank. Gogoan izan*dendan erosi ditzakezula hazi*gehiago.
+Landatu itzazu aurretik*eskuratutako gari haziak.*5 gari behiari eman*ezkero, ongarria lortuko*duzu.
+Etorkizuneko betebeharrek*txanponak izango dituzte*sari bezala.
+Entregatzeko misioak*ez dute uzta soilik*eskatzen. Batzuek haziak ere*eskatuko dizute.
+Kontuan izan jada*ureztatutako landareek ez*dutela betebeharrean*aurrera egiteko balio.
+Bukatu ezazu betebehar*hau txanponak lortzeko.

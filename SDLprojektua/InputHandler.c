@@ -329,12 +329,10 @@ int mouseHandlerDown(SDL_Event e) {
 		hoveringInv = getHoveringInv();
 		if (player.status == PAUSE || player.status == PAUSE_HOME) {
 			if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 183 && mousePos.y < 245) {
-				marraztu();
 				if(player.status == PAUSE) player.status = SAVE;
 				else if (player.status == PAUSE_HOME) player.status = SAVE_HOME;
 			}
 			else if (mousePos.x > 240 && mousePos.x < 400 && mousePos.y > 316 && mousePos.y < 375) {
-				marraztu();
 				if (player.status == PAUSE) player.status = LOAD;
 				else if (player.status == PAUSE_HOME) player.status = LOAD_HOME;
 			}
@@ -350,7 +348,6 @@ int mouseHandlerDown(SDL_Event e) {
 				save(2);
 			}
 			else if (mousePos.x > 280 && mousePos.x < 360 && mousePos.y > 331 && mousePos.y < 360) {
-				marraztu();
 				if(player.status == SAVE) player.status = PAUSE;
 				else if (player.status == SAVE_HOME) player.status = PAUSE_HOME;
 			}

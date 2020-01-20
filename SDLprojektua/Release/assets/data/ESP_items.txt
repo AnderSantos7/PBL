@@ -1,0 +1,18 @@
+Vacío
+Azada
+Cubo
+Agua
+Calabaza
+Semillas de calabaza
+Tomate
+Semillas de tomate
+Pimiento
+Semillas de pìmiento
+Berenjena
+Semillas de berenjena
+Trigo
+Semillas de trigo
+"Oregano"
+Semillas de "oregano"
+Fertilizante
+Moneda
